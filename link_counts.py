@@ -75,11 +75,10 @@ class LinkCounter:
             # Not going to save the sum; we can do that with SQL.
 
     def count_yahoo(self):
-        PREFIX = "http://search.yahoo.com/search?p=link:"
         for uri in self.uris:
-            result = urllib2.urlopen(PREFIX + uri).read()
-            count = re.search(r'of about (\S+)', result).group(1)
-            self.record(cc_license_uri=uri, search_engine='Yahoo', count=str2int(count))
+            self.record(cc_license_uri=uri,
+                        search_engine='Yahoo',
+                        count=yahoo_count('link:' + uri)
 
     def specific_google_counter(self):
         """ Now instead of searching for links to a license URI,
