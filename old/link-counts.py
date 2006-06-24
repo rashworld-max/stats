@@ -62,6 +62,7 @@ def webtrawl():
   google_total = 0
   for url in urls:
     try:
+      #You can't use any other search terms when you use "link:" in Google.
       google_results = google.doGoogleSearch("link:"+url)
       google_count = google_results.meta.estimatedTotalResultsCount
       google_total += int(google_count)
@@ -107,6 +108,11 @@ def webtrawl():
       print start_time+"\t"+url+"\n"+alltheweb_count+"\n"+`google_count`+"\n"+yahoo_count+"\n"
 
 #Nice and simple parser.
+def parse():
+  tree2=etree.parse('api/licenses.xml')
+  root2=tree2.getroot()
+  for element in root2.getiterator('version'):
+    urls.append(element.get('uri'))
 
 #Google-cc searcher.
 def google2():
