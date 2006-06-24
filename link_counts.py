@@ -2,6 +2,7 @@ import google
 from lxml import etree
 import urllib2
 import urllib
+import re
 
 def yahoo_count(query, cc_spec=''):
     url = 'http://search.yahoo.com/search?'
@@ -49,17 +50,17 @@ class LinkCounter:
 
     def record(self, cc_license_uri, search_engine, count):
         print "Recorded", count,"many hits for", cc_license_uri
+        print "from", search_engine
         # FIXME: Obviously, do something with a DB.
 
     def count_google(self):
         ## Once from webtrawl
         google.setLicense('8cJjiPdQFHK2T3LGWq+Ro04dyJr0fyZs')
-        total = 0
         for uri in self.uris:
             result = google.doGoogleSearch("link:%s" % uri)
             count = result.meta.estimatedTotalResultsCount
 
-            # We record the specific url, count pair in the DB
+            # We record the specific uri, count pair in the DB
             self.record(cc_license_uri=uri, search_engine='Google', count=count)
 
             # The old code would sum up for a count,
@@ -68,15 +69,15 @@ class LinkCounter:
     def count_alltheweb(self):
         PREFIX="http://www.alltheweb.com/search?cat=web&o=0&_sb_lang=any&q=link:"
         for uri in self.uris:
-            result = urllib2.urlopen(PREFIX + url).read()
-            count = re.search(r'<span class="ofSoMany">(\d+?)</span>', results).group(1)
+            result = urllib2.urlopen(PREFIX + uri).read()
+            count = re.search(r'<span class="ofSoMany">(\d+?)</span>', result).group(1)
             self.record(cc_license_uri=uri, search_engine="All The Web", count=str2int(count))
             # Not going to save the sum; we can do that with SQL.
 
     def count_yahoo(self):
         PREFIX = "http://search.yahoo.com/search?p=link:"
         for uri in self.uris:
-            result = urllib2.uropen(PREFIX + url).read()
+            result = urllib2.urlopen(PREFIX + uri).read()
             count = re.search(r'of about (\S+)', result).group(1)
             self.record(cc_license_uri=uri, search_engine='Yahoo', count=str2int(count))
 
@@ -91,7 +92,7 @@ class LinkCounter:
         licenses = ["cc_publicdomain", "cc_attribute", "cc_sharealike", "cc_noncommercial", "cc_nonderived", "cc_publicdomain|cc_attribute|cc_sharealike|cc_noncommercial|cc_nonderived"]
         for license in licenses:
             for dumb_query in self.dumb_queries:
-                result = google.doGoogleSearch(term, restrict=license)
+                result = google.doGoogleSearch(dumb_query, restrict=license)
                 count = result.meta.estimatedTotalResultsCount
                 self.record_complex(license_specifier=license,
                                     search_engine='Google',
@@ -110,8 +111,9 @@ class LinkCounter:
                                     count=count,
                                     query=dumb_query)
 
-    def record_complex(self, license_specifier, search_engine, count, dumb_query):
-        print 'huh, okay.'
+    def record_complex(self, license_specifier, search_engine, count, query):
+        print 'license was', license_specifier, 'search through', search_engine
+        print 'found', count, 'via the query', query
         
         
                                     
@@ -121,6 +123,6 @@ class LinkCounter:
         
 
 def main():
-    lc = link_counts.LinkCounter(dburl='', xmlpath='old/api/licenses.xml')
+    lc = LinkCounter(dburl='', xmlpath='old/api/licenses.xml')
     return lc
     
