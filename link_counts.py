@@ -4,16 +4,30 @@ import urllib
 import re
 import time
 import BeautifulSoup
+import datetime
+
+DEBUG = 1
+def debug(s):
+    if DEBUG:
+        print s
 
 import google
 google.setLicense('8cJjiPdQFHK2T3LGWq+Ro04dyJr0fyZs')
 from yahoo.search.factory import create_search
+from yahoo.search import SearchError
+
+from sqlalchemy.ext.sqlsoup import SqlSoup
 
 def legitimate_yahoo_count(query, type = 'Web'):
     ''' Does not support CC queries yet, but the API seems to! '''
     assert(type in ['Web', 'InlinkData']) # known types here
     s = create_search(type, 'cc license search', query=query, results=10)
-    res = s.parse_results()
+    try:
+        res = s.parse_results()
+    except SearchError, e:
+        if str(e) == "not found": # Is there a better way to get this?
+            return 0
+        raise e
     return res.totalResultsAvailable
 
 def yahoo_count(query, cc_spec=''):
@@ -55,7 +69,8 @@ def str2int(s):
 class LinkCounter:
     dumb_queries = ['license', '-license', 'work', '-work', 'html', '-html']
     def __init__(self, dburl, xmlpath):
-        self.db = dburl # open this with sqlsoup or something
+        self.timestamp = datetime.datetime.now()
+        self.db = SqlSoup(dburl) # open this with sqlsoup or something
         self.uris = self.parse(xmlpath)
         # We need to get a list of URIs to search for
         assert(self.uris) # These should not be empty.
@@ -69,9 +84,8 @@ class LinkCounter:
         return ret # I'm not sorting.  So there.
 
     def record(self, cc_license_uri, search_engine, count):
-        print "Recorded", count,"many hits for", cc_license_uri
-        print "from", search_engine
-        # FIXME: Obviously, do something with a DB.
+        self.db.simple.insert(license_uri=cc_license_uri, search_engine=search_engine,count=count,timestamp = self.timestamp)
+        self.db.flush()
 
     def count_google(self):
         ## Once from webtrawl
@@ -134,12 +148,12 @@ class LinkCounter:
                                     query=dumb_query)
 
     def record_complex(self, license_specifier, search_engine, count, query):
-        print 'license was', license_specifier, 'search through', search_engine
-        print 'found', count, 'via the query', query
-        
+        self.db.complex.insert(license_specicifer=license_specifier, count = count, query = query, timestamp = self.timestamp)
+        self.db.flush()
+        debug("%s gave us %d hits via %s" % (license_specifier, count, search_engine))
         
 def main():
-    lc = LinkCounter(dburl='', xmlpath='old/api/licenses.xml')
+    lc = LinkCounter(dburl='mysql://root:@localhost/cc', xmlpath='old/api/licenses.xml')
     lc.count_google()
     lc.count_alltheweb()
     lc.count_yahoo()
