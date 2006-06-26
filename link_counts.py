@@ -7,6 +7,8 @@ import urllib
 import re
 import time
 
+import BeautifulSoup
+
 def yahoo_count(query, cc_spec=''):
     ''' cc_spec is a pre-urlencoded addition to the query string.'''
     url = 'http://search.yahoo.com/search?'
@@ -19,12 +21,19 @@ def yahoo_count(query, cc_spec=''):
     url += urllib.urlencode(args)
 
     data = urllib2.urlopen(url).read()
+    bs = BeautifulSoup.BeautifulSoup()
+    bs.feed(data)
+    if bs('big'):
+        if 'We did not find results for ' in bs('big')[0].renderContents():
+            return 0
     count = re.search(r'of about ([0-9,]*) for <', data).group(1)
     return str2int(count)
     
 def str2int(s):
     s = s.replace(',', '')
     return int(s)
+
+## THINKME: Google and Yahoo both have different ways to encode CC license types.  Later on, it's probably worth standardizing this somehow, or else their trash gets shoved into our DB.
 
 ## Q: Why do the *rest lists always include "" ?
 
@@ -92,7 +101,7 @@ class LinkCounter:
         Unfortunately, it doesn't let you do a raw count, so we hack around that by adding
         up queries like -license and +license. """
         
-        ## The idea here is
+        ## The is Google's idea of how to encode CC stuff.
         licenses = ["cc_publicdomain", "cc_attribute", "cc_sharealike", "cc_noncommercial", "cc_nonderived", "cc_publicdomain|cc_attribute|cc_sharealike|cc_noncommercial|cc_nonderived"]
         for license in licenses:
             for dumb_query in self.dumb_queries:
@@ -127,6 +136,3 @@ def main():
     lc.count_yahoo()
     lc.specific_google_counter()
     lc.specific_yahoo_counter()
-
-
-    
