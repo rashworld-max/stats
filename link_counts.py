@@ -1,13 +1,20 @@
-import google
-google.setLicense('8cJjiPdQFHK2T3LGWq+Ro04dyJr0fyZs')
-
 from lxml import etree
 import urllib2
 import urllib
 import re
 import time
-
 import BeautifulSoup
+
+import google
+google.setLicense('8cJjiPdQFHK2T3LGWq+Ro04dyJr0fyZs')
+from yahoo.search.factory import create_search
+
+def legitimate_yahoo_count(query, type = 'Web'):
+    ''' Does not support CC queries yet, but the API seems to! '''
+    assert(type in ['Web', 'InlinkData']) # known types here
+    s = create_search(type, 'cc license search', query=query, results=10)
+    res = s.parse_results()
+    return res.totalResultsAvailable
 
 def yahoo_count(query, cc_spec=''):
     ''' cc_spec is a pre-urlencoded addition to the query string.'''
@@ -94,14 +101,14 @@ class LinkCounter:
         for uri in self.uris:
             self.record(cc_license_uri=uri,
                         search_engine='Yahoo',
-                        count=yahoo_count('link:' + uri))
+                        count=legitimate_yahoo_count(uri, 'InlinkData'))
 
     def specific_google_counter(self):
         """ Now instead of searching for links to a license URI,
         we use Google's built-in CC search.
 
-        Unfortunately, it doesn't let you do a raw count, so we hack around that by adding
-        up queries like -license and +license. """
+        Unfortunately, it doesn't let you do a raw count, so we hack
+        around that by adding up queries like -license and +license."""
         
         ## The is Google's idea of how to encode CC stuff.
         licenses = ["cc_publicdomain", "cc_attribute", "cc_sharealike", "cc_noncommercial", "cc_nonderived", "cc_publicdomain|cc_attribute|cc_sharealike|cc_noncommercial|cc_nonderived"]
