@@ -80,7 +80,9 @@ class LinkCounter:
 
     def count_alltheweb(self):
         # These guys seem to get mad at us if we query them too fast.
-        # To avoid "HTTP Error 999" (!), let's sleep(0.1) between queries.
+        # To avoid "HTTP Error 999" (!), let's sleep(0.1) between
+        # queries.  They seem to block the IP, not just the
+        # user-agent.  Oops.
         PREFIX="http://www.alltheweb.com/search?cat=web&o=0&_sb_lang=any&q=link:"
         for uri in self.uris:
             result = urllib2.urlopen(PREFIX + uri).read()
