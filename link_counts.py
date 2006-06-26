@@ -1,21 +1,25 @@
 import google
+google.setLicense('8cJjiPdQFHK2T3LGWq+Ro04dyJr0fyZs')
+
 from lxml import etree
 import urllib2
 import urllib
 import re
+import time
 
 def yahoo_count(query, cc_spec=''):
+    ''' cc_spec is a pre-urlencoded addition to the query string.'''
     url = 'http://search.yahoo.com/search?'
     args = {}
     if cc_spec:
+        url += cc_spec + "&"
         args['fr'] = 'sfp-cc'
-        args['p'] = cc_spec
         args['y'] = 'Search CC'
-    args['q'] = query
+    args['p'] = query
     url += urllib.urlencode(args)
 
     data = urllib2.urlopen(url).read()
-    count = re.search(r'of about <.*?>(\S+?)<', data).group(1)
+    count = re.search(r'of about ([0-9,]*) for <', data).group(1)
     return str2int(count)
     
 def str2int(s):
@@ -55,7 +59,6 @@ class LinkCounter:
 
     def count_google(self):
         ## Once from webtrawl
-        google.setLicense('8cJjiPdQFHK2T3LGWq+Ro04dyJr0fyZs')
         for uri in self.uris:
             result = google.doGoogleSearch("link:%s" % uri)
             count = result.meta.estimatedTotalResultsCount
@@ -67,18 +70,20 @@ class LinkCounter:
             # But we can do that with SQL later anyway.
 
     def count_alltheweb(self):
+        # These guys seem to get mad at us if we query them too fast.
+        # To avoid "HTTP Error 999" (!), let's sleep(0.1) between queries.
         PREFIX="http://www.alltheweb.com/search?cat=web&o=0&_sb_lang=any&q=link:"
         for uri in self.uris:
             result = urllib2.urlopen(PREFIX + uri).read()
-            count = re.search(r'<span class="ofSoMany">(\d+?)</span>', result).group(1)
+            count = re.search(r'<span class="ofSoMany">(.+?)</span>', result).group(1)
             self.record(cc_license_uri=uri, search_engine="All The Web", count=str2int(count))
             # Not going to save the sum; we can do that with SQL.
-
+            time.sleep(0.1) # And rest a while.
     def count_yahoo(self):
         for uri in self.uris:
             self.record(cc_license_uri=uri,
                         search_engine='Yahoo',
-                        count=yahoo_count('link:' + uri)
+                        count=yahoo_count('link:' + uri))
 
     def specific_google_counter(self):
         """ Now instead of searching for links to a license URI,
@@ -97,7 +102,7 @@ class LinkCounter:
                                     search_engine='Google',
                                     count=count,
                                     query=dumb_query)
-
+    
     def specific_yahoo_counter(self):
         """ Similar deal here as for Google's specific_counter.
         FIXME: Abstract Yahoo queries. """
@@ -115,13 +120,13 @@ class LinkCounter:
         print 'found', count, 'via the query', query
         
         
-                                    
-
-        
-            
-        
-
 def main():
     lc = LinkCounter(dburl='', xmlpath='old/api/licenses.xml')
-    return lc
+    lc.count_google()
+    lc.count_alltheweb()
+    lc.count_yahoo()
+    lc.specific_google_counter()
+    lc.specific_yahoo_counter()
+
+
     
