@@ -30,6 +30,18 @@ def legitimate_yahoo_count(query, type = 'Web'):
         raise e
     return res.totalResultsAvailable
 
+def atw_count(query):
+    PREFIX="http://www.alltheweb.com/search?cat=web&o=0&_sb_lang=any&q=link:"
+    result = urllib2.urlopen(PREFIX + query).read()
+    bs = BeautifulSoup.BeautifulSoup()
+    bs.feed(result)
+    for p in bs('p'):
+        if ' '.join(p.renderContents().split()) == "No Web pages found that match your query.":
+            return 0
+        # I guess it's worth looking inside then
+    count = re.search(r'<span class="ofSoMany">(.+?)</span>', result).group(1)
+    return str2int(count)
+
 def yahoo_count(query, cc_spec=''):
     ''' cc_spec is a pre-urlencoded addition to the query string.'''
     url = 'http://search.yahoo.com/search?'
@@ -104,18 +116,15 @@ class LinkCounter:
         # To avoid "HTTP Error 999" (!), let's sleep(0.1) between
         # queries.  They seem to block the IP, not just the
         # user-agent.  Oops.
-        PREFIX="http://www.alltheweb.com/search?cat=web&o=0&_sb_lang=any&q=link:"
         for uri in self.uris:
-            result = urllib2.urlopen(PREFIX + uri).read()
-            count = re.search(r'<span class="ofSoMany">(.+?)</span>', result).group(1)
-            self.record(cc_license_uri=uri, search_engine="All The Web", count=str2int(count))
-            # Not going to save the sum; we can do that with SQL.
-            time.sleep(0.1) # And rest a while.
+            self.record(cc_license_uri=uri, search_engine="All The Web", count=atw_count("link:" + uri))
+
     def count_yahoo(self):
         for uri in self.uris:
             self.record(cc_license_uri=uri,
                         search_engine='Yahoo',
                         count=legitimate_yahoo_count(uri, 'InlinkData'))
+            time.sleep(0.1) # "And, breathe."
 
     def specific_google_counter(self):
         """ Now instead of searching for links to a license URI,
