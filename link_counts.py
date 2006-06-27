@@ -161,7 +161,7 @@ class LinkCounter:
                                     query=dumb_query)
 
     def record_complex(self, license_specifier, search_engine, count, query):
-        self.db.complex.insert(license_specicifer=license_specifier, count = count, query = query, timestamp = self.timestamp)
+        self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = self.timestamp, search_engine=search_engine)
         self.db.flush()
         debug("%s gave us %d hits via %s" % (license_specifier, count, search_engine))
         
