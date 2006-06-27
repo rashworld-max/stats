@@ -24,7 +24,6 @@ def legitimate_yahoo_count(query, type = 'Web', cc_spec=[]):
     assert(type in ['Web', 'InlinkData']) # known types here
     s = create_search(type, 'cc license search', query=query, results=10)
     if cc_spec:
-        for spec in cc_spec: assert(spec in ['cc_any', 'cc_commercial', 'cc_modifiable'])
         s.license = cc_spec
     try:
         res = s.parse_results()
@@ -151,12 +150,12 @@ class LinkCounter:
     def specific_yahoo_counter(self):
         """ Similar deal here as for Google's specific_counter.
         FIXME: Abstract Yahoo queries. """
-        possible_licenses = ['cc_noncommercial', 'cc_modifiable', 'cc_any']
-        licenses = [['cc_any'],['cc_noncommercial'],['cc_modifiable'],['cc_noncommercial', 'cc_modifiable']]
+        possible_licenses = ['cc_commercial', 'cc_modifiable', 'cc_any']
+        licenses = [['cc_any'],['cc_commercial'],['cc_modifiable'],['cc_commercial', 'cc_modifiable']]
         for license in licenses:
             for dumb_query in self.dumb_queries:
-                count = yahoo_count(query=dumb_query, cc_spec=license)
-                self.record_complex(license_specifier=license,
+                count = legitimate_yahoo_count(query=dumb_query, cc_spec=license)
+                self.record_complex(license_specifier='&'.join(license),
                                     search_engine='Yahoo',
                                     count=count,
                                     query=dumb_query)
