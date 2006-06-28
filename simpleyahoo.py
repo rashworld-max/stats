@@ -1,0 +1,18 @@
+APPID = 'cc license search'
+
+languages = {'portuguese': 'pt', 'czech': 'cs', 'spanish': 'es', 'japanese': 'ja', 'persian': 'fa', 'slovak': 'sk', 'hebrew': 'he', 'polish': 'pl', 'swedish': 'sv', 'icelandic': 'is', 'estonian': 'et', 'turkish': 'tr', 'romanian': 'ro', 'serbian': 'sr', 'slovenian': 'sl', 'german': 'de', 'dutch': 'nl', 'korean': 'ko', 'danish': 'da', 'indonesian': 'id', 'hungarian': 'hu', 'lithuanian': 'lt', 'french': 'fr', 'norwegian': 'no', 'russian': 'ru', 'thai': 'th', 'finnish': 'fi', 'greek': 'el', 'latvian': 'lv', 'english': 'en', 'italian': 'it'}
+
+countries = {'Brazil': 'br', 'Canada': 'ca', 'Italy': 'it', 'France': 'fr', 'Argentina': 'ar', 'Norway': 'no', 'Australia': 'au', 'Czechoslovakia': 'cz', 'China': 'cn', 'Russian Federation': 'ru', 'Germany': 'de', 'Spain': 'es', 'Netherlands': 'nl', 'Denmark': 'dk', 'Poland': 'pl', 'Finland': 'fi', 'United States': 'us', 'Belgium': 'be', 'Sweden': 'se', 'Korea': 'kr', 'Switzerland': 'ch', 'United Kingdom': 'uk', 'Austria': 'at', 'Japan': 'jp', 'Taiwan': 'tw'}
+
+def legitimate_yahoo_count(query, type = 'Web', cc_spec=[], country=None, language=None):
+    ''' cc_spec is a list of things the Yahoo module knows about '''
+    assert(type in ['Web', 'InlinkData']) # known types here
+    s = create_search(type, APPID, query=query, results=0)
+    if cc_spec:
+        s.license = cc_spec
+    if country:
+        s.country = country
+    if language:
+        s.language = language
+    res = s.parse_results()
+    return res.totalResultsAvailable
