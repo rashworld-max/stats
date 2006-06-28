@@ -6,6 +6,10 @@ import time
 import BeautifulSoup
 import datetime
 
+## ADDME: MSN Search E389A2EC44FFB3F5748A9AEF7CCFED7AD82690DA and 
+## API?  Screen-scrape?
+## They have some SOAP thing that is only documented in an MSI.  What a freaking pain.
+
 DEBUG = 1
 def debug(s):
     if DEBUG:
@@ -22,15 +26,10 @@ from sqlalchemy.ext.sqlsoup import SqlSoup
 def legitimate_yahoo_count(query, type = 'Web', cc_spec=[]):
     ''' Does not support CC queries yet, but the API seems to! '''
     assert(type in ['Web', 'InlinkData']) # known types here
-    s = create_search(type, 'cc license search', query=query, results=10)
+    s = create_search(type, 'cc license search', query=query, results=0)
     if cc_spec:
         s.license = cc_spec
-    try:
-        res = s.parse_results()
-    except SearchError, e:
-        if str(e) == "not found": # Is there a better way to get this?
-            return 0
-        raise e
+    res = s.parse_results()
     return res.totalResultsAvailable
 
 def atw_count(query):
@@ -45,33 +44,11 @@ def atw_count(query):
     count = re.search(r'<span class="ofSoMany">(.+?)</span>', result).group(1)
     return str2int(count)
 
-def yahoo_count(query, cc_spec=''):
-    ''' cc_spec is a pre-urlencoded addition to the query string.'''
-    url = 'http://search.yahoo.com/search?'
-    args = {}
-    if cc_spec:
-        url += cc_spec + "&"
-        args['fr'] = 'sfp-cc'
-        args['y'] = 'Search CC'
-    args['p'] = query
-    url += urllib.urlencode(args)
-
-    data = urllib2.urlopen(url).read()
-    bs = BeautifulSoup.BeautifulSoup()
-    bs.feed(data)
-    if bs('big'):
-        if 'We did not find results for ' in bs('big')[0].renderContents():
-            return 0
-    count = re.search(r'of about ([0-9,]*) for <', data).group(1)
-    return str2int(count)
-    
 def str2int(s):
     s = s.replace(',', '')
     return int(s)
 
 ## THINKME: Google and Yahoo both have different ways to encode CC license types.  Later on, it's probably worth standardizing this somehow, or else their trash gets shoved into our DB.
-
-## Q: Why do the *rest lists always include "" ?
 
 ## FIXME: Maybe I could loop over the URIs somewhere else so that I pass a URI
 ## in to the search-engine-specific things
@@ -83,6 +60,7 @@ def str2int(s):
 
 class LinkCounter:
     dumb_queries = ['license', '-license', 'work', '-work', 'html', '-html']
+    ## TRYME: ccTLDs?
     def __init__(self, dburl, xmlpath):
         self.timestamp = datetime.datetime.now()
         self.db = SqlSoup(dburl) # open this with sqlsoup or something
@@ -91,6 +69,7 @@ class LinkCounter:
         assert(self.uris) # These should not be empty.
 
     def parse(self, xmlpath):
+        # FIXME: Add urls (after checking for duplicates) from old/
         ret = []
         tree2=etree.parse(xmlpath)
         root2=tree2.getroot()
@@ -111,9 +90,6 @@ class LinkCounter:
             # We record the specific uri, count pair in the DB
             self.record(cc_license_uri=uri, search_engine='Google', count=count)
 
-            # The old code would sum up for a count,
-            # But we can do that with SQL later anyway.
-
     def count_alltheweb(self):
         # These guys seem to get mad at us if we query them too fast.
         # To avoid "HTTP Error 999" (!), let's sleep(0.1) between
@@ -121,6 +97,7 @@ class LinkCounter:
         # user-agent.  Oops.
         for uri in self.uris:
             self.record(cc_license_uri=uri, search_engine="All The Web", count=atw_count("link:" + uri))
+            time.sleep(0.1) # "And, breathe."
 
     def count_yahoo(self):
         for uri in self.uris:
@@ -150,7 +127,6 @@ class LinkCounter:
     def specific_yahoo_counter(self):
         """ Similar deal here as for Google's specific_counter.
         FIXME: Abstract Yahoo queries. """
-        possible_licenses = ['cc_commercial', 'cc_modifiable', 'cc_any']
         licenses = [['cc_any'],['cc_commercial'],['cc_modifiable'],['cc_commercial', 'cc_modifiable']]
         for license in licenses:
             for dumb_query in self.dumb_queries:
