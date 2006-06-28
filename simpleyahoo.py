@@ -1,8 +1,11 @@
+from yahoo.search.factory import create_search
+from yahoo.search import SearchError
+
 APPID = 'cc license search'
 
-languages = {'portuguese': 'pt', 'czech': 'cs', 'spanish': 'es', 'japanese': 'ja', 'persian': 'fa', 'slovak': 'sk', 'hebrew': 'he', 'polish': 'pl', 'swedish': 'sv', 'icelandic': 'is', 'estonian': 'et', 'turkish': 'tr', 'romanian': 'ro', 'serbian': 'sr', 'slovenian': 'sl', 'german': 'de', 'dutch': 'nl', 'korean': 'ko', 'danish': 'da', 'indonesian': 'id', 'hungarian': 'hu', 'lithuanian': 'lt', 'french': 'fr', 'norwegian': 'no', 'russian': 'ru', 'thai': 'th', 'finnish': 'fi', 'greek': 'el', 'latvian': 'lv', 'english': 'en', 'italian': 'it'}
+languages = {'portuguese': 'pt', 'czech': 'cs', 'spanish': 'es', 'japanese': 'ja', 'persian': 'fa', 'slovak': 'sk', 'hebrew': 'he', 'polish': 'pl', 'swedish': 'sv', 'icelandic': 'is', 'estonian': 'et', 'turkish': 'tr', 'romanian': 'ro', 'serbian': 'sr', 'slovenian': 'sl', 'german': 'de', 'dutch': 'nl', 'korean': 'ko', 'danish': 'da', 'indonesian': 'id', 'hungarian': 'hu', 'lithuanian': 'lt', 'french': 'fr', 'norwegian': 'no', 'russian': 'ru', 'thai': 'th', 'finnish': 'fi', 'greek': 'el', 'latvian': 'lv', 'english': 'en', 'italian': 'it'} # Taken from http://developer.yahoo.com/search/languages.html on 2006-06-28
 
-countries = {'Brazil': 'br', 'Canada': 'ca', 'Italy': 'it', 'France': 'fr', 'Argentina': 'ar', 'Norway': 'no', 'Australia': 'au', 'Czechoslovakia': 'cz', 'China': 'cn', 'Russian Federation': 'ru', 'Germany': 'de', 'Spain': 'es', 'Netherlands': 'nl', 'Denmark': 'dk', 'Poland': 'pl', 'Finland': 'fi', 'United States': 'us', 'Belgium': 'be', 'Sweden': 'se', 'Korea': 'kr', 'Switzerland': 'ch', 'United Kingdom': 'uk', 'Austria': 'at', 'Japan': 'jp', 'Taiwan': 'tw'}
+countries = {'Brazil': 'br', 'Canada': 'ca', 'Italy': 'it', 'France': 'fr', 'Argentina': 'ar', 'Norway': 'no', 'Australia': 'au', 'Czechoslovakia': 'cz', 'China': 'cn',  'Germany': 'de', 'Spain': 'es', 'Netherlands': 'nl', 'Denmark': 'dk', 'Poland': 'pl', 'Finland': 'fi', 'United States': 'us', 'Belgium': 'be', 'Sweden': 'se', 'Korea': 'kr', 'Switzerland': 'ch', 'United Kingdom': 'uk', 'Austria': 'at', 'Japan': 'jp', 'Taiwan': 'tw'}  # Taken from http://developer.yahoo.com/search/countries.html on 2006-06-28 ; removed Russia at the urging of pYsearch
 
 def legitimate_yahoo_count(query, type = 'Web', cc_spec=[], country=None, language=None):
     ''' cc_spec is a list of things the Yahoo module knows about '''

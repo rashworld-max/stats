@@ -18,35 +18,10 @@ def debug(s):
 import google
 google.setLicense('8cJjiPdQFHK2T3LGWq+Ro04dyJr0fyZs')
 
-from yahoo.search.factory import create_search
-from yahoo.search import SearchError
+from simpleyahoo import legitimate_yahoo_count
+import simpleyahoo
 
 from sqlalchemy.ext.sqlsoup import SqlSoup
-
-def legitimate_yahoo_count(query, type = 'Web', cc_spec=[]):
-    ''' Does not support CC queries yet, but the API seems to! '''
-    assert(type in ['Web', 'InlinkData']) # known types here
-    s = create_search(type, 'cc license search', query=query, results=0)
-    if cc_spec:
-        s.license = cc_spec
-    res = s.parse_results()
-    return res.totalResultsAvailable
-
-def atw_count(query):
-    PREFIX="http://www.alltheweb.com/search?cat=web&o=0&_sb_lang=any&q=link:"
-    result = urllib2.urlopen(PREFIX + query).read()
-    bs = BeautifulSoup.BeautifulSoup()
-    bs.feed(result)
-    for p in bs('p'):
-        if ' '.join(p.renderContents().split()) == "No Web pages found that match your query.":
-            return 0
-        # I guess it's worth looking inside then
-    count = re.search(r'<span class="ofSoMany">(.+?)</span>', result).group(1)
-    return str2int(count)
-
-def str2int(s):
-    s = s.replace(',', '')
-    return int(s)
 
 ## THINKME: Google and Yahoo both have different ways to encode CC license types.  Later on, it's probably worth standardizing this somehow, or else their trash gets shoved into our DB.
 
@@ -100,11 +75,18 @@ class LinkCounter:
             time.sleep(0.1) # "And, breathe."
 
     def count_yahoo(self):
+        # No sleep here because we're APIing it up.
         for uri in self.uris:
-            self.record(cc_license_uri=uri,
-                        search_engine='Yahoo',
-                        count=legitimate_yahoo_count(uri, 'InlinkData'))
-            time.sleep(0.1) # "And, breathe."
+            for language in [None] + simpleyahoo.langauges.keys():
+                for country in [None] + simpleyahoo.countries.keys():
+                    countryid = simpleyahoo.countries.get(country, None) # None as default
+                    langid = simpleyahoo.countries.get(language, None) # None as default
+                    count = legitimate_yahoo_count(uri, 'InlinkData', country=countryid, language=langid)
+                    self.record(cc_license_uri=uri,
+                                search_engine='Yahoo',
+                                count = count,
+                                language = language,
+                                country = country)
 
     def specific_google_counter(self):
         """ Now instead of searching for links to a license URI,
@@ -130,14 +112,22 @@ class LinkCounter:
         licenses = [['cc_any'],['cc_commercial'],['cc_modifiable'],['cc_commercial', 'cc_modifiable']]
         for license in licenses:
             for dumb_query in self.dumb_queries:
-                count = legitimate_yahoo_count(query=dumb_query, cc_spec=license)
-                self.record_complex(license_specifier='&'.join(license),
-                                    search_engine='Yahoo',
-                                    count=count,
-                                    query=dumb_query)
+                # Now, let's add languages
+                for language in [None] + simpleyahoo.languages.keys():
+                    for country in [None] + simpleyahoo.countries.keys():
+                        countryid = simpleyahoo.countries.get(country, None) # None as default
+                        langid = simpleyahoo.countries.get(language, None) # None as default
+                        count = legitimate_yahoo_count(query=dumb_query, cc_spec=license, country=countryid, language=langid) # Query with the terse form
+                        self.record_complex(license_specifier='&'.join(license),
+                                            search_engine='Yahoo',
+                                            count=count,
+                                            query=dumb_query,
+                                            language=language,
+                                            country=country) # but store the human forms
+                        
 
-    def record_complex(self, license_specifier, search_engine, count, query):
-        self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = self.timestamp, search_engine=search_engine)
+    def record_complex(self, license_specifier, search_engine, count, query, country, language):
+        self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = self.timestamp, search_engine=search_engine, country=country, language=language)
         self.db.flush()
         debug("%s gave us %d hits via %s" % (license_specifier, count, search_engine))
         
