@@ -26,17 +26,10 @@ from pylab import *
 from matplotlib.finance import quotes_historical_yahoo
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
 import datetime
-date1 = datetime.date( 1995, 1, 1 )
-date2 = datetime.date( 2004, 4, 12 )
 
 years    = YearLocator()   # every year
 months   = MonthLocator()  # every month
 yearsFmt = DateFormatter('%Y')
-
-quotes = quotes_historical_yahoo(
-    'INTC', date1, date2)
-if not quotes:
-    raise SystemExit
 
 dates = [date2num(k.timestamp) for k in everything]
 opens = [k.count for k in everything]
