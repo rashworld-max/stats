@@ -16,20 +16,23 @@ yahoo finance to get the data for plotting
 
 # Set up data
 from sqlalchemy.ext.sqlsoup import SqlSoup
+from sqlalchemy import *
 db = SqlSoup('mysql://root:@localhost/cc')
-everything = db.simple.select() # screw you, RAM!
-everything = [k for k in everything if not k.language] # need to figure out real SELECT
-everything = [k for k in everything if k.timestamp] # need to figure out real SELECT
-everything = [k for k in everything if k.count] # need to figure out real SELECT
+everything = db.simple.select(
+    and_(db.simple.c.timestamp != None))
+for thing in everything:
+    if thing.timestamp == None:
+        print "BUG!"
+        print thing
 
 from pylab import *
 from matplotlib.finance import quotes_historical_yahoo
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
 import datetime
 
-years    = YearLocator()   # every year
 months   = MonthLocator()  # every month
-yearsFmt = DateFormatter('%Y')
+days     = DayLocator()    # daily?
+monthsFmt = DateFormatter('%m')
 
 dates = [date2num(k.timestamp) for k in everything]
 opens = [k.count for k in everything]
@@ -38,9 +41,9 @@ ax = subplot(111)
 plot_date(dates, opens, '-')
 
 # format the ticks
-ax.xaxis.set_major_locator(years)
-ax.xaxis.set_major_formatter(yearsFmt)
-ax.xaxis.set_minor_locator(months)
+ax.xaxis.set_major_locator(months)
+ax.xaxis.set_major_formatter(monthsFmt)
+ax.xaxis.set_minor_locator(days)
 ax.autoscale_view()
 
 # format the coords message box
