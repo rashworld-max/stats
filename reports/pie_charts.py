@@ -27,6 +27,26 @@ everything = db.simple.select(db.simple.c.timestamp != None)
 search_engines = ['Google', 'All The Web', 'Yahoo']
 all_html_colors = [k.lower() for k in ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine', 'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue', 'Cornsilk', 'Crimson', 'Cyan', 'DarkBlue', 'DarkCyan', 'DarkGoldenRod', 'DarkGray', 'DarkGreen', 'DarkKhaki', 'DarkMagenta', 'DarkOliveGreen', 'Darkorange', 'DarkOrchid', 'DarkRed', 'DarkSalmon', 'DarkSeaGreen', 'DarkSlateBlue', 'DarkSlateGray', 'DarkTurquoise', 'DarkViolet', 'DeepPink', 'DeepSkyBlue', 'DimGray', 'DodgerBlue', 'Feldspar', 'FireBrick', 'FloralWhite', 'ForestGreen', 'Fuchsia', 'Gainsboro', 'GhostWhite', 'Gold', 'GoldenRod', 'Gray', 'Green', 'GreenYellow', 'HoneyDew', 'HotPink', 'IndianRed', 'Indigo', 'Ivory', 'Khaki', 'Lavender', 'LavenderBlush', 'LawnGreen', 'LemonChiffon', 'LightBlue', 'LightCoral', 'LightCyan', 'LightGoldenRodYellow', 'LightGrey', 'LightGreen', 'LightPink', 'LightSalmon', 'LightSeaGreen', 'LightSkyBlue', 'LightSlateBlue', 'LightSlateGray', 'LightSteelBlue', 'LightYellow', 'Lime', 'LimeGreen', 'Linen', 'Magenta', 'Maroon', 'MediumAquaMarine', 'MediumBlue', 'MediumOrchid', 'MediumPurple', 'MediumSeaGreen', 'MediumSlateBlue', 'MediumSpringGreen', 'MediumTurquoise', 'MediumVioletRed', 'MidnightBlue', 'MintCream', 'MistyRose', 'Moccasin', 'NavajoWhite', 'Navy', 'OldLace', 'Olive', 'OliveDrab', 'Orange', 'OrangeRed', 'Orchid', 'PaleGoldenRod', 'PaleGreen', 'PaleTurquoise', 'PaleVioletRed', 'PapayaWhip', 'PeachPuff', 'Peru', 'Pink', 'Plum', 'PowderBlue', 'Purple', 'Red', 'RosyBrown', 'RoyalBlue', 'SaddleBrown', 'Salmon', 'SandyBrown', 'SeaGreen', 'SeaShell', 'Sienna', 'Silver', 'SkyBlue', 'SlateBlue', 'SlateGray', 'Snow', 'SpringGreen', 'SteelBlue', 'Tan', 'Teal', 'Thistle', 'Tomato', 'Turquoise', 'Violet', 'VioletRed', 'Wheat', 'White', 'WhiteSmoke', 'Yellow', 'YellowGreen']]
 
+# Thanks, Will.
+# Needs tests.
+def urlParse(url):
+    #print 'in urlParse()'
+    jurisdiction=''
+    elements=url.split('/')
+    which=elements[4]
+    if which=='publicdomain':
+        which='pd'
+    version=elements[5]
+    if version=='':
+        version='1.0'
+    if len(elements)>6:
+        jurisdiction=elements[6]
+    if jurisdiction=='' or jurisdiction=='us' or jurisdiction=='deed-music':
+        jurisdiction='generic'
+    #print 'out urlParse()'
+    ret = {'which': which, 'version': version, 'jurisdiction': jurisdiction}
+    return ret
+
 def pie_chart(data, title):
     # make a square figure and axes
     pylab.figure(1, figsize=(8,8))
@@ -36,27 +56,32 @@ def pie_chart(data, title):
     
     explode=[0.05 for k in labels]
     pylab.pie(fracs, explode=explode, colors=all_html_colors, labels=labels, autopct='%1.1f%%', shadow=True)
-    pylab.legend()
-    leg = pylab.gca().get_legend()
-    ltext  = leg.get_texts()
-    pylab.setp(ltext, fontsize='small') 
+    pylab.legend(prop=matplotlib.font_manager.FontProperties('x-small'))
+    #leg = pylab.gca().get_legend()
+    #ltext  = leg.get_texts()
+    #pylab.setp(ltext, fontsize='small')
+    #pylab.legend()
+
     pylab.title(title, bbox={'facecolor':0.8, 'pad':5})
     pylab.show()
-    
-def extract_jurisdiction(uri):
-    splitted = uri.split('/')
-    splitted = [k for k in splitted if k]
-    numbers = [str(k) for k in range(9)]
-    last = splitted[-1]
-    for number in numbers:
-        if number in last:
-            print 'generic for', uri
-            return 'Generic'
-    if len(last) > 2:
-        print 'generic for', uri
-        return 'Generic'
-    print splitted[-1], 'for',uri
-    return splitted[-1]
+
+def property_pie_chart():
+    for engine in search_engines:
+        just_us = [k for k in everything if k.search_engine == engine]
+        if not just_us:
+            print 'Hmm, nothing for', engine
+        else:
+            recent_stamp = max([k.timestamp for k in just_us])
+            recent = [k for k in just_us if k.timestamp == recent_stamp ]
+
+            data = {}
+            for event in recent:
+                properties = urlParse(event.license_uri)['which'].split('-')
+                if 'by' in properties or 'nc' in properties or 'nd' in properties or 'sa' in properties:
+                    for prop in properties:
+                        data[prop] = data.get(prop, 0) + event.count
+            # Kay, now graph it.
+            pie_chart(data, title="Pie chart of properties from " + engine)
 
 def jurisdiction_data():
     # Some day, I'll do this all in SQL. :-)
@@ -71,7 +96,7 @@ def jurisdiction_data():
             # Okay, now gather the data.
             data = {}
             for event in recent:
-                jurisdiction = extract_jurisdiction(event.license_uri)
+                jurisdiction = urlParse(event.license_uri)['jurisdiction']
                 data[jurisdiction] = data.get(jurisdiction, 0) + event.count
                 print 'added', event.count, 'to', jurisdiction
             pie_chart(data, title=engine)
