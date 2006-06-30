@@ -44,7 +44,27 @@ def urlParse(url):
     if jurisdiction=='' or jurisdiction=='us' or jurisdiction=='deed-music':
         jurisdiction='generic'
     #print 'out urlParse()'
-    ret = {'which': which, 'version': version, 'jurisdiction': jurisdiction}
+    # attribs: if it's a CC license, then the list of CC attributes
+    if which in ('GPL', 'LGPL', 'devnations', 'sampling', 'pd'): # How to handle PD later in later graphs?
+        attribs = []
+    else:
+        if which in ('sampling+', 'nc-sampling+'):
+            attribs = ['by','nc','nd']
+        else:
+            attribs = which.split('-')
+        print url
+        assert(('by' in attribs) or
+               ('nc' in attribs) or
+               ('nd' in attribs) or
+               ('sa' in attribs))
+    ret = {'which': which, 'version': version, 'jurisdiction': jurisdiction, 'attribs': tuple(attribs)}
+    return ret
+
+def get_all_urlParse_results(key):
+    ''' Neat for testing! '''
+    ret = set()
+    for r in [urlParse(k.license_uri)[key] for k in everything]:
+        ret.add(r)
     return ret
 
 def pie_chart(data, title):
@@ -76,7 +96,7 @@ def property_pie_chart():
 
             data = {}
             for event in recent:
-                properties = urlParse(event.license_uri)['which'].split('-')
+                properties = urlParse(event.license_uri)['attribs'].split('-')
                 if 'by' in properties or 'nc' in properties or 'nd' in properties or 'sa' in properties:
                     for prop in properties:
                         data[prop] = data.get(prop, 0) + event.count
