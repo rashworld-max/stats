@@ -17,16 +17,15 @@ import datetime
 # latest.  Be sure to get that max separately per 
 # search engine.
 
-import random
-
 from sqlalchemy.ext.sqlsoup import SqlSoup
 from sqlalchemy import * # Dangerously
-import pylab
+import pylab, matplotlib
  
 db = SqlSoup('mysql://root:@localhost/cc')
 
 everything = db.simple.select(db.simple.c.timestamp != None)
 search_engines = ['Google', 'All The Web', 'Yahoo']
+all_html_colors = [k.lower() for k in ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine', 'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue', 'Cornsilk', 'Crimson', 'Cyan', 'DarkBlue', 'DarkCyan', 'DarkGoldenRod', 'DarkGray', 'DarkGreen', 'DarkKhaki', 'DarkMagenta', 'DarkOliveGreen', 'Darkorange', 'DarkOrchid', 'DarkRed', 'DarkSalmon', 'DarkSeaGreen', 'DarkSlateBlue', 'DarkSlateGray', 'DarkTurquoise', 'DarkViolet', 'DeepPink', 'DeepSkyBlue', 'DimGray', 'DodgerBlue', 'Feldspar', 'FireBrick', 'FloralWhite', 'ForestGreen', 'Fuchsia', 'Gainsboro', 'GhostWhite', 'Gold', 'GoldenRod', 'Gray', 'Green', 'GreenYellow', 'HoneyDew', 'HotPink', 'IndianRed', 'Indigo', 'Ivory', 'Khaki', 'Lavender', 'LavenderBlush', 'LawnGreen', 'LemonChiffon', 'LightBlue', 'LightCoral', 'LightCyan', 'LightGoldenRodYellow', 'LightGrey', 'LightGreen', 'LightPink', 'LightSalmon', 'LightSeaGreen', 'LightSkyBlue', 'LightSlateBlue', 'LightSlateGray', 'LightSteelBlue', 'LightYellow', 'Lime', 'LimeGreen', 'Linen', 'Magenta', 'Maroon', 'MediumAquaMarine', 'MediumBlue', 'MediumOrchid', 'MediumPurple', 'MediumSeaGreen', 'MediumSlateBlue', 'MediumSpringGreen', 'MediumTurquoise', 'MediumVioletRed', 'MidnightBlue', 'MintCream', 'MistyRose', 'Moccasin', 'NavajoWhite', 'Navy', 'OldLace', 'Olive', 'OliveDrab', 'Orange', 'OrangeRed', 'Orchid', 'PaleGoldenRod', 'PaleGreen', 'PaleTurquoise', 'PaleVioletRed', 'PapayaWhip', 'PeachPuff', 'Peru', 'Pink', 'Plum', 'PowderBlue', 'Purple', 'Red', 'RosyBrown', 'RoyalBlue', 'SaddleBrown', 'Salmon', 'SandyBrown', 'SeaGreen', 'SeaShell', 'Sienna', 'Silver', 'SkyBlue', 'SlateBlue', 'SlateGray', 'Snow', 'SpringGreen', 'SteelBlue', 'Tan', 'Teal', 'Thistle', 'Tomato', 'Turquoise', 'Violet', 'VioletRed', 'Wheat', 'White', 'WhiteSmoke', 'Yellow', 'YellowGreen']]
 
 def pie_chart(data, title):
     # make a square figure and axes
@@ -35,10 +34,13 @@ def pie_chart(data, title):
     labels = data.keys()
     fracs = [data[k] for k in labels]
     
-    explode=[random.random() for k in labels]
-    pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
+    explode=[0.05 for k in labels]
+    pylab.pie(fracs, explode=explode, colors=all_html_colors, labels=labels, autopct='%1.1f%%', shadow=True)
+    pylab.legend()
+    leg = pylab.gca().get_legend()
+    ltext  = leg.get_texts()
+    pylab.setp(ltext, fontsize='small') 
     pylab.title(title, bbox={'facecolor':0.8, 'pad':5})
-    
     pylab.show()
     
 def extract_jurisdiction(uri):
