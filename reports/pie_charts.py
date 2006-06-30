@@ -17,28 +17,29 @@ import datetime
 # latest.  Be sure to get that max separately per 
 # search engine.
 
+import random
+
 from sqlalchemy.ext.sqlsoup import SqlSoup
 from sqlalchemy import * # Dangerously
-from pylab import * # Living
+import pylab
  
 db = SqlSoup('mysql://root:@localhost/cc')
 
-everything = db.simple.select(
-    and_(db.simple.c.timestamp != None))
+everything = db.simple.select(db.simple.c.timestamp != None)
 search_engines = ['Google', 'All The Web', 'Yahoo']
 
-def pie_chart(data):
+def pie_chart(data, title):
     # make a square figure and axes
-    figure(1, figsize=(8,8))
+    pylab.figure(1, figsize=(8,8))
     
     labels = data.keys()
     fracs = [data[k] for k in labels]
     
-    explode=[0 for k in labels]
-    pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
-    title('Raining Hogs and Dogs', bbox={'facecolor':0.8, 'pad':5})
+    explode=[random.random() for k in labels]
+    pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
+    pylab.title(title, bbox={'facecolor':0.8, 'pad':5})
     
-    show()
+    pylab.show()
     
 def extract_jurisdiction(uri):
     splitted = uri.split('/')
@@ -71,4 +72,8 @@ def jurisdiction_data():
                 jurisdiction = extract_jurisdiction(event.license_uri)
                 data[jurisdiction] = data.get(jurisdiction, 0) + event.count
                 print 'added', event.count, 'to', jurisdiction
-            pie_chart(data)
+            pie_chart(data, title=engine)
+
+if __name__ == '__main__':
+    jurisdiction_data()
+
