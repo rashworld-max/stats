@@ -74,15 +74,13 @@ class LinkCounter:
         # No sleep here because we're APIing it up.
         for uri in self.uris:
             for language in [None] + simpleyahoo.languages.keys():
-                for country in [None] + simpleyahoo.countries.keys():
-                    countryid = simpleyahoo.countries.get(country, None) # None as default
-                    langid = simpleyahoo.countries.get(language, None) # None as default
-                    count = simpleyahoo.legitimate_yahoo_count(uri, 'InlinkData', country=countryid, language=langid)
-                    self.record(cc_license_uri=uri,
-                                search_engine='Yahoo',
-                                count = count,
-                                language = language,
-                                country = country)
+                langid = simpleyahoo.countries.get(language, None) # None as default
+                count = simpleyahoo.legitimate_yahoo_count(uri, 'InlinkData', language=langid)
+                # Country is not a valid parameter for inlinkdata :-(
+                self.record(cc_license_uri=uri,
+                            search_engine='Yahoo',
+                            count = count,
+                            language = language)
 
     def specific_google_counter(self):
         """ Now instead of searching for links to a license URI,
