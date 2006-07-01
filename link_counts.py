@@ -2,10 +2,6 @@ from lxml import etree
 import time
 import datetime
 
-## ADDME: MSN Search E389A2EC44FFB3F5748A9AEF7CCFED7AD82690DA and 
-## API?  Screen-scrape?
-## They have some SOAP thing that is only documented in an MSI.  What a freaking pain.
-
 DEBUG = 1
 def debug(s):
     if DEBUG:
@@ -60,6 +56,13 @@ class LinkCounter:
 
             # We record the specific uri, count pair in the DB
             self.record(cc_license_uri=uri, search_engine='Google', count=count)
+
+    def count_msn(self):
+        ## Once from webtrawl
+        for uri in self.uris:
+            count = lc_util.msn_count("link:%s" % uri)
+            # We record the specific uri, count pair in the DB
+            self.record(cc_license_uri=uri, search_engine='MSN', count=count)
 
     def count_alltheweb(self):
         # These guys seem to get mad at us if we query them too fast.
@@ -129,6 +132,7 @@ def main():
     lc = LinkCounter(dburl='mysql://root:@localhost/cc', xmlpath='old/api/licenses.xml')
     lc.count_google()
     lc.count_yahoo()
+    lc.count_msn()
     lc.specific_google_counter()
-    lc.specific_yahoo_counter()
+#    lc.specific_yahoo_counter() # This makes too many queries?
     lc.count_alltheweb() # Done last because of long sleep times
