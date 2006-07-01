@@ -68,6 +68,7 @@ def get_all_urlParse_results(key):
     return ret
 
 def pie_chart(data, title):
+    # http://home.gna.org/pychart/examples/pietest.py if this gets too bad
     # make a square figure and axes
     pylab.figure(1, figsize=(8,8))
     
@@ -85,7 +86,51 @@ def pie_chart(data, title):
     pylab.title(title, bbox={'facecolor':0.8, 'pad':5})
     pylab.show()
 
+def date_chart(data, title):
+    from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
+    import datetime
+
+    ''' Untested.  Tee-hee.
+    Based on http://matplotlib.sourceforge.net/screenshots/date_demo.py '''
+    months   = MonthLocator()  # every month
+    days     = pylab.DayLocator()    # daily?
+    monthsFmt = DateFormatter('%m')
+
+    keys = data.keys()
+    keys.sort()
+    dates = [pylab.date2num(k) for k in keys]
+    values = [data[k] for k in keys]
+    print values
+
+    ax = pylab.subplot(111)
+    pylab.plot_date(dates, values, '-')
+
+    # format the ticks
+    #ax.xaxis.set_major_locator(months)
+    #ax.xaxis.set_major_formatter(monthsFmt)
+    #ax.xaxis.set_minor_locator(days)
+    #ax.autoscale_view()
+
+    # format the coords message box
+    #ax.fmt_xdata = DateFormatter('%Y-%m-%d')
+    
+    pylab.grid(True)
+    pylab.show()
+
+def simple_aggregate_date_chart():
+    for engine in search_engines:
+        just_us = [k for k in everything if k.search_engine == engine]
+        if not just_us:
+            print 'Hmm, nothing for', engine
+        else:
+            stamps = [k.timestamp for k in just_us]
+            data = {}
+            for stamp in stamps:
+                data[stamp] = sum([k.count for k in just_us if k.timestamp == stamp])
+            date_chart(data, 'zomg')
+
 def property_pie_chart():
+    """ This chart is worse than useless.  It's flat-out wrong. """
     for engine in search_engines:
         just_us = [k for k in everything if k.search_engine == engine]
         if not just_us:
@@ -96,7 +141,7 @@ def property_pie_chart():
 
             data = {}
             for event in recent:
-                properties = urlParse(event.license_uri)['attribs'].split('-')
+                properties = urlParse(event.license_uri)['attribs']
                 if 'by' in properties or 'nc' in properties or 'nd' in properties or 'sa' in properties:
                     for prop in properties:
                         data[prop] = data.get(prop, 0) + event.count
