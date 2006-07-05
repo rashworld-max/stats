@@ -30,7 +30,6 @@ all_html_colors = [k.lower() for k in ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aqu
 # Thanks, Will.
 # Needs tests.
 def urlParse(url):
-    #print 'in urlParse()'
     jurisdiction=''
     elements=url.split('/')
     which=elements[4]
@@ -43,7 +42,6 @@ def urlParse(url):
         jurisdiction=elements[6]
     if jurisdiction=='' or jurisdiction=='us' or jurisdiction=='deed-music':
         jurisdiction='generic'
-    #print 'out urlParse()'
     # attribs: if it's a CC license, then the list of CC attributes
     if which in ('GPL', 'LGPL', 'devnations', 'sampling', 'pd'): # How to handle PD later in later graphs?
         attribs = []
@@ -69,6 +67,7 @@ def get_all_urlParse_results(key):
 
 def pie_chart(data, title):
     # http://home.gna.org/pychart/examples/pietest.py if this gets too bad
+    # http://matplotlib.sourceforge.net/screenshots/barchart_demo.py shows how to smarten the legend
     # make a square figure and axes
     pylab.figure(1, figsize=(8,8))
     
@@ -85,6 +84,9 @@ def pie_chart(data, title):
 
     pylab.title(title, bbox={'facecolor':0.8, 'pad':5})
     pylab.show()
+
+def bar_chart(data, title):
+    
 
 def date_chart(data, title):
     from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
@@ -128,6 +130,29 @@ def simple_aggregate_date_chart():
             for stamp in stamps:
                 data[stamp] = sum([k.count for k in just_us if k.timestamp == stamp])
             date_chart(data, 'zomg')
+
+def property_counts(things):
+    ''' Input: A subset of everything.
+    Output: A hash of prop -> count, plus an extra "total"->total'''
+    ret = {}
+    for thing in things:
+        props = urlParse(thing.license_uri)['attribs']
+        for prop in props:
+            ret[prop] = ret.get(prop, 0) + thing.count
+        ret['total'] = ret.get('total',0) + thing.count
+    return ret
+
+def property_bar_chart():
+    """ A whole lot of repeated code.  It's getting embarrassing. """
+    for engine in search_engine:
+        just_us = [k for k in everything if k.search_engine == engine]
+        if not just_us:
+            print 'Hmm, nothing for', engine
+        else:
+            recent_stamp = max([k.timestamp for k in just_us])
+            recent = [k for k in just_us if k.timestamp == recent_stamp ]
+            data = property_counts(things)
+            bar_chart(data, '%s Linkbacks, Property Percentages' % engine) # Does not exist! :-)
 
 def property_pie_chart():
     """ This chart is worse than useless.  It's flat-out wrong. """
