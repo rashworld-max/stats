@@ -41,7 +41,6 @@ class LinkCounter:
                           'http://creativecommons.org/licenses/by-nd-nc/2.0/']) # These were in old but not in the XML
 
     def parse(self, xmlpath):
-        # FIXME: Add urls (after checking for duplicates) from old/
         ret = []
         tree2=etree.parse(xmlpath)
         root2=tree2.getroot()
