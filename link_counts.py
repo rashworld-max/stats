@@ -34,6 +34,11 @@ class LinkCounter:
         self.uris = self.parse(xmlpath)
         # We need to get a list of URIs to search for
         assert(self.uris) # These should not be empty.
+        self.uris.extend(['http://creativecommons.org','http://www.creativecommons.org',
+                          'http://creativecommons.org/licenses/publicdomain',
+                          'http://creativecommons.org/licenses/publicdomain/1.0/',
+                          'http://creativecommons.org/licenses/by-nc-nd/2.0/deed-music',
+                          'http://creativecommons.org/licenses/by-nd-nc/2.0/']) # These were in old but not in the XML
 
     def parse(self, xmlpath):
         # FIXME: Add urls (after checking for duplicates) from old/
