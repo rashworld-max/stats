@@ -68,7 +68,9 @@ def get_all_urlParse_results(key):
         ret.add(r)
     return ret
 
-def pie_chart(data, title):
+def pie_chart(data, title, fname):
+    pylab.clf()
+    pylab.cla()
     # http://home.gna.org/pychart/examples/pietest.py if this gets too bad
     # http://matplotlib.sourceforge.net/screenshots/barchart_demo.py shows how to smarten the legend
     # make a square figure and axes
@@ -78,15 +80,15 @@ def pie_chart(data, title):
     fracs = [data[k] for k in labels]
     
     explode=[0.05 for k in labels]
-    pylab.pie(fracs, explode=explode, colors=all_html_colors, labels=labels, autopct='%1.1f%%', shadow=True)
-    pylab.legend(prop=matplotlib.font_manager.FontProperties('x-small'))
+    pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
+    #pylab.legend(prop=matplotlib.font_manager.FontProperties('x-small'))
     #leg = pylab.gca().get_legend()
     #ltext  = leg.get_texts()
     #pylab.setp(ltext, fontsize='small')
     #pylab.legend()
 
     pylab.title(title, bbox={'facecolor':0.8, 'pad':5})
-    pylab.show()
+    pylab.savefig(fname)
 
 def bar_chart(data, title):
     pass
@@ -174,7 +176,7 @@ def property_pie_chart():
                     for prop in properties:
                         data[prop] = data.get(prop, 0) + event.count
             # Kay, now graph it.
-            pie_chart(data, title="Pie chart of properties from " + engine)
+            pie_chart(data, title="Pie chart of properties from " + engine, fname="/home/paulproteus/public_html/tmp/%s.png" % engine)
 
 def for_search_engine(chart_fn, data_fn):
     for engine in search_engines:
@@ -196,9 +198,15 @@ def jurisdiction_data():
             if jurisdiction:
                 data[jurisdiction] = data.get(jurisdiction, 0) + event.count
                 print 'added', event.count, 'to', jurisdiction
+        # Now flatten out everything <1%
+        total = sum([data[k] for k in data])
+        for k in data.keys():
+            if data[k] <  (0.01 * total):
+                data['Other'] = data.get('Other', 0)
+                del data[k]
         return data
     def chart_fn(data, engine):
-        return pie_chart(data, "%s Jurisdiction data" % engine)
+        return pie_chart(data, "%s Jurisdiction data" % engine, "/home/paulproteus/public_html/tmp/%s.png" % engine)
 
     for_search_engine(chart_fn, data_fn)
 
