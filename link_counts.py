@@ -133,10 +133,10 @@ class LinkCounter:
         debug("%s gave us %d hits via %s" % (license_specifier, count, search_engine))
         
 def main():
-    lc = LinkCounter(dburl='mysql://root:@localhost/cc', xmlpath='old/api/licenses.xml')
+    lc = LinkCounter(dburl='mysql://paulproteus:zomg@einstein.cs.jhu.edu/paulproteus', xmlpath='old/api/licenses.xml')
     lc.count_google()
     lc.count_yahoo()
     lc.count_msn()
     lc.specific_google_counter()
-#    lc.specific_yahoo_counter() # This makes too many queries?
+    lc.specific_yahoo_counter() # This makes too many queries?
     lc.count_alltheweb() # Done last because of long sleep times

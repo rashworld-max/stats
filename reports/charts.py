@@ -21,7 +21,7 @@ from sqlalchemy.ext.sqlsoup import SqlSoup
 from sqlalchemy import * # Dangerously
 import pylab, matplotlib
  
-db = SqlSoup('mysql://root:@localhost/cc')
+db = SqlSoup('mysql://paulproteus:zomgbbq@einstein.cs.jhu.edu/paulproteus')
 
 everything = db.simple.select(db.simple.c.timestamp != None)
 search_engines = ['Google', 'All The Web', 'Yahoo']
@@ -86,7 +86,7 @@ def pie_chart(data, title):
     pylab.show()
 
 def bar_chart(data, title):
-    
+    pass
 
 def date_chart(data, title):
     from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
@@ -173,23 +173,29 @@ def property_pie_chart():
             # Kay, now graph it.
             pie_chart(data, title="Pie chart of properties from " + engine)
 
-def jurisdiction_data():
-    # Some day, I'll do this all in SQL. :-)
+def for_search_engine(chart_fn, data_fn):
     for engine in search_engines:
         just_us = [k for k in everything if k.search_engine == engine]
         if not just_us:
             print 'Hmm, nothing for', engine
         else:
             recent_stamp = max([k.timestamp for k in just_us])
-            recent = [k for k in just_us if k.timestamp == recent_stamp]
+            recent = [k for k in just_us if k.timestamp == recent_stamp ]
+            data = property_counts(things)
+            bar_chart(data, '%s Linkbacks, Property Percentages' % engine) # Does not exist! :-)
 
-            # Okay, now gather the data.
-            data = {}
-            for event in recent:
-                jurisdiction = urlParse(event.license_uri)['jurisdiction']
-                data[jurisdiction] = data.get(jurisdiction, 0) + event.count
-                print 'added', event.count, 'to', jurisdiction
-            pie_chart(data, title=engine)
+def jurisdiction_data():
+    def data_fn(recent):
+        # Okay, now gather the data.
+        data = {}
+        for event in recent:
+            jurisdiction = urlParse(event.license_uri)['jurisdiction']
+            data[jurisdiction] = data.get(jurisdiction, 0) + event.count
+            print 'added', event.count, 'to', jurisdiction
+    def chart_fn(data, engine):
+        return pie_chart(data, "%s Jurisdiction data" % engine)
+
+    for_search_engine(chart_fn, data_fn)
 
 if __name__ == '__main__':
     jurisdiction_data()
