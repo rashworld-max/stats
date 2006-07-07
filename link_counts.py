@@ -80,7 +80,7 @@ class LinkCounter:
     def count_yahoo(self):
         # No sleep here because we're APIing it up.
         for uri in self.uris:
-                count = simpleyahoo.legitimate_yahoo_count(uri, 'InlinkData', language=langid)
+                count = simpleyahoo.legitimate_yahoo_count(uri, 'InlinkData')
                 # Country is not a valid parameter for inlinkdata :-(
 		# And languages get ignored! :-(
                 self.record(cc_license_uri=uri,
