@@ -196,6 +196,7 @@ def jurisdiction_data():
             if jurisdiction:
                 data[jurisdiction] = data.get(jurisdiction, 0) + event.count
                 print 'added', event.count, 'to', jurisdiction
+        return data
     def chart_fn(data, engine):
         return pie_chart(data, "%s Jurisdiction data" % engine)
 
