@@ -21,7 +21,7 @@ from sqlalchemy.ext.sqlsoup import SqlSoup
 from sqlalchemy import * # Dangerously
 import pylab, matplotlib
  
-db = SqlSoup('mysql://paulproteus:zomgbbq@einstein.cs.jhu.edu/paulproteus')
+db = SqlSoup('mysql://paulproteus:zomg@einstein.cs.jhu.edu/paulproteus')
 
 everything = db.simple.select(db.simple.c.timestamp != None)
 search_engines = ['Google', 'All The Web', 'Yahoo']
@@ -32,29 +32,32 @@ all_html_colors = [k.lower() for k in ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aqu
 def urlParse(url):
     jurisdiction=''
     elements=url.split('/')
-    which=elements[4]
-    if which=='publicdomain':
-        which='pd'
-    version=elements[5]
-    if version=='':
-        version='1.0'
-    if len(elements)>6:
-        jurisdiction=elements[6]
-    if jurisdiction=='' or jurisdiction=='us' or jurisdiction=='deed-music':
-        jurisdiction='generic'
-    # attribs: if it's a CC license, then the list of CC attributes
-    if which in ('GPL', 'LGPL', 'devnations', 'sampling', 'pd'): # How to handle PD later in later graphs?
-        attribs = []
-    else:
-        if which in ('sampling+', 'nc-sampling+'):
-            attribs = ['by','nc','nd']
+    if len(elements) >= 6:
+        which=elements[4]
+        if which=='publicdomain':
+            which='pd'
+        version=elements[5]
+        if version=='':
+            version='1.0'
+        if len(elements)>6:
+            jurisdiction=elements[6]
+        if jurisdiction=='' or jurisdiction=='us' or jurisdiction=='deed-music':
+            jurisdiction='generic'
+        # attribs: if it's a CC license, then the list of CC attributes
+        if which in ('GPL', 'LGPL', 'devnations', 'sampling', 'pd'): # How to handle PD later in later graphs?
+            attribs = []
         else:
-            attribs = which.split('-')
-        print url
-        assert(('by' in attribs) or
-               ('nc' in attribs) or
-               ('nd' in attribs) or
-               ('sa' in attribs))
+            if which in ('sampling+', 'nc-sampling+'):
+               attribs = ['by','nc','nd']
+            else:
+               attribs = which.split('-')
+            print url
+            assert(('by' in attribs) or
+                   ('nc' in attribs) or
+                   ('nd' in attribs) or
+                   ('sa' in attribs))
+    else:
+        which, version, jurisdiction, attribs = None, None, None, []
     ret = {'which': which, 'version': version, 'jurisdiction': jurisdiction, 'attribs': tuple(attribs)}
     return ret
 
@@ -181,8 +184,8 @@ def for_search_engine(chart_fn, data_fn):
         else:
             recent_stamp = max([k.timestamp for k in just_us])
             recent = [k for k in just_us if k.timestamp == recent_stamp ]
-            data = property_counts(things)
-            bar_chart(data, '%s Linkbacks, Property Percentages' % engine) # Does not exist! :-)
+            data = data_fn(recent)
+            chart_fn(data, engine)
 
 def jurisdiction_data():
     def data_fn(recent):
@@ -190,8 +193,9 @@ def jurisdiction_data():
         data = {}
         for event in recent:
             jurisdiction = urlParse(event.license_uri)['jurisdiction']
-            data[jurisdiction] = data.get(jurisdiction, 0) + event.count
-            print 'added', event.count, 'to', jurisdiction
+            if jurisdiction:
+                data[jurisdiction] = data.get(jurisdiction, 0) + event.count
+                print 'added', event.count, 'to', jurisdiction
     def chart_fn(data, engine):
         return pie_chart(data, "%s Jurisdiction data" % engine)
 
