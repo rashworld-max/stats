@@ -81,7 +81,9 @@ def pie_chart(data, title, fname):
     
     explode=[0.05 for k in labels]
     pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
-    #pylab.legend(prop=matplotlib.font_manager.FontProperties('x-small'))
+    #pylab.legend(prop=matplotlib.font_manager.FontProperties('x-small')) ## I would like this,
+    ## but legends cause duplicate labels.  Maybe fixed in upstream svn?
+    
     #leg = pylab.gca().get_legend()
     #ltext  = leg.get_texts()
     #pylab.setp(ltext, fontsize='small')
