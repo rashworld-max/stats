@@ -55,18 +55,26 @@ class LinkCounter:
     def count_google(self):
         ## Once from webtrawl
         for uri in self.uris:
-            result = google.doGoogleSearch("link:%s" % uri)
-            count = result.meta.estimatedTotalResultsCount
+            try:
+                result = google.doGoogleSearch("link:%s" % uri)
+                count = result.meta.estimatedTotalResultsCount
 
-            # We record the specific uri, count pair in the DB
-            self.record(cc_license_uri=uri, search_engine='Google', count=count)
+                # We record the specific uri, count pair in the DB
+                self.record(cc_license_uri=uri, search_engine='Google', count=count)
+            except Exception, e:
+                print "Something sad happened while Googling", uri
+                print e
 
-    def count_msn(self):
+    def count_msn(self):        
         ## Once from webtrawl
         for uri in self.uris:
-            count = lc_util.msn_count("link:%s" % uri)
-            # We record the specific uri, count pair in the DB
-            self.record(cc_license_uri=uri, search_engine='MSN', count=count)
+            try:
+                count = lc_util.msn_count("link:%s" % uri)
+                # We record the specific uri, count pair in the DB
+                self.record(cc_license_uri=uri, search_engine='MSN', count=count)
+            except Exception, e:
+                print "Something sad happened while MSNing", uri
+                print e
 
     def count_alltheweb(self):
         # These guys seem to get mad at us if we query them too fast.
@@ -74,18 +82,27 @@ class LinkCounter:
         # queries.  They seem to block the IP, not just the
         # user-agent.  Oops.
         for uri in self.uris:
-            self.record(cc_license_uri=uri, search_engine="All The Web", count=lc_util.atw_count("link:" + uri))
+            try:
+                self.record(cc_license_uri=uri, search_engine="All The Web", count=lc_util.atw_count("link:" + uri))
+            except Exception, e:
+                print "Something sad happened while ATWing", uri
+                print e
             time.sleep(1) # "And, breathe."
+                
 
     def count_yahoo(self):
         # No sleep here because we're APIing it up.
         for uri in self.uris:
+            try:
                 count = simpleyahoo.legitimate_yahoo_count(uri, 'InlinkData')
                 # Country is not a valid parameter for inlinkdata :-(
 		# And languages get ignored! :-(
                 self.record(cc_license_uri=uri,
                             search_engine='Yahoo',
                             count = count)
+            except Exception, e:
+                print "Something sad happened while Yahooing", uri
+                print e
 
     def specific_google_counter(self):
         """ Now instead of searching for links to a license URI,
@@ -98,12 +115,16 @@ class LinkCounter:
         licenses = ["cc_publicdomain", "cc_attribute", "cc_sharealike", "cc_noncommercial", "cc_nonderived", "cc_publicdomain|cc_attribute|cc_sharealike|cc_noncommercial|cc_nonderived"]
         for license in licenses:
             for dumb_query in self.dumb_queries:
-                result = google.doGoogleSearch(dumb_query, restrict=license)
-                count = result.meta.estimatedTotalResultsCount
-                self.record_complex(license_specifier=license,
-                                    search_engine='Google',
-                                    count=count,
-                                    query=dumb_query)
+                try:
+                    result = google.doGoogleSearch(dumb_query, restrict=license)
+                    count = result.meta.estimatedTotalResultsCount
+                    self.record_complex(license_specifier=license,
+                                        search_engine='Google',
+                                        count=count,
+                                        query=dumb_query)
+                except Exception, e:
+                    print "Something sad happened while Googling", license, "with query", dumb_query
+                    print e
     
     def specific_yahoo_counter(self):
         """ Similar deal here as for Google's specific_counter.
@@ -114,15 +135,19 @@ class LinkCounter:
                 # Now, let's add languages
                 for language in [None] + simpleyahoo.languages.keys():
                     for country in [None] + simpleyahoo.countries.keys():
-                        countryid = simpleyahoo.countries.get(country, None) # None as default
-                        langid = simpleyahoo.countries.get(language, None) # None as default
-                        count = simpleyahoo.legitimate_yahoo_count(query=dumb_query, cc_spec=license, country=countryid, language=langid) # Query with the terse form
-                        self.record_complex(license_specifier='&'.join(license),
-                                            search_engine='Yahoo',
-                                            count=count,
-                                            query=dumb_query,
-                                            language=language,
-                                            country=country) # but store the human forms
+                        try:
+                            countryid = simpleyahoo.countries.get(country, None) # None as default
+                            langid = simpleyahoo.countries.get(language, None) # None as default
+                            count = simpleyahoo.legitimate_yahoo_count(query=dumb_query, cc_spec=license, country=countryid, language=langid) # Query with the terse form
+                            self.record_complex(license_specifier='&'.join(license),
+                                                search_engine='Yahoo',
+                                                count=count,
+                                                query=dumb_query,
+                                                language=language,
+                                                country=country) # but store the human forms
+                        except Exception, e:
+                            print "Something sad happened while Yahooing:", locals()
+                            print e
                         
 
     def record_complex(self, license_specifier, search_engine, count, query, country = None, language = None):
