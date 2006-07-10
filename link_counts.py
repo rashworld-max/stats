@@ -129,16 +129,13 @@ class LinkCounter:
     def specific_yahoo_counter(self):
         """ Similar deal here as for Google's specific_counter.
         FIXME: Abstract Yahoo queries. """
-        licenses = [['cc_any'],['cc_commercial'],['cc_modifiable'],['cc_commercial', 'cc_modifiable']]
-        for license in licenses:
+        for license in simpleyahoo.licenses:
             for dumb_query in self.dumb_queries:
                 # Now, let's add languages
                 for language in [None] + simpleyahoo.languages.keys():
                     for country in [None] + simpleyahoo.countries.keys():
                         try:
-                            countryid = simpleyahoo.countries.get(country, None) # None as default
-                            langid = simpleyahoo.countries.get(language, None) # None as default
-                            count = simpleyahoo.legitimate_yahoo_count(query=dumb_query, cc_spec=license, country=countryid, language=langid) # Query with the terse form
+                            count = simpleyahoo.legitimate_yahoo_count(query=dumb_query, cc_spec=license, country=country, language=language) # Query with the terse form
                             self.record_complex(license_specifier='&'.join(license),
                                                 search_engine='Yahoo',
                                                 count=count,
