@@ -110,7 +110,7 @@ class GoogleExperiments(unittest.TestCase):
 class YahooExperiments(unittest.TestCase):
     ''' These experiments make the following lessons:
     * Use InlinkData, not link:
-    * Yahoo ignores language but respects country  '''
+    * For CC searches, Yahoo ignores language but respects country  '''
     def test_inlinkdata_is_bigger_than_link_colon(self):
         # First experiment: InlinkData vs. link: InlinkData gives more results
         colon = yahoo_experiment('link:http://www.google.com/', countries = [None], languages = [None])[0]
