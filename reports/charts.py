@@ -204,7 +204,7 @@ def jurisdiction_data():
         total = sum([data[k] for k in data])
         for k in data.keys():
             if data[k] <  (0.01 * total):
-                data['Other'] = data.get('Other', 0)
+                data['Other'] = data.get('Other', 0) + data[k]
                 del data[k]
         return data
     def chart_fn(data, engine):
