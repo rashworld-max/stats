@@ -18,7 +18,7 @@ def msn_count(query):
     server = WSDL.Proxy(wsdlFile)
 
     results = server.Search(Request=params)
-    return results.Responses.SourceResponse.Total
+    return int(results.Responses.SourceResponse.Total)
 
 def str2int(s):
     s = s.replace(',', '')
