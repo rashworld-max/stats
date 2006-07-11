@@ -74,7 +74,8 @@ def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'a
 class GoogleExperiments(unittest.TestCase):
     """ These experiments make the following lessons:
     * Google's CC searches break language or country subsearching
-    * TESTME: Google's -zomg queries are broken?"""
+    * TESTME: Google's -zomg queries are broken?
+    * NOTEST (but true on Jul 11 2006): Google's SOAP Java junk blows up for count > 2^32 """
     # Here is where I document some facts of the Google API.
     # Trivia: Should these fail or succeed for the cases where Google is broken? ;-)
 
@@ -83,10 +84,10 @@ class GoogleExperiments(unittest.TestCase):
         # link:http://whatever ignores language and country
         self.link_searches = google_experiment('link:http://www.google.com/', countries=['United States', 'Poland'], languages=[None, 'English', 'French'])
         self.regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
-        self.work = google_experiment("work", cc_spec=["cc_attribution"], countries=[None], languages=[None])[0] # Work everywhere
-        self.us_work = google_experiment("work", cc_spec=["cc_attribution"], countries=['United States'], languages=[None])[0] # in the US
-        self.english_work = google_experiment("work", cc_spec=["cc_attribution"], countries=[None], languages=['English'])[0] # in English
-        self.us_english_work = google_experiment("work", cc_spec=["cc_attribution"], countries=['United States'], languages=['English'])[0] # in English
+        self.work = google_experiment("work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
+        self.us_work = google_experiment("work", cc_spec=["cc_attribute"], countries=['United States'], languages=[None])[0] # in the US
+        self.english_work = google_experiment("work", cc_spec=["cc_attribute"], countries=[None], languages=['English'])[0] # in English
+        self.us_english_work = google_experiment("work", cc_spec=["cc_attribute"], countries=['United States'], languages=['English'])[0] # in English
     
     def test_link_search_is_broken(self):
         self.assertNotEqual(self.link_searches[0]['count'], 0) # Uninteresting if the first count is 0
@@ -112,7 +113,8 @@ class GoogleExperiments(unittest.TestCase):
 
 class YahooExperiments(unittest.TestCase):
     ''' These experiments make the following lessons:
-    * Use InlinkData, not link: '''
+    * Use InlinkData, not link:
+    * Yahoo ignores language but respects country  '''
     def test_inlinkdata_is_bigger_than_link_colon(self):
         # First experiment: InlinkData vs. link: InlinkData gives more results
         colon = yahoo_experiment('link:http://www.google.com/', countries = [None], languages = [None])[0]
