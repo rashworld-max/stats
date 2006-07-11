@@ -21,6 +21,7 @@ def legitimate_yahoo_count(query, type = 'Web', cc_spec=[], country=None, langua
             country = countries[country]
         s.country = country
     if language:
+        language = language.lower()
         if language in languages:
             language = languages[language]
         s.language = language

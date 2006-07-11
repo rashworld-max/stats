@@ -72,10 +72,14 @@ def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'a
     return ret
 
 class GoogleExperiments(unittest.TestCase):
+    """ These experiments make the following lessons:
+    * Google's CC searches break language or country subsearching
+    * TESTME: Google's -zomg queries are broken?"""
     # Here is where I document some facts of the Google API.
     # Trivia: Should these fail or succeed for the cases where Google is broken? ;-)
 
     def setUp(self):
+        # FIXME: Does this run once per test?  If so, oops.
         # link:http://whatever ignores language and country
         self.link_searches = google_experiment('link:http://www.google.com/', countries=['United States', 'Poland'], languages=[None, 'English', 'French'])
         self.regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
@@ -107,19 +111,38 @@ class GoogleExperiments(unittest.TestCase):
         self.assertEqual(self.us_english_work['count'], self.us_work['count'])
 
 class YahooExperiments(unittest.TestCase):
+    ''' These experiments make the following lessons:
+    * Use InlinkData, not link: '''
     def test_inlinkdata_is_bigger_than_link_colon(self):
-        pass
+        # First experiment: InlinkData vs. link: InlinkData gives more results
+        colon = yahoo_experiment('link:http://www.google.com/', countries = [None], languages = [None])[0]
+        inlink = yahoo_experiment('http://www.google.com/', apimethod = 'InlinkData', countries = [None], languages = [None])[0]
+        assert(colon['count'] < inlink['count']) # /me rolls his eyes
+        # Furthermore, the colon one is always is a multiple of 10 whereas the InlinkData isn't always (1/10 chance the inlinkdata assert will fail...)
+        assert(colon['count'] % 10 == 0)
+        assert(not(inlink['count'] % 10 == 0))
 
-    # First experiment: InlinkData vs. link: InlinkData gives more results
-    colon = yahoo_experiment('link:http://www.google.com/', countries = [None], languages = [None])[0]
-    inlink = yahoo_experiment('http://www.google.com/', apimethod = 'InlinkData', countries = [None], languages = [None])[0]
-    assert(colon['count'] < inlink['count']) # /me rolls his eyes
-    # Furthermore, the colon one is always is a multiple of 10 whereas the InlinkData isn't always (1/10 chance the inlinkdata assert will fail...)
-    assert(colon['count'] % 10 == 0)
-    assert(not(inlink['count'] % 10 == 0))
-
-def yahoo_experiments():
-    pass
+    def setUp(self):
+        
+        self.work = yahoo_experiment("+a", cc_spec=["cc_any"], countries=[None], languages=[None])[0] # Work everywhere
+        self.fr_work = yahoo_experiment("+a", cc_spec=["cc_any"], countries=['France'], languages=[None])[0] # in France!
+        self.english_work = yahoo_experiment("+a", cc_spec=["cc_any"], countries=[None], languages=['English'])[0] # in English
+        self.fr_english_work = yahoo_experiment("+a", cc_spec=["cc_any"], countries=['France'], languages=['English'])[0] # in English
+        assert(self.work['count'])
+        assert(self.fr_work['count'])
+        assert(self.english_work['count'])
+        assert(self.fr_english_work['count'])
+        
+    def test_cc_searches_vary_across_countries(self):
+        assert(self.work['count'] > self.fr_work['count'])
+    def test_broken_cc_searches_vary_across_languages(self):
+        # Should be <, but is ==
+        self.assertEqual(self.work['count'], self.english_work['count'])
+    def test_broken_cc_language_and_country_smaller_than_language(self):
+        assert(self.fr_english_work['count'] < self.english_work['count'])
+    def test_broken_cc_language_and_country_smaller_than_country(self):
+        # should be <, but is ==
+        self.assertEqual(self.fr_english_work['count'], self.fr_work['count'])
 
 if __name__ == '__main__':
     unittest.main()
