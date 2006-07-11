@@ -73,7 +73,7 @@ def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'a
 
 class GoogleExperiments(unittest.TestCase):
     """ These experiments make the following lessons:
-    * Google's CC searches break language or country subsearching
+    * Google's CC searches break language or country subsearching if you use 'cc_attribution', but work fine for real values accepted by their restrict parameter (like cc_attribute)
     * TESTME: Google's -zomg queries are broken?
     * NOTEST (but true on Jul 11 2006): Google's SOAP Java junk blows up for count > 2^32 """
     # Here is where I document some facts of the Google API.
@@ -94,22 +94,18 @@ class GoogleExperiments(unittest.TestCase):
         assert(allthesame([k['count'] for k in self.link_searches]))
 
     def test_regular_searches_vary_across_languages_and_countries(self):
-        # But regular searches do vary across languages and countries
+        # Regular searches do vary across languages and countries
         self.assertNotEqual(self.regular_search[0], 0) # Uninteresting if the first count is 0
         assert(somedifferent([k['count'] for k in self.regular_search]))
 
     def test_broken_cc_searches_vary_across_countries(self):
-        # should be >, but is ==
-        self.assertEqual(self.work['count'], self.us_work['count'])
+        assert(self.work['count'] > self.us_work['count'])
     def test_broken_cc_searches_vary_across_languages(self):
-        # should be <, but is ==
-        self.assertEqual(self.work['count'], self.english_work['count'])
+        assert(self.work['count'] > self.english_work['count'])
     def test_broken_cc_language_and_country_smaller_than_language(self):
-        # should be <, but is ==
-        self.assertEqual(self.us_english_work['count'], self.english_work['count'])
+        assert(self.us_english_work['count'] < self.english_work['count'])
     def test_broken_cc_language_and_country_smaller_than_country(self):
-        # should be <, but is ==
-        self.assertEqual(self.us_english_work['count'], self.us_work['count'])
+        assert(self.us_english_work['count'] <  self.us_work['count'])
 
 class YahooExperiments(unittest.TestCase):
     ''' These experiments make the following lessons:
