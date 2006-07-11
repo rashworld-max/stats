@@ -8,6 +8,7 @@ def debug(s):
         print s
 
 import simpleyahoo
+import simplegoogle
 import lc_util
 
 from sqlalchemy.ext.sqlsoup import SqlSoup
@@ -43,12 +44,13 @@ class LinkCounter:
     def record(self, cc_license_uri, search_engine, count, country = None, language = None):
         self.db.simple.insert(license_uri=cc_license_uri, search_engine=search_engine,count=count,timestamp = self.timestamp, country = country, language = language)
         self.db.flush()
+        debug("%s gave us %d hits via %s" % (cc_license_uri, count, search_engine))
 
     def count_google(self):
         ## Once from webtrawl
         for uri in self.uris:
             try:
-                simplegoogle.count('link:%s' % uri)
+                count = simplegoogle.count('link:%s' % uri)
                 # We record the specific uri, count pair in the DB
                 self.record(cc_license_uri=uri, search_engine='Google', count=count)
             except Exception, e:
@@ -143,10 +145,13 @@ class LinkCounter:
         debug("%s gave us %d hits via %s" % (license_specifier, count, search_engine))
         
 def main():
-    lc = LinkCounter(dburl='mysql://paulproteus:zomg@einstein.cs.jhu.edu/paulproteus', xmlpath='old/api/licenses.xml')
+    lc = LinkCounter(dburl='mysql://root:@localhost/cc', xmlpath='old/api/licenses.xml')
     lc.count_google()
     lc.count_yahoo()
     lc.count_msn()
     lc.specific_google_counter()
     lc.specific_yahoo_counter() # This makes too many queries?
     lc.count_alltheweb() # Done last because of long sleep times
+
+if __name__ == '__main__':
+    main()
