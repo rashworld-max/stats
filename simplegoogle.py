@@ -15,6 +15,7 @@ def search(query, cc_spec=[], country=None, language=None):
     country is a key in the countries list.
     language is a key in the languages list.
     They all get ANDed together at the last minute.'''
+    for cc_thing in cc_spec: assert(cc_thing in licenses)
     restrict = cc_spec[:]
     if country:
         restrict.append(countries[country])
