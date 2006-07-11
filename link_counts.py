@@ -2,8 +2,6 @@ from lxml import etree
 import time
 import datetime
 
-# FIXME: Call to simplegoogle() not google-dot
-
 DEBUG = 1
 def debug(s):
     if DEBUG:
@@ -18,11 +16,6 @@ from sqlalchemy.ext.sqlsoup import SqlSoup
 
 ## FIXME: Maybe I could loop over the URIs somewhere else so that I pass a URI
 ## in to the search-engine-specific things
-
-## The count_* functions could totally be turned into a "templated" function
-
-## FIXME: The bigger Yahoo and Google query stuff seems fairly separate from
-## the count_* functions.  Maybe jam it into a different class?
 
 class LinkCounter:
     dumb_queries = ['license', '-license', 'work', '-work', 'html', '-html']
@@ -55,9 +48,7 @@ class LinkCounter:
         ## Once from webtrawl
         for uri in self.uris:
             try:
-                result = google.doGoogleSearch("link:%s" % uri)
-                count = result.meta.estimatedTotalResultsCount
-
+                simplegoogle.count('link:%s' % uri)
                 # We record the specific uri, count pair in the DB
                 self.record(cc_license_uri=uri, search_engine='Google', count=count)
             except Exception, e:
@@ -111,12 +102,11 @@ class LinkCounter:
         around that by adding up queries like -license and +license."""
         
         ## The is Google's idea of how to encode CC stuff.
-        licenses = ["cc_publicdomain", "cc_attribute", "cc_sharealike", "cc_noncommercial", "cc_nonderived", "cc_publicdomain|cc_attribute|cc_sharealike|cc_noncommercial|cc_nonderived"]
+        licenses = [["cc_publicdomain"], ["cc_attribute"], ["cc_sharealike"], ["cc_noncommercial"], ["cc_nonderived"], ["cc_publicdomain","cc_attribute","cc_sharealike","cc_noncommercial","cc_nonderived"]]
         for license in licenses:
             for dumb_query in self.dumb_queries:
                 try:
-                    result = google.doGoogleSearch(dumb_query, restrict=license)
-                    count = result.meta.estimatedTotalResultsCount
+                    count = simplegoogle.count(dumb_query, cc_spec=[license])
                     self.record_complex(license_specifier=license,
                                         search_engine='Google',
                                         count=count,
@@ -126,11 +116,12 @@ class LinkCounter:
                     print e
     
     def specific_yahoo_counter(self):
-        """ Similar deal here as for Google's specific_counter.
-        FIXME: Abstract Yahoo queries. """
+        """ Similar deal here as for Google's specific_counter."""
         for license in simpleyahoo.licenses:
             for dumb_query in self.dumb_queries:
                 # Now, let's add languages
+                # FIXME: Use simpleyahoo experiment function
+                # CONSIDERME: Use yield and iterators for experiment function
                 for language in [None] + simpleyahoo.languages.keys():
                     for country in [None] + simpleyahoo.countries.keys():
                         try:
