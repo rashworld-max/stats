@@ -56,6 +56,21 @@ def google_experiment(query, countries = 'all', languages = 'all', cc_license = 
             ret.append(reslut)
     return ret
 
+def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'all', cc_license = []):
+    ''' This runs some query on the Yahoo API. '''
+    if countries == 'all':
+        countries = [None] + simpleyahoo.countries.keys()
+    if languages == 'all':
+        languages = [None] + simpleyahoo.languages.keys()
+    ret = []
+    for country in countries:
+        for language in languages:
+            reslut = {'query': query, 'apimethod': apimethod, 'cc_license': cc_license,
+                      'country': country, 'language': language,
+                      'count': simpleyahoo.legitimate_yahoo_count(query, apimethod, cc_license, country, language)}
+            ret.append(reslut)
+    return ret
+
 def google_experiments():
     # Here is where I document some facts of the Google API.
     
@@ -71,21 +86,6 @@ def google_experiments():
     regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
     assert(regular_search[0] != 0) # Uninteresting if the first count is 0
     assert(somedifferent([k['count'] for k in regular_search]))
-
-def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'all', cc_license = []):
-    ''' This runs some query on the Yahoo API. '''
-    if countries == 'all':
-        countries = [None] + simpleyahoo.countries.keys()
-    if languages == 'all':
-        languages = [None] + simpleyahoo.languages.keys()
-    ret = []
-    for country in countries:
-        for language in languages:
-            reslut = {'query': query, 'apimethod': apimethod, 'cc_license': cc_license,
-                      'country': country, 'language': language,
-                      'count': simpleyahoo.legitimate_yahoo_count(query, apimethod, cc_license, country, language)}
-            ret.append(reslut)
-    return ret
 
 def yahoo_experiments():
     # First experiment: InlinkData vs. link: InlinkData gives more results
