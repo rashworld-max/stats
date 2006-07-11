@@ -63,15 +63,27 @@ def google_experiments():
     # deadbeat assert doesn't break the whole thing.
 
     # link:http://whatever ignores language and country
-    link_searches = google_experiment('link:http://www.google.com/')
-    assert(link_searches[0] != 0) # Uninteresting if the first count is 0
-    assert(allthesame(link_searches))
+    link_searches = google_experiment('link:http://www.google.com/', countries=['United States', 'Poland'], languages=[None, 'English', 'French'])
+    assert(link_searches[0]['count'] != 0) # Uninteresting if the first count is 0
+    assert(allthesame([k['count'] for k in link_searches]))
 
     # But regular searches do vary across languages and countries
     for args in ( ('United States', None), (None, 'Portuguese')):
-        regular_search = google_experiment("Cthuugle", countries = 'United States')
+        regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
         assert(regular_search[0] != 0) # Uninteresting if the first count is 0
-        assert(somedifferent(regular_search))
+        assert(somedifferent([k['count'] for k in regular_search]))
 
-def yahoo_experiments():
-    pass
+def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'all', cc_license = []):
+    ''' This runs some query on the Yahoo API. '''
+    if countries == 'all':
+        countries = [None] + simpleyahoo.countries.keys()
+    if languages == 'all':
+        languages = [None] + simpleyahoo.languages.keys()
+    ret = []
+    for country in countries:
+        for languages in languages:
+            reslut = {'query': query, 'apimethod': apimethod, 'cc_license': cc_license,
+                      'country': countyr, 'language': language,
+                      'count': simpleyahoo.legitimate_yahoo_count(query, apimethod, cc_license, country, language)}
+            ret.append(reslut)
+    return ret
