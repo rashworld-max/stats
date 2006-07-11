@@ -32,7 +32,7 @@ def google_test():
                 pass #Should use google_experiment
     return google_reslut # In case you think...
 
-def google_experiment(query, countries = 'all', languages = 'all', cc_license = []):
+def google_experiment(query, countries = 'all', languages = 'all', cc_spec = []):
     ''' This runs some query on Google with various country and language values. '''
     # This is the wrong place for this function.  Perhaps
     # simplegoogle.py would be better.  I'm going to want to refactor
@@ -50,13 +50,13 @@ def google_experiment(query, countries = 'all', languages = 'all', cc_license = 
     for country in countries:
         for language in languages:
             reslut = {'query': query, 'license': license,
-                          'count': simplegoogle.count(query, cc_spec=cc_license,
+                          'count': simplegoogle.count(query, cc_spec=cc_spec,
                                                       country=country, language=language),
                           'country':country}
             ret.append(reslut)
     return ret
 
-def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'all', cc_license = []):
+def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'all', cc_spec = []):
     ''' This runs some query on the Yahoo API. '''
     if countries == 'all':
         countries = [None] + simpleyahoo.countries.keys()
@@ -65,9 +65,9 @@ def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'a
     ret = []
     for country in countries:
         for language in languages:
-            reslut = {'query': query, 'apimethod': apimethod, 'cc_license': cc_license,
+            reslut = {'query': query, 'apimethod': apimethod, 'cc_spec': cc_spec,
                       'country': country, 'language': language,
-                      'count': simpleyahoo.legitimate_yahoo_count(query, apimethod, cc_license, country, language)}
+                      'count': simpleyahoo.legitimate_yahoo_count(query, apimethod, cc_spec, country, language)}
             ret.append(reslut)
     return ret
 
@@ -86,6 +86,17 @@ def google_experiments():
     regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
     assert(regular_search[0] != 0) # Uninteresting if the first count is 0
     assert(somedifferent([k['count'] for k in regular_search]))
+
+    # How many CC hits are there for:
+    banana = google_experiment("banana", cc_spec=["cc_attribution"], countries=[None], languages=[None])[0] # Banana everywhere
+    us_banana = google_experiment("banana", cc_spec=["cc_attribution"], countries=['United States'], languages=[None])[0] # in the US
+    english_banana = google_experiment("banana", cc_spec=["cc_attribution"], countries=[None], languages=['English'])[0] # in English
+    us_english_banana = google_experiment("banana", cc_spec=["cc_attribution"], countries=['United States'], languages=['English'])[0] # in English
+    # My belief: banana > us_banana, banana > english_banana, us_english_banana < english_banana, us_english_banana < us_banana
+    assert(banana['count'] > us_banana['count'])
+    assert(banana['count'] > english_banana['count'])
+    assert(us_english_banana['count'] < english_banana['count'])
+    assert(us_english_banana['count'] < us_banana['count'])
 
 def yahoo_experiments():
     # First experiment: InlinkData vs. link: InlinkData gives more results
