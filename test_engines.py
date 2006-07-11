@@ -29,7 +29,7 @@ def google_test():
     for lang in [None] + simplegoogle.languages.keys():
         for country in [None] + simplegoogle.countries.keys():
             for license in [None] + licenses:
-                #Should use google_experiment
+                pass #Should use google_experiment
     return google_reslut # In case you think...
 
 def google_experiment(query, countries = 'all', languages = 'all', cc_license = []):
