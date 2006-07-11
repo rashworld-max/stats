@@ -2,13 +2,12 @@ from lxml import etree
 import time
 import datetime
 
+# FIXME: Call to simplegoogle() not google-dot
+
 DEBUG = 1
 def debug(s):
     if DEBUG:
         print s
-
-import google
-google.setLicense('8cJjiPdQFHK2T3LGWq+Ro04dyJr0fyZs')
 
 import simpleyahoo
 import lc_util

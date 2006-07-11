@@ -86,3 +86,14 @@ def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'a
                       'count': simpleyahoo.legitimate_yahoo_count(query, apimethod, cc_license, country, language)}
             ret.append(reslut)
     return ret
+
+def yahoo_experiments():
+    # First experiment: InlinkData vs. link: InlinkData gives more results
+    colon = yahoo_experiment('link:http://www.google.com/', countries = [None], languages = [None])[0]
+    inlink = yahoo_experiment('http://www.google.com/', apimethod = 'InlinkData', countries = [None], languages = [None])[0]
+    assert(colon['count'] < inlink['count']) # /me rolls his eyes
+    # Furthermore, the colon one is always is a multiple of 10 whereas the InlinkData isn't always (1/10 chance the inlinkdata assert will fail...)
+    assert(colon['count'] % 10 == 0)
+    assert(not(inlink['count'] % 10 == 0))
+    
+    
