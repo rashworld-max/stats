@@ -29,7 +29,7 @@ def google_test():
     for lang in [None] + simplegoogle.languages.keys():
         for country in [None] + simplegoogle.countries.keys():
             for license in [None] + licenses:
-                pass # Should use google_experiment
+                #Should use google_experiment
     return google_reslut # In case you think...
 
 def google_experiment(query, countries = 'all', languages = 'all', cc_license = []):
@@ -68,10 +68,9 @@ def google_experiments():
     assert(allthesame([k['count'] for k in link_searches]))
 
     # But regular searches do vary across languages and countries
-    for args in ( ('United States', None), (None, 'Portuguese')):
-        regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
-        assert(regular_search[0] != 0) # Uninteresting if the first count is 0
-        assert(somedifferent([k['count'] for k in regular_search]))
+    regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
+    assert(regular_search[0] != 0) # Uninteresting if the first count is 0
+    assert(somedifferent([k['count'] for k in regular_search]))
 
 def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'all', cc_license = []):
     ''' This runs some query on the Yahoo API. '''
@@ -81,9 +80,9 @@ def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'a
         languages = [None] + simpleyahoo.languages.keys()
     ret = []
     for country in countries:
-        for languages in languages:
+        for language in languages:
             reslut = {'query': query, 'apimethod': apimethod, 'cc_license': cc_license,
-                      'country': countyr, 'language': language,
+                      'country': country, 'language': language,
                       'count': simpleyahoo.legitimate_yahoo_count(query, apimethod, cc_license, country, language)}
             ret.append(reslut)
     return ret
