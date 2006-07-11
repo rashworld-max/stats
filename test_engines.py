@@ -50,8 +50,8 @@ def google_experiment(query, countries = 'all', languages = 'all', cc_license = 
     for country in countries:
         for language in languages:
             reslut = {'query': query, 'license': license,
-                          'count': simplegoogle.count(query, cc_spec=license,
-                                                      country=country, language=lang),
+                          'count': simplegoogle.count(query, cc_spec=cc_license,
+                                                      country=country, language=language),
                           'country':country}
             ret.append(reslut)
     return ret
