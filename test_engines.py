@@ -1,7 +1,7 @@
 ## What API parameters do the engines ignore?
-import link_counts # This sets up the Google API for us
 import simpleyahoo
 import simplegoogle
+import unittest
 from snippets import *
 
 sample_queries = 'license', '-license', 'watermelon', 'cantaloupe'
@@ -71,34 +71,45 @@ def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'a
             ret.append(reslut)
     return ret
 
-def google_experiments():
+class GoogleExperiments(unittest.TestCase):
     # Here is where I document some facts of the Google API.
+    # Trivia: Should these fail or succeed for the cases where Google is broken? ;-)
+
+    def setUp(self):
+        # link:http://whatever ignores language and country
+        self.link_searches = google_experiment('link:http://www.google.com/', countries=['United States', 'Poland'], languages=[None, 'English', 'French'])
+        self.regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
+        self.work = google_experiment("work", cc_spec=["cc_attribution"], countries=[None], languages=[None])[0] # Work everywhere
+        self.us_work = google_experiment("work", cc_spec=["cc_attribution"], countries=['United States'], languages=[None])[0] # in the US
+        self.english_work = google_experiment("work", cc_spec=["cc_attribution"], countries=[None], languages=['English'])[0] # in English
+        self.us_english_work = google_experiment("work", cc_spec=["cc_attribution"], countries=['United States'], languages=['English'])[0] # in English
     
-    # FIXME: I should do this with a unit testing framework so one
-    # deadbeat assert doesn't break the whole thing.
+    def test_link_search_is_broken(self):
+        self.assertNotEqual(self.link_searches[0]['count'], 0) # Uninteresting if the first count is 0
+        assert(allthesame([k['count'] for k in self.link_searches]))
 
-    # link:http://whatever ignores language and country
-    link_searches = google_experiment('link:http://www.google.com/', countries=['United States', 'Poland'], languages=[None, 'English', 'French'])
-    assert(link_searches[0]['count'] != 0) # Uninteresting if the first count is 0
-    assert(allthesame([k['count'] for k in link_searches]))
+    def test_regular_searches_vary_across_languages_and_countries(self):
+        # But regular searches do vary across languages and countries
+        self.assertNotEqual(self.regular_search[0], 0) # Uninteresting if the first count is 0
+        assert(somedifferent([k['count'] for k in self.regular_search]))
 
-    # But regular searches do vary across languages and countries
-    regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
-    assert(regular_search[0] != 0) # Uninteresting if the first count is 0
-    assert(somedifferent([k['count'] for k in regular_search]))
+    def test_broken_cc_searches_vary_across_countries(self):
+        # should be >, but is ==
+        self.assertEqual(self.work['count'], self.us_work['count'])
+    def test_broken_cc_searches_vary_across_languages(self):
+        # should be <, but is ==
+        self.assertEqual(self.work['count'], self.english_work['count'])
+    def test_broken_cc_language_and_country_smaller_than_language(self):
+        # should be <, but is ==
+        self.assertEqual(self.us_english_work['count'], self.english_work['count'])
+    def test_broken_cc_language_and_country_smaller_than_country(self):
+        # should be <, but is ==
+        self.assertEqual(self.us_english_work['count'], self.us_work['count'])
 
-    # How many CC hits are there for:
-    banana = google_experiment("banana", cc_spec=["cc_attribution"], countries=[None], languages=[None])[0] # Banana everywhere
-    us_banana = google_experiment("banana", cc_spec=["cc_attribution"], countries=['United States'], languages=[None])[0] # in the US
-    english_banana = google_experiment("banana", cc_spec=["cc_attribution"], countries=[None], languages=['English'])[0] # in English
-    us_english_banana = google_experiment("banana", cc_spec=["cc_attribution"], countries=['United States'], languages=['English'])[0] # in English
-    # My belief: banana > us_banana, banana > english_banana, us_english_banana < english_banana, us_english_banana < us_banana
-    assert(banana['count'] > us_banana['count'])
-    assert(banana['count'] > english_banana['count'])
-    assert(us_english_banana['count'] < english_banana['count'])
-    assert(us_english_banana['count'] < us_banana['count'])
+class YahooExperiments(unittest.TestCase):
+    def test_inlinkdata_is_bigger_than_link_colon(self):
+        pass
 
-def yahoo_experiments():
     # First experiment: InlinkData vs. link: InlinkData gives more results
     colon = yahoo_experiment('link:http://www.google.com/', countries = [None], languages = [None])[0]
     inlink = yahoo_experiment('http://www.google.com/', apimethod = 'InlinkData', countries = [None], languages = [None])[0]
@@ -106,5 +117,9 @@ def yahoo_experiments():
     # Furthermore, the colon one is always is a multiple of 10 whereas the InlinkData isn't always (1/10 chance the inlinkdata assert will fail...)
     assert(colon['count'] % 10 == 0)
     assert(not(inlink['count'] % 10 == 0))
-    
-    
+
+def yahoo_experiments():
+    pass
+
+if __name__ == '__main__':
+    unittest.main()
