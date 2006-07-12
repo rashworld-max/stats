@@ -166,25 +166,6 @@ def property_bar_chart():
             data = property_counts(things)
             bar_chart(data, '%s Linkbacks, Property Percentages' % engine) # Does not exist! :-)
 
-def property_pie_chart():
-    """ This chart is worse than useless.  It's flat-out wrong. """
-    for engine in search_engines:
-        just_us = [k for k in everything if k.search_engine == engine]
-        if not just_us:
-            print 'Hmm, nothing for', engine
-        else:
-            recent_stamp = max([k.timestamp for k in just_us])
-            recent = [k for k in just_us if k.timestamp == recent_stamp ]
-
-            data = {}
-            for event in recent:
-                properties = urlParse(event.license_uri)['attribs']
-                if 'by' in properties or 'nc' in properties or 'nd' in properties or 'sa' in properties:
-                    for prop in properties:
-                        data[prop] = data.get(prop, 0) + event.count
-            # Kay, now graph it.
-            pie_chart(data, title="Pie chart of properties from " + engine, fname="/home/paulproteus/public_html/tmp/%s.png" % engine)
-
 def for_search_engine(chart_fn, data_fn, table):
     for engine in search_engines:
         just_us = [k for k in everything if k.search_engine == engine]
