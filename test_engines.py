@@ -85,6 +85,10 @@ class GoogleExperiments(unittest.TestCase):
         self.link_searches = google_experiment('link:http://www.google.com/', countries=['United States', 'Poland'], languages=[None, 'English', 'French'])
         self.regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
         self.work = google_experiment("work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
+        self.not_work = google_experiment("-work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
+        self.week = google_experiment("work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
+        self.week_not_work = google_experiment("week -work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
+        self.week_and_work = google_experiment("week work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
         self.us_work = google_experiment("work", cc_spec=["cc_attribute"], countries=['United States'], languages=[None])[0] # in the US
         self.english_work = google_experiment("work", cc_spec=["cc_attribute"], countries=[None], languages=['English'])[0] # in English
         self.us_english_work = google_experiment("work", cc_spec=["cc_attribute"], countries=['United States'], languages=['English'])[0] # in English

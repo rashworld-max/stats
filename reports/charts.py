@@ -11,6 +11,11 @@ import datetime
 # But it works for now, I suppose.
 # Something smarter would be to store this in the database.
 
+# FIXME: Use real SQL queries below.
+
+# FIXME: This code assumes you're always looking at the "simple"
+# table.  That's dumb.
+
 # Note that it should only do this for a particular 
 # run, not every single run.  Might as well get the 
 # maximum value in that timestamp column to do the 
@@ -21,7 +26,7 @@ from sqlalchemy.ext.sqlsoup import SqlSoup
 from sqlalchemy import * # Dangerously
 import pylab, matplotlib
  
-db = SqlSoup('mysql://paulproteus:zomg@einstein.cs.jhu.edu/paulproteus')
+db = SqlSoup('mysql://root:@localhost/cc')
 
 everything = db.simple.select(db.simple.c.timestamp != None)
 search_engines = ['Google', 'All The Web', 'Yahoo']
@@ -180,14 +185,14 @@ def property_pie_chart():
             # Kay, now graph it.
             pie_chart(data, title="Pie chart of properties from " + engine, fname="/home/paulproteus/public_html/tmp/%s.png" % engine)
 
-def for_search_engine(chart_fn, data_fn):
+def for_search_engine(chart_fn, data_fn, table):
     for engine in search_engines:
         just_us = [k for k in everything if k.search_engine == engine]
         if not just_us:
             print 'Hmm, nothing for', engine
         else:
-            recent_stamp = max([k.timestamp for k in just_us])
-            recent = [k for k in just_us if k.timestamp == recent_stamp ]
+            recent_stamp = select([func.max(table.c.timestamp)]).execute().fetchone()[0]
+            recent = table.select(db.simple.c.timestamp == recent_stamp) # I should be able to avoid execute() above, I hear.
             data = data_fn(recent)
             chart_fn(data, engine)
 
@@ -210,7 +215,7 @@ def jurisdiction_data():
     def chart_fn(data, engine):
         return pie_chart(data, "%s Jurisdiction data" % engine, "/home/paulproteus/public_html/tmp/%s.png" % engine)
 
-    for_search_engine(chart_fn, data_fn)
+    for_search_engine(chart_fn, data_fn, db.simple)
 
 if __name__ == '__main__':
     jurisdiction_data()
