@@ -74,18 +74,17 @@ def get_all_urlParse_results(key):
     return ret
 
 def pie_chart(data, title, fname):
-    pylab.clf()
-    pylab.cla()
     # http://home.gna.org/pychart/examples/pietest.py if this gets too bad
     # http://matplotlib.sourceforge.net/screenshots/barchart_demo.py shows how to smarten the legend
     # make a square figure and axes
-    pylab.figure(1, figsize=(8,8))
-    
+    pylab.figure(figsize=(8,8))
+
+    print 'data was',data
     labels = data.keys()
     fracs = [data[k] for k in labels]
     
     explode=[0.05 for k in labels]
-    pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
+    pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=False, colors=('b', 'g', 'r', 'c', 'm', 'y', 'w'))
     #pylab.legend(prop=matplotlib.font_manager.FontProperties('x-small')) ## I would like this,
     ## but legends cause duplicate labels.  Maybe fixed in upstream svn?
     
@@ -96,6 +95,7 @@ def pie_chart(data, title, fname):
 
     pylab.title(title, bbox={'facecolor':0.8, 'pad':5})
     pylab.savefig(fname)
+    pylab.close() # This is key!
 
 def bar_chart(data, title):
     pass
@@ -192,7 +192,7 @@ def for_search_engine(chart_fn, data_fn, table):
             print 'Hmm, nothing for', engine
         else:
             recent_stamp = select([func.max(table.c.timestamp)]).execute().fetchone()[0]
-            recent = table.select(db.simple.c.timestamp == recent_stamp) # I should be able to avoid execute() above, I hear.
+            recent = table.select(and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)) # I should be able to avoid execute() above, I hear.
             data = data_fn(recent)
             chart_fn(data, engine)
 
@@ -205,10 +205,10 @@ def jurisdiction_data():
             if jurisdiction:
                 data[jurisdiction] = data.get(jurisdiction, 0) + event.count
                 print 'added', event.count, 'to', jurisdiction
-        # Now flatten out everything <1%
+        # Now flatten out everything < 0.5%
         total = sum([data[k] for k in data])
         for k in data.keys():
-            if data[k] <  (0.01 * total):
+            if data[k] <  (0.005 * total):
                 data['Other'] = data.get('Other', 0) + data[k]
                 del data[k]
         return data
