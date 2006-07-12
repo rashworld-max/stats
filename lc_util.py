@@ -33,6 +33,5 @@ def atw_count(query):
         if ' '.join(p.renderContents().split()) == "No Web pages found that match your query.":
             return 0
         # I guess it's worth looking inside then
-    print result
     count = re.search(r'<span class="ofSoMany">(.+?)</span>', result).group(1)
     return str2int(count)
