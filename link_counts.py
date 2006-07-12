@@ -75,7 +75,7 @@ class LinkCounter:
         # user-agent.  Oops.
         for uri in self.uris:
             try:
-                self.record(cc_license_uri=uri, search_engine="All The Web", count=lc_util.atw_count("link:" + uri))
+                self.record(cc_license_uri=uri, search_engine="All The Web", count=lc_util.atw_count("link:%s" % uri))
             except Exception, e:
                 print "Something sad happened while ATWing", uri
                 print e

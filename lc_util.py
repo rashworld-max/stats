@@ -25,7 +25,7 @@ def str2int(s):
     return int(s)
 
 def atw_count(query):
-    PREFIX="http://www.alltheweb.com/search?cat=web&o=0&_sb_lang=any&q=link:"
+    PREFIX="http://www.alltheweb.com/search?cat=web&o=0&_sb_lang=any&q="
     result = urllib2.urlopen(PREFIX + query).read()
     bs = BeautifulSoup.BeautifulSoup()
     bs.feed(result)
@@ -33,5 +33,6 @@ def atw_count(query):
         if ' '.join(p.renderContents().split()) == "No Web pages found that match your query.":
             return 0
         # I guess it's worth looking inside then
+    print result
     count = re.search(r'<span class="ofSoMany">(.+?)</span>', result).group(1)
     return str2int(count)
