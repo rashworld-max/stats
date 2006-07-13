@@ -42,42 +42,45 @@ from matplotlib.finance import quotes_historical_yahoo
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
 from matplotlib.dates import MONDAY, SATURDAY
 import datetime
+
+def date_chart(data, min, max):
+    years    = YearLocator()   # every year
+    yearsFmt = DateFormatter('%Y')
+    mondays   = WeekdayLocator(MONDAY)    # every monday
+    months    = MonthLocator(range(1,13), bymonthday=1)           # every month
+    monthsFmt = DateFormatter("%b '%y")
+
+    assert(max >= min)
+    delta = max - min
+
+    dates = [date2num(q[1]) for q in data]
+    opens = [int(q[0]) for q in data]
+
+    ax = subplot(111)
+    plot_date(dates, opens, '-')
+
+    # format the ticks
+    if delta.days < 365:
+        # months mode
+        ax.xaxis.set_major_locator(months)
+        ax.xaxis.set_major_formatter(monthsFmt)
+        ax.xaxis.set_minor_locator(mondays)
+        ax.autoscale_view()
+    else:
+        # years mode
+        ax.xaxis.set_major_locator(years)
+        ax.xaxis.set_major_formatter(yearsFmt)
+        ax.xaxis.set_minor_locator(months)
+        ax.autoscale_view()
+
+    ax.format_xdata = DateFormatter('%Y-%m-%d')
+    ax.format_ydata = lambda f: f
+
+    grid(True)
+    show()
+
+
 date1 = min_date()
 date2 = max_date()
-
-assert(date2 >= date1)
-delta = date2 - date1
-
-years    = YearLocator()   # every year
-yearsFmt = DateFormatter('%Y')
-mondays   = WeekdayLocator(MONDAY)    # every monday
-months    = MonthLocator(range(1,13), bymonthday=1)           # every month
-monthsFmt = DateFormatter("%b '%y")
-
-data = get_data()
-
-dates = [date2num(q[1]) for q in data]
-opens = [int(q[0]) for q in data]
-
-ax = subplot(111)
-plot_date(dates, opens, '-')
-
-# format the ticks
-if delta.days < 365:
-    # months mode
-    ax.xaxis.set_major_locator(months)
-    ax.xaxis.set_major_formatter(monthsFmt)
-    ax.xaxis.set_minor_locator(mondays)
-    ax.autoscale_view()
-else:
-    # years mode
-    ax.xaxis.set_major_locator(years)
-    ax.xaxis.set_major_formatter(yearsFmt)
-    ax.xaxis.set_minor_locator(months)
-    ax.autoscale_view()
-
-ax.format_xdata = DateFormatter('%Y-%m-%d')
-ax.format_ydata = lambda f: f
-
-grid(True)
-show()
+dater = get_data()
+date_chart(dater, date1, date2)
