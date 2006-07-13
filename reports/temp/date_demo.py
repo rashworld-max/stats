@@ -16,26 +16,22 @@ yahoo finance to get the data for plotting
 
 # Set up data
 from sqlalchemy.ext.sqlsoup import SqlSoup
-from sqlalchemy import *
+import sqlalchemy
 db = SqlSoup('mysql://root:@localhost/cc')
 
 ENGINE='Yahoo'
 def min_date():
-    return select([func.min(db.simple.c.timestamp)],
+    return sqlalchemy.select([sqlalchemy.func.min(db.simple.c.timestamp)],
            db.simple.c.search_engine==ENGINE).execute().fetchone()[0]
 
 def max_date():
-    return select([func.max(db.simple.c.timestamp)],
+    return sqlalchemy.select([sqlalchemy.func.max(db.simple.c.timestamp)],
            db.simple.c.search_engine==ENGINE).execute().fetchone()[0]
 
 def get_data():
-    s = select([func.sum(db.simple.c.count), db.simple.c.timestamp])
+    s = sqlalchemy.select([sqlalchemy.func.sum(db.simple.c.count), db.simple.c.timestamp])
     s.group_by(db.simple.c.timestamp)
     return s.execute().fetchall() # sum() returns a string, BEWARE!
-
-everything = db.simple.select(
-    and_(db.simple.c.timestamp != None,
-         db.simple.c.search_engine == ENGINE))
 
 from pylab import *
 from matplotlib.finance import quotes_historical_yahoo
