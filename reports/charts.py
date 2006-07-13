@@ -14,16 +14,19 @@ import datetime
 # FIXME: This code assumes you're always looking at the "simple"
 # table.  That's dumb.
 
-# FIXME: Remove fname parameter; calculate it each time.
-
 # Note that it should only do this for a particular 
 # run, not every single run.  Might as well get the 
 # maximum value in that timestamp column to do the 
 # latest.  Be sure to get that max separately per 
 # search engine.
 
+import os
+BASEDIR='/home/paulproteus/public_html/tmp/'
+def fname(s):
+    return os.path.join(BASEDIR, s)
+
 from sqlalchemy.ext.sqlsoup import SqlSoup
-from sqlalchemy import * # Dangerously
+from sqlalchemy import * # Dangerously.  FIXME.
 import pylab, matplotlib
  
 db = SqlSoup('mysql://root:@localhost/cc')
@@ -72,7 +75,7 @@ def get_all_urlParse_results(key):
         ret.add(r)
     return ret
 
-def bar_chart(data, title, fname):
+def bar_chart(data, title):
     labels = data.keys()
     values = [data[k] for k in labels]
     # Bar supports multiple, well, bars
@@ -90,13 +93,13 @@ def bar_chart(data, title, fname):
     pylab.yticks(pylab.arange(0,41,10))
     
     pylab.show()
-    pylab.savefig(fname)
+    pylab.savefig(fname(title))
     pylab.close()
     
     # http://matplotlib.sourceforge.net/screenshots/barchart_demo.py shows how to smarten the legend
     pass
 
-def pie_chart(data, title, fname):
+def pie_chart(data, title):
     # make a square figure and axes
     pylab.figure(figsize=(8,8))
 
@@ -115,7 +118,7 @@ def pie_chart(data, title, fname):
     #pylab.legend()
 
     pylab.title(title, bbox={'facecolor':0.8, 'pad':5})
-    pylab.savefig(fname)
+    pylab.savefig(fname(title))
     pylab.close() # This is key!
 
 def date_chart(data, title):
