@@ -31,7 +31,7 @@ def max_date():
 def get_data():
     s = select([func.sum(db.simple.c.count), db.simple.c.timestamp])
     s.group_by(db.simple.c.timestamp)
-    return s.execute().fetchall()
+    return s.execute().fetchall() # sum() returns a string, BEWARE!
 
 everything = db.simple.select(
     and_(db.simple.c.timestamp != None,
@@ -66,9 +66,11 @@ quotes = quotes_historical_yahoo(
 if not quotes:
     raise SystemExit
 
-dates = [q[0] for q in quotes]
-opens = [q[1] for q in quotes]
+dates = [date2num(q[1]) for q in data]
+opens = [int(q[0]) for q in data]
 
+print dates
+print opens
 ax = subplot(111)
 plot_date(dates, opens, '-')
 
