@@ -33,7 +33,7 @@ def get_data():
     s.group_by(db.simple.c.timestamp)
     return s.execute().fetchall() # sum() returns a string, BEWARE!
 
-from pylab import *
+import pylab
 from matplotlib.finance import quotes_historical_yahoo
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
 from matplotlib.dates import MONDAY, SATURDAY
@@ -42,18 +42,18 @@ import datetime
 def date_chart(data, min, max):
     years    = YearLocator()   # every year
     yearsFmt = DateFormatter('%Y')
-    mondays   = WeekdayLocator(MONDAY)    # every monday
+    mondays   = pylab.WeekdayLocator(MONDAY)    # every monday
     months    = MonthLocator(range(1,13), bymonthday=1)           # every month
     monthsFmt = DateFormatter("%b '%y")
 
     assert(max >= min)
     delta = max - min
 
-    dates = [date2num(q[1]) for q in data]
+    dates = [pylab.date2num(q[1]) for q in data]
     opens = [int(q[0]) for q in data]
 
-    ax = subplot(111)
-    plot_date(dates, opens, '-')
+    ax = pylab.subplot(111)
+    pylab.plot_date(dates, opens, '-')
 
     # format the ticks
     if delta.days < 365:
@@ -72,8 +72,8 @@ def date_chart(data, min, max):
     ax.format_xdata = DateFormatter('%Y-%m-%d')
     ax.format_ydata = lambda f: f
 
-    grid(True)
-    show()
+    pylab.grid(True)
+    pylab.show()
 
 
 date1 = min_date()
