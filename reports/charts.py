@@ -26,7 +26,7 @@ def fname(s):
     return os.path.join(BASEDIR, s)
 
 from sqlalchemy.ext.sqlsoup import SqlSoup
-from sqlalchemy import * # Dangerously.  FIXME.
+import sqlalchemy
 import pylab, matplotlib
  
 db = SqlSoup('mysql://root:@localhost/cc')
@@ -111,6 +111,7 @@ def pie_chart(data, title):
     pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=False, colors=('b', 'g', 'r', 'c', 'm', 'y', 'w'))
 
     ## I would have a legend, but they often overlap with the pie itself.
+    #pylab.figlegend()
     #pylab.legend(prop=matplotlib.font_manager.FontProperties('x-small'))
     #leg = pylab.gca().get_legend()
     #ltext  = leg.get_texts()
@@ -137,7 +138,7 @@ def date_chart(data, title):
     values = [data[k] for k in keys]
     print values
 
-    ax = pylab.subplot(111)
+    #ax = pylab.subplot(111)
     pylab.plot_date(dates, values, '-')
 
     # format the ticks
@@ -153,6 +154,7 @@ def date_chart(data, title):
     pylab.show()
 
 def simple_aggregate_date_chart():
+    ## FIXME: Convert to new abstract chart strategy
     for engine in search_engines:
         just_us = [k for k in everything if k.search_engine == engine]
         if not just_us:
@@ -172,19 +174,46 @@ def property_counts(things):
         props = urlParse(thing.license_uri)['attribs']
         for prop in props:
             ret[prop] = ret.get(prop, 0) + thing.count
-        ret['total'] = ret.get('total',0) + thing.count
+        if props:
+            ret['total'] = ret.get('total',0) + thing.count
+            # Only bump total if there were really properties
+    return ret
+
+def license_counts(things):
+    ''' FIXME: Poorly-named.
+    Input: A subset of everything.
+    Output: A hash of e.g. "by-sa" -> count, plus an extra "total" -> total'''
+    ret = {}
+    for thing in things:
+        props = urlParse(thing.license_uri)['attribs']
+        if props:
+            props = list(props)
+            props.sort()
+            propsname = '-'.join(props)
+            ret[propsname] = ret.get(propsname, 0) + thing.count
+            ret['total'] = ret.get('total',0) + thing.count
     return ret
 
 def for_search_engine(chart_fn, data_fn, table):
     for engine in search_engines:
-        just_us = [k for k in everything if k.search_engine == engine]
-        if not just_us:
-            print 'Hmm, nothing for', engine
-        else:
-            recent_stamp = select([func.max(table.c.timestamp)]).execute().fetchone()[0]
-            recent = table.select(and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)) # I should be able to avoid execute() above, I hear.
-            data = data_fn(recent)
-            chart_fn(data, engine)
+        recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)]).execute().fetchone()[0]
+        recent = table.select(sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)) # I should be able to avoid execute() above, I hear.
+        data = data_fn(recent)
+        chart_fn(data, engine)
+        # May die if no hits from this engine
+
+def flatten_small_percents(data, percent_floor):
+    ''' Input: a dict that maps keys to number values.
+    Output: A dict that has most of the same keys, but combines keys whose percent < percent_floor '''
+    # Now flatten out everything < 0.5%
+    ret = {}
+    ret.update(data) # work on a copy!
+    total = sum([ret[k] for k in ret])
+    for k in ret.keys():
+        if ret[k] <  (0.01 * percent_floor * total):
+            ret['Other'] = ret.get('Other', 0) + data[k]
+            del ret[k]
+    return ret
 
 def jurisdiction_data():
     def data_fn(recent):
@@ -195,27 +224,42 @@ def jurisdiction_data():
             if jurisdiction:
                 data[jurisdiction] = data.get(jurisdiction, 0) + event.count
                 print 'added', event.count, 'to', jurisdiction
-        # Now flatten out everything < 0.5%
-        total = sum([data[k] for k in data])
-        for k in data.keys():
-            if data[k] <  (0.005 * total):
-                data['Other'] = data.get('Other', 0) + data[k]
-                del data[k]
+        data = flatten_small_percents(data, percent_floor=0.5)
         return data
     def chart_fn(data, engine):
-        return pie_chart(data, "%s Jurisdiction data" % engine, "/home/paulproteus/public_html/tmp/%s.png" % engine)
+        return pie_chart(data, "%s Jurisdiction data" % engine)
+
+    for_search_engine(chart_fn, data_fn, db.simple)
+
+def percentage_ify(fname, things):
+    counts = fname(things)
+    if not counts:
+        return counts
+    # Now flatten into percents
+    for thing in counts.keys():
+        if thing != 'total':
+            # into percent:
+            counts[thing] = (100.0 * counts[thing] / counts['total'])
+    del counts['total']
+    return counts    
+
+def exact_license_pie_chart():
+    def data_fn(things):
+        percents = percentage_ify(license_counts, things)
+        better = flatten_small_percents(percents, percent_floor=0.2)
+        return better
+    def chart_fn(data, engine):
+        return pie_chart(data, "%s exact license distribution" % engine)
 
     for_search_engine(chart_fn, data_fn, db.simple)
 
 def property_bar_chart():
+    # FIXME: Percents need labeling on bar
     def data_fn(things):
-        too_much = property_counts(things)
-        if 'total' in too_much:
-            del too_much['total']
-        return too_much
+        return percentage_ify(property_counts, things)
     
     def chart_fn(data, engine):
-        return bar_chart(data, "%s property bar chart" % engine, "/home/paulproteus/public_html/tmp/%s-properties.png" % engine)
+        return bar_chart(data, "%s property bar chart" % engine)
     for_search_engine(chart_fn, data_fn, db.simple)
 
 if __name__ == '__main__':
