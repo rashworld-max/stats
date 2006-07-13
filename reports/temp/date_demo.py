@@ -56,16 +56,9 @@ monthsFmt = DateFormatter("%b '%y")
 
 data = get_data()
 
-quotes = quotes_historical_yahoo(
-    'INTC', date1, date2)
-if not quotes:
-    raise SystemExit
-
 dates = [date2num(q[1]) for q in data]
 opens = [int(q[0]) for q in data]
 
-print dates
-print opens
 ax = subplot(111)
 plot_date(dates, opens, '-')
 
