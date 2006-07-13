@@ -19,18 +19,17 @@ from sqlalchemy.ext.sqlsoup import SqlSoup
 import sqlalchemy
 db = SqlSoup('mysql://root:@localhost/cc')
 
-ENGINE='Yahoo'
-def min_date():
-    return sqlalchemy.select([sqlalchemy.func.min(db.simple.c.timestamp)],
-           db.simple.c.search_engine==ENGINE).execute().fetchone()[0]
+def min_date(engine, table):
+    return sqlalchemy.select([sqlalchemy.func.min(table.c.timestamp)],
+           table.c.search_engine==engine).execute().fetchone()[0]
 
-def max_date():
-    return sqlalchemy.select([sqlalchemy.func.max(db.simple.c.timestamp)],
-           db.simple.c.search_engine==ENGINE).execute().fetchone()[0]
+def max_date(engine, table):
+    return sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)],
+           table.c.search_engine==engine).execute().fetchone()[0]
 
-def get_data():
-    s = sqlalchemy.select([sqlalchemy.func.sum(db.simple.c.count), db.simple.c.timestamp])
-    s.group_by(db.simple.c.timestamp)
+def get_data(engine, table):
+    s = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp], table.c.search_engine == engine)
+    s.group_by(table.c.timestamp)
     return s.execute().fetchall() # sum() returns a string, BEWARE!
 
 import pylab
@@ -39,7 +38,11 @@ from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
 from matplotlib.dates import MONDAY, SATURDAY
 import datetime
 
-def date_chart(data, min, max):
+def date_chart(engine, table):
+    min = min_date(engine, table)
+    max = max_date(engine, table)
+    data = get_data(engine, table)
+    
     years    = YearLocator()   # every year
     yearsFmt = DateFormatter('%Y')
     mondays   = pylab.WeekdayLocator(MONDAY)    # every monday
@@ -75,8 +78,4 @@ def date_chart(data, min, max):
     pylab.grid(True)
     pylab.show()
 
-
-date1 = min_date()
-date2 = max_date()
-dater = get_data()
-date_chart(dater, date1, date2)
+date_chart('Yahoo', db.simple)
