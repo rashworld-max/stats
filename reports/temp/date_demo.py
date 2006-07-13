@@ -40,13 +40,19 @@ for thing in everything:
 from pylab import *
 from matplotlib.finance import quotes_historical_yahoo
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
+from matplotlib.dates import MONDAY, SATURDAY
 import datetime
 date1 = min_date()
 date2 = max_date()
 
+assert(date2 >= date1)
+delta = date2 - date1
+
 years    = YearLocator()   # every year
-months   = MonthLocator()  # every month
 yearsFmt = DateFormatter('%Y')
+mondays   = WeekdayLocator(MONDAY)    # every monday
+months    = MonthLocator(range(1,13), bymonthday=1)           # every month
+monthsFmt = DateFormatter("%b '%y")
 
 quotes = quotes_historical_yahoo(
     'INTC', date1, date2)
