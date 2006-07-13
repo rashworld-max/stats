@@ -63,13 +63,21 @@ dates = [q[0] for q in quotes]
 opens = [q[1] for q in quotes]
 
 ax = subplot(111)
-plot_date(dates, opens)
+plot_date(dates, opens, '-')
 
 # format the ticks
-ax.xaxis.set_major_locator(years)
-ax.xaxis.set_major_formatter(yearsFmt)
-ax.xaxis.set_minor_locator(months)
-ax.autoscale_view()
+if delta.days < 365:
+    # months mode
+    ax.xaxis.set_major_locator(months)
+    ax.xaxis.set_major_formatter(monthsFmt)
+    ax.xaxis.set_minor_locator(mondays)
+    ax.autoscale_view()
+else:
+    # years mode
+    ax.xaxis.set_major_locator(years)
+    ax.xaxis.set_major_formatter(yearsFmt)
+    ax.xaxis.set_minor_locator(months)
+    ax.autoscale_view()
 
 # format the coords message box
 def price(x): return '$%1.2f'%x
