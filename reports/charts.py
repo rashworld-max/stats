@@ -75,7 +75,7 @@ def get_all_urlParse_results(key):
         ret.add(r)
     return ret
 
-def bar_chart(data, title):
+def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     labels = data.keys()
     values = [data[k] for k in labels]
     # Bar supports multiple, well, bars
@@ -86,13 +86,16 @@ def bar_chart(data, title):
     width = 0.35       # the width of the bars
     pylab.p1 = pylab.bar(ind, values, width, color='r')
     
-    pylab.ylabel('ylabel!?')
+    pylab.ylabel(ylabel)
     pylab.title(title)
     pylab.xticks(ind+(width/2.0), labels)
     pylab.xlim(-width,len(ind))
-    pylab.yticks(pylab.arange(0,41,10))
+    #pylab.yticks(pylab.arange(0,41,10))
+
+    # Labels!
+    for x,y in zip(xrange(len(values)), values):
+        pylab.text(x+width/2., y, labelfmt % y, va='bottom', ha='center')
     
-    pylab.show()
     pylab.savefig(fname(title))
     pylab.close()
     
@@ -259,7 +262,7 @@ def property_bar_chart():
         return percentage_ify(property_counts, things)
     
     def chart_fn(data, engine):
-        return bar_chart(data, "%s property bar chart" % engine)
+        return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
     for_search_engine(chart_fn, data_fn, db.simple)
 
 if __name__ == '__main__':
