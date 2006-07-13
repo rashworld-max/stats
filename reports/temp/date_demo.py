@@ -28,6 +28,11 @@ def max_date():
     return select([func.max(db.simple.c.timestamp)],
            db.simple.c.search_engine==ENGINE).execute().fetchone()[0]
 
+def get_data():
+    s = select([func.sum(db.simple.c.count), db.simple.c.timestamp])
+    s.group_by(db.simple.c.timestamp)
+    return s.execute().fetchall()
+
 everything = db.simple.select(
     and_(db.simple.c.timestamp != None,
          db.simple.c.search_engine == ENGINE))
@@ -53,6 +58,8 @@ yearsFmt = DateFormatter('%Y')
 mondays   = WeekdayLocator(MONDAY)    # every monday
 months    = MonthLocator(range(1,13), bymonthday=1)           # every month
 monthsFmt = DateFormatter("%b '%y")
+
+data = get_data()
 
 quotes = quotes_historical_yahoo(
     'INTC', date1, date2)
