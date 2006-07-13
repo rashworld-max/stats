@@ -37,11 +37,6 @@ everything = db.simple.select(
     and_(db.simple.c.timestamp != None,
          db.simple.c.search_engine == ENGINE))
 
-for thing in everything:
-    if thing.timestamp == None:
-        print "BUG!"
-        print thing
-
 from pylab import *
 from matplotlib.finance import quotes_historical_yahoo
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
