@@ -14,12 +14,35 @@ This example requires an active internet connection since it uses
 yahoo finance to get the data for plotting
 """
 
+# Set up data
+from sqlalchemy.ext.sqlsoup import SqlSoup
+from sqlalchemy import *
+db = SqlSoup('mysql://root:@localhost/cc')
+
+ENGINE='Yahoo'
+def min_date():
+    return select([func.min(db.simple.c.timestamp)],
+           db.simple.c.search_engine==ENGINE).execute().fetchone()[0]
+
+def max_date():
+    return select([func.max(db.simple.c.timestamp)],
+           db.simple.c.search_engine==ENGINE).execute().fetchone()[0]
+
+everything = db.simple.select(
+    and_(db.simple.c.timestamp != None,
+         db.simple.c.search_engine == ENGINE))
+
+for thing in everything:
+    if thing.timestamp == None:
+        print "BUG!"
+        print thing
+
 from pylab import *
 from matplotlib.finance import quotes_historical_yahoo
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
 import datetime
-date1 = datetime.date( 1995, 1, 1 )
-date2 = datetime.date( 2004, 4, 12 )
+date1 = min_date()
+date2 = max_date()
 
 years    = YearLocator()   # every year
 months   = MonthLocator()  # every month
