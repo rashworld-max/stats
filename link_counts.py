@@ -18,6 +18,8 @@ from sqlalchemy.ext.sqlsoup import SqlSoup
 ## FIXME: Maybe I could loop over the URIs somewhere else so that I pass a URI
 ## in to the search-engine-specific things
 
+## FIXME: Start using experiment functions
+
 class LinkCounter:
     dumb_queries = ['license', '-license', 'work', '-work', 'html', '-html']
     ## TRYME: ccTLDs?
