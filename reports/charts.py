@@ -7,6 +7,8 @@ import datetime
 # select from simple where search_engine=search_engine
 # and language=NULL and country=NULL
 
+# FIXME: My HTML templating is pure evil.
+
 # But how to count jurisidictions?
 # I could manually regex against the database results.
 # That's hilariously inefficient.
@@ -61,7 +63,6 @@ def urlParse(url):
                attribs = ['by','nc','nd']
             else:
                attribs = which.split('-')
-            print url
             assert(('by' in attribs) or
                    ('nc' in attribs) or
                    ('nd' in attribs) or
@@ -71,9 +72,8 @@ def urlParse(url):
     ret = {'which': which, 'version': version, 'jurisdiction': jurisdiction, 'attribs': tuple(attribs)}
     return ret
 
-def get_all_urlParse_results(key, db):
+def get_all_urlParse_results(key, everything):
     ''' Neat for testing! '''
-    everything = db.select()
     ret = set()
     for r in [urlParse(k.license_uri)[key] for k in everything]:
         ret.add(r)
@@ -104,13 +104,12 @@ def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     pylab.close()
     
     # http://matplotlib.sourceforge.net/screenshots/barchart_demo.py shows how to smarten the legend
-    pass
+    return title
 
 def pie_chart(data, title):
     # make a square figure and axes
     pylab.figure(figsize=(8,8))
 
-    print 'data was',data
     labels = data.keys()
     fracs = [data[k] for k in labels]
     
@@ -128,6 +127,7 @@ def pie_chart(data, title):
     pylab.title(title, bbox={'facecolor':0.8, 'pad':5})
     pylab.savefig(fname(title))
     pylab.close() # This is key!
+    return title
 
 def min_date(engine, table):
     return sqlalchemy.select([sqlalchemy.func.min(table.c.timestamp)],
@@ -154,7 +154,6 @@ def date_chart(data, title):
 
     data_keys = data.keys()
     data_keys.sort()
-    print data_keys
     dates = [pylab.date2num(date) for date in data_keys]
     opens = [data[date] for date in data_keys]
 
@@ -191,6 +190,7 @@ def date_chart(data, title):
     pylab.grid(True)
     pylab.savefig(fname(title))
     pylab.close()
+    return title
 
 def property_counts(things):
     ''' Input: A subset of everything.
@@ -226,10 +226,12 @@ def get_all_most_recent(table, engine):
     return recent
 
 def for_search_engine(chart_fn, data_fn, table):
+    ret = []
     for engine in search_engines:
         data = data_fn(table, engine)
-        chart_fn(data, engine)
+        ret.append(chart_fn(data, engine))
         # FIXME: May die if no hits from this engine?
+    return ret
 
 def flatten_small_percents(data, percent_floor):
     ''' Input: a dict that maps keys to number values.
@@ -244,8 +246,8 @@ def flatten_small_percents(data, percent_floor):
             del ret[k]
     return ret
 
-def percentage_ify(fname, things):
-    counts = fname(things)
+def percentage_ify(fn, things):
+    counts = fn(things)
     if not counts:
         return counts
     # Now flatten into percents
@@ -265,7 +267,6 @@ def jurisdiction_pie_chart():
             jurisdiction = urlParse(event.license_uri)['jurisdiction']
             if jurisdiction:
                 data[jurisdiction] = data.get(jurisdiction, 0) + event.count
-                print 'added', event.count, 'to', jurisdiction
         data = flatten_small_percents(data, percent_floor=0.5)
         return data
     def chart_fn(data, engine):
@@ -289,6 +290,54 @@ def simple_aggregate_date_chart():
     def chart_fn(data, engine):
         return date_chart(data, "%s total linkbacks line graph" % engine)
     return for_search_engine(chart_fn, data_fn, db.simple)
+
+def data2htmltable(data):
+    ''' Input: data is a mapping from license identifiers to
+    (percent, jurisdiction) pairs.
+    Output: HTML. '''
+    licenses = data.keys()
+    licenses.sort() # 'by' first, etc.
+    ret = '' # FIXME: Evil HTML creation
+    for l in licenses:
+        ret += '<table border=1 style="float: left;">'
+        ret += '<caption>%s</caption>' % l
+        for percent, jurisdiction in data[l]:
+            ret += '<tr><td>%s</td><td>%s%%</td></tr>' % (jurisdiction, percent)
+        ret += '</table>'
+    return ret
+
+def data_for_tables_at_bottom(table, engine):
+    engine = 'Yahoo' # FIXME: Hard-coding an engine because I have to make decisions
+    # about statistics otherwise
+    recent = get_all_most_recent(table, engine)
+    # Going to implement this the slow way
+    # because our database is too dumb
+
+    # Get all known jurisdictions
+    all_jurisdictions = get_all_urlParse_results('jurisdiction', recent)
+
+    data = {}
+    for jur in all_jurisdictions:
+        just_jur = [k for k in recent if urlParse(k.license_uri)['jurisdiction'] == jur]
+        jur_percents = percentage_ify(license_counts, just_jur)
+        data[jur] = jur_percents
+
+    # Now we turn the data inside-out
+    ret = {} # A map from "by-nd" to [(86.7, 'Generic'), (94.2, 'kr'), ...]
+    for jur in data:
+        for license_tag in data[jur]:
+            percent = data[jur][license_tag]
+            pair = (percent, jur)
+            if license_tag in ret:
+                ret[license_tag].append(pair)
+            else:
+                ret[license_tag] = [pair]
+
+    # Now sort this mess
+    for license_tag in ret:
+        ret[license_tag].sort()
+        ret[license_tag].reverse()
+    return ret
     
 def property_bar_chart():
     def data_fn(table, engine):
@@ -309,7 +358,17 @@ def main():
     filenames.extend(property_bar_chart())
     filenames.extend(jurisdiction_pie_chart())
     # Now make a trivial HTML page
+    filenames.sort()
+    html = '<html><body>'
+    for f in filenames:
+        html += '<img src="%s.png" /><br />' % f
+
+    html += data2htmltable(data_for_tables_at_bottom(db.simple, 'Yahoo'))
     
+    html += '</body></html>'
+    fd = open(os.path.join(BASEDIR, 'index.html'), 'w')
+    fd.write(html)
+    fd.close()
     # FIXME: Tables at bottom
 
 if __name__ == '__main__':
