@@ -244,6 +244,18 @@ def flatten_small_percents(data, percent_floor):
             del ret[k]
     return ret
 
+def percentage_ify(fname, things):
+    counts = fname(things)
+    if not counts:
+        return counts
+    # Now flatten into percents
+    for thing in counts.keys():
+        if thing != 'total':
+            # into percent:
+            counts[thing] = (100.0 * counts[thing] / counts['total'])
+    del counts['total']
+    return counts    
+
 def jurisdiction_pie_chart():
     def data_fn(table, engine):
         recent = get_all_most_recent(table, engine)
@@ -259,19 +271,7 @@ def jurisdiction_pie_chart():
     def chart_fn(data, engine):
         return pie_chart(data, "%s Jurisdiction data" % engine)
 
-    for_search_engine(chart_fn, data_fn, db.simple)
-
-def percentage_ify(fname, things):
-    counts = fname(things)
-    if not counts:
-        return counts
-    # Now flatten into percents
-    for thing in counts.keys():
-        if thing != 'total':
-            # into percent:
-            counts[thing] = (100.0 * counts[thing] / counts['total'])
-    del counts['total']
-    return counts    
+    return for_search_engine(chart_fn, data_fn, db.simple)
 
 def exact_license_pie_chart():
     def data_fn(table, engine):
@@ -281,15 +281,14 @@ def exact_license_pie_chart():
         return better
     def chart_fn(data, engine):
         return pie_chart(data, "%s exact license distribution" % engine)
-
-    for_search_engine(chart_fn, data_fn, db.simple)
+    return for_search_engine(chart_fn, data_fn, db.simple)
 
 def simple_aggregate_date_chart():
     def data_fn(table, engine):
         return date_chart_data(engine, table)
     def chart_fn(data, engine):
         return date_chart(data, "%s total linkbacks line graph" % engine)
-    for_search_engine(chart_fn, data_fn, db.simple)
+    return for_search_engine(chart_fn, data_fn, db.simple)
     
 def property_bar_chart():
     def data_fn(table, engine):
@@ -298,7 +297,7 @@ def property_bar_chart():
     
     def chart_fn(data, engine):
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
-    for_search_engine(chart_fn, data_fn, db.simple)
+    return for_search_engine(chart_fn, data_fn, db.simple)
 
 def main():
     ''' Current goal: Emulate existing stats pages. '''
