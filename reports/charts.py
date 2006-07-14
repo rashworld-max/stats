@@ -71,8 +71,9 @@ def urlParse(url):
     ret = {'which': which, 'version': version, 'jurisdiction': jurisdiction, 'attribs': tuple(attribs)}
     return ret
 
-def get_all_urlParse_results(key):
+def get_all_urlParse_results(key, db):
     ''' Neat for testing! '''
+    everything = db.select()
     ret = set()
     for r in [urlParse(k.license_uri)[key] for k in everything]:
         ret.add(r)
@@ -136,27 +137,35 @@ def max_date(engine, table):
     return sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)],
            table.c.search_engine==engine).execute().fetchone()[0]
 
-def get_data(engine, table):
+def date_chart_data(engine, table):
     s = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp], table.c.search_engine == engine)
     s.group_by(table.c.timestamp)
-    return s.execute().fetchall() # sum() returns a string, BEWARE!
+    data = s.execute().fetchall() # sum() returns a string, BEWARE!
 
-def date_chart(engine, table, title):
-    min = min_date(engine, table)
-    max = max_date(engine, table)
-    data = get_data(engine, table)
+    send_this = {}
+    for value, timestamp in data:
+        value = int(value) # sqlalchemy bug: SUM() returns a string
+        send_this[timestamp] = value
+    return send_this
+
+def date_chart(data, title):
+    """ data is now input as a dict.
+    So we can't guarantee the order of keys. """
+
+    data_keys = data.keys()
+    data_keys.sort()
+    dates = [pylab.date2num(date[1]) for date in data_keys]
+    opens = [data[date] for date in dates]
+
+    # Calculate date delta to decide if later on we'll be in
+    # months mode or years mode
+    delta = data_keys[-1] - data_keys[0]
     
     years    = YearLocator()   # every year
     yearsFmt = DateFormatter('%Y')
     mondays   = pylab.WeekdayLocator(MONDAY)    # every monday
     months    = MonthLocator(range(1,13), bymonthday=1)           # every month
     monthsFmt = DateFormatter("%b '%y")
-
-    assert(max >= min)
-    delta = max - min
-
-    dates = [pylab.date2num(q[1]) for q in data]
-    opens = [int(q[0]) for q in data]
 
     ax = pylab.subplot(111)
     pylab.plot_date(dates, opens, '-')
@@ -183,18 +192,12 @@ def date_chart(engine, table, title):
     pylab.close()
 
 def simple_aggregate_date_chart():
-    ## FIXME: Convert to new abstract chart strategy
-    for engine in search_engines:
-        just_us = [k for k in everything if k.search_engine == engine]
-        if not just_us:
-            print 'Hmm, nothing for', engine
-        else:
-            stamps = [k.timestamp for k in just_us]
-            data = {}
-            for stamp in stamps:
-                data[stamp] = sum([k.count for k in just_us if k.timestamp == stamp])
-            date_chart(data, db.simple, 'zomg')
-
+    def data_fn(things):
+        return things # I guess
+    def chart_fn(data, engine):
+        return date_chart(data, "%s total linkbacks line graph")
+    for_search_engine(chart_fn, data_fn, db.simple)
+    
 def property_counts(things):
     ''' Input: A subset of everything.
     Output: A hash of prop -> count, plus an extra "total"->total'''
@@ -223,13 +226,18 @@ def license_counts(things):
             ret['total'] = ret.get('total',0) + thing.count
     return ret
 
+def get_all_most_recent(table, engine):
+    recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)]).execute().fetchone()[0]
+    recent = table.select(sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)) # I should be able to avoid execute() above, I hear.
+    return recent
+
 def for_search_engine(chart_fn, data_fn, table):
     for engine in search_engines:
-        recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)]).execute().fetchone()[0]
-        recent = table.select(sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)) # I should be able to avoid execute() above, I hear.
+        recent = get_all_most_recent(table, engine)
+        # get_all_most_recent should stop being hardcoded
         data = data_fn(recent)
         chart_fn(data, engine)
-        # May die if no hits from this engine
+        # FIXME: May die if no hits from this engine?
 
 def flatten_small_percents(data, percent_floor):
     ''' Input: a dict that maps keys to number values.
