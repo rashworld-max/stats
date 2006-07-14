@@ -189,7 +189,7 @@ def date_chart(data, title):
     ax.format_ydata = lambda f: f
     pylab.title(title)
     pylab.grid(True)
-    pylab.show()
+    pylab.savefig(fname(title))
     pylab.close()
 
 def property_counts(things):
@@ -244,7 +244,7 @@ def flatten_small_percents(data, percent_floor):
             del ret[k]
     return ret
 
-def jurisdiction_data():
+def jurisdiction_pie_chart():
     def data_fn(table, engine):
         recent = get_all_most_recent(table, engine)
         # Okay, now gather the data.
@@ -300,6 +300,20 @@ def property_bar_chart():
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
     for_search_engine(chart_fn, data_fn, db.simple)
 
+def main():
+    ''' Current goal: Emulate existing stats pages. '''
+    filenames = []
+    # FIXME: Need return values of filenames!
+    # First, generate all the graphs
+    filenames.extend(simple_aggregate_date_chart())
+    filenames.extend(exact_license_pie_chart())
+    filenames.extend(property_bar_chart())
+    filenames.extend(jurisdiction_pie_chart())
+    # Now make a trivial HTML page
+    
+    # FIXME: Tables at bottom
+
 if __name__ == '__main__':
-    jurisdiction_data()
+    main()
+    
 
