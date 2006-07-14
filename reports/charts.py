@@ -291,7 +291,7 @@ def simple_aggregate_date_chart():
         return date_chart(data, "%s total linkbacks line graph" % engine)
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-def data2htmltable(data):
+def data2htmltable(data, formatstring = '%1.1f%%'):
     ''' Input: data is a mapping from license identifiers to
     (percent, jurisdiction) pairs.
     Output: HTML. '''
@@ -302,7 +302,7 @@ def data2htmltable(data):
         ret += '<table border=1 style="float: left;">'
         ret += '<caption>%s</caption>' % l
         for percent, jurisdiction in data[l]:
-            ret += '<tr><td>%s</td><td>%s%%</td></tr>' % (jurisdiction, percent)
+            ret += ('<tr><td>%s</td><td>' + formatstring + '</td></tr>') % (jurisdiction, percent)
         ret += '</table>'
     return ret
 
