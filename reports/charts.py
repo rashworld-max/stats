@@ -154,8 +154,9 @@ def date_chart(data, title):
 
     data_keys = data.keys()
     data_keys.sort()
-    dates = [pylab.date2num(date[1]) for date in data_keys]
-    opens = [data[date] for date in dates]
+    print data_keys
+    dates = [pylab.date2num(date) for date in data_keys]
+    opens = [data[date] for date in data_keys]
 
     # Calculate date delta to decide if later on we'll be in
     # months mode or years mode
@@ -191,13 +192,6 @@ def date_chart(data, title):
     pylab.show()
     pylab.close()
 
-def simple_aggregate_date_chart():
-    def data_fn(things):
-        return things # I guess
-    def chart_fn(data, engine):
-        return date_chart(data, "%s total linkbacks line graph")
-    for_search_engine(chart_fn, data_fn, db.simple)
-    
 def property_counts(things):
     ''' Input: A subset of everything.
     Output: A hash of prop -> count, plus an extra "total"->total'''
@@ -233,9 +227,7 @@ def get_all_most_recent(table, engine):
 
 def for_search_engine(chart_fn, data_fn, table):
     for engine in search_engines:
-        recent = get_all_most_recent(table, engine)
-        # get_all_most_recent should stop being hardcoded
-        data = data_fn(recent)
+        data = data_fn(table, engine)
         chart_fn(data, engine)
         # FIXME: May die if no hits from this engine?
 
@@ -253,7 +245,8 @@ def flatten_small_percents(data, percent_floor):
     return ret
 
 def jurisdiction_data():
-    def data_fn(recent):
+    def data_fn(table, engine):
+        recent = get_all_most_recent(table, engine)
         # Okay, now gather the data.
         data = {}
         for event in recent:
@@ -281,8 +274,9 @@ def percentage_ify(fname, things):
     return counts    
 
 def exact_license_pie_chart():
-    def data_fn(things):
-        percents = percentage_ify(license_counts, things)
+    def data_fn(table, engine):
+        recent = get_all_most_recent(table, engine)
+        percents = percentage_ify(license_counts, recent)
         better = flatten_small_percents(percents, percent_floor=0.2)
         return better
     def chart_fn(data, engine):
@@ -290,10 +284,17 @@ def exact_license_pie_chart():
 
     for_search_engine(chart_fn, data_fn, db.simple)
 
+def simple_aggregate_date_chart():
+    def data_fn(table, engine):
+        return date_chart_data(engine, table)
+    def chart_fn(data, engine):
+        return date_chart(data, "%s total linkbacks line graph" % engine)
+    for_search_engine(chart_fn, data_fn, db.simple)
+    
 def property_bar_chart():
-    # FIXME: Percents need labeling on bar
-    def data_fn(things):
-        return percentage_ify(property_counts, things)
+    def data_fn(table, engine):
+        recent = get_all_most_recent(table, engine)
+        return percentage_ify(property_counts, recent)
     
     def chart_fn(data, engine):
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
