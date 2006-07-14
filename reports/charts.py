@@ -1,3 +1,6 @@
+import pylab
+from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
+from matplotlib.dates import MONDAY, SATURDAY
 import datetime
 # Jurisdictions
 # for search_engine in 'Yahoo', 'Google', 'All The Web':
@@ -125,36 +128,59 @@ def pie_chart(data, title):
     pylab.savefig(fname(title))
     pylab.close() # This is key!
 
-def date_chart(data, title):
-    from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
-    import datetime
+def min_date(engine, table):
+    return sqlalchemy.select([sqlalchemy.func.min(table.c.timestamp)],
+           table.c.search_engine==engine).execute().fetchone()[0]
 
-    ''' Untested.  Tee-hee.
-    Based on http://matplotlib.sourceforge.net/screenshots/date_demo.py '''
-    months   = MonthLocator()  # every month
-    days     = pylab.DayLocator()    # daily?
-    monthsFmt = DateFormatter('%m')
+def max_date(engine, table):
+    return sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)],
+           table.c.search_engine==engine).execute().fetchone()[0]
 
-    keys = data.keys()
-    keys.sort()
-    dates = [pylab.date2num(k) for k in keys]
-    values = [data[k] for k in keys]
-    print values
+def get_data(engine, table):
+    s = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp], table.c.search_engine == engine)
+    s.group_by(table.c.timestamp)
+    return s.execute().fetchall() # sum() returns a string, BEWARE!
 
-    #ax = pylab.subplot(111)
-    pylab.plot_date(dates, values, '-')
+def date_chart(engine, table, title):
+    min = min_date(engine, table)
+    max = max_date(engine, table)
+    data = get_data(engine, table)
+    
+    years    = YearLocator()   # every year
+    yearsFmt = DateFormatter('%Y')
+    mondays   = pylab.WeekdayLocator(MONDAY)    # every monday
+    months    = MonthLocator(range(1,13), bymonthday=1)           # every month
+    monthsFmt = DateFormatter("%b '%y")
+
+    assert(max >= min)
+    delta = max - min
+
+    dates = [pylab.date2num(q[1]) for q in data]
+    opens = [int(q[0]) for q in data]
+
+    ax = pylab.subplot(111)
+    pylab.plot_date(dates, opens, '-')
 
     # format the ticks
-    #ax.xaxis.set_major_locator(months)
-    #ax.xaxis.set_major_formatter(monthsFmt)
-    #ax.xaxis.set_minor_locator(days)
-    #ax.autoscale_view()
+    if delta.days < 365:
+        # months mode
+        ax.xaxis.set_major_locator(months)
+        ax.xaxis.set_major_formatter(monthsFmt)
+        ax.xaxis.set_minor_locator(mondays)
+        ax.autoscale_view()
+    else:
+        # years mode
+        ax.xaxis.set_major_locator(years)
+        ax.xaxis.set_major_formatter(yearsFmt)
+        ax.xaxis.set_minor_locator(months)
+        ax.autoscale_view()
 
-    # format the coords message box
-    #ax.fmt_xdata = DateFormatter('%Y-%m-%d')
-    
+    ax.format_xdata = DateFormatter('%Y-%m-%d')
+    ax.format_ydata = lambda f: f
+    pylab.title(title)
     pylab.grid(True)
     pylab.show()
+    pylab.close()
 
 def simple_aggregate_date_chart():
     ## FIXME: Convert to new abstract chart strategy
@@ -167,7 +193,7 @@ def simple_aggregate_date_chart():
             data = {}
             for stamp in stamps:
                 data[stamp] = sum([k.count for k in just_us if k.timestamp == stamp])
-            date_chart(data, 'zomg')
+            date_chart(data, db.simple, 'zomg')
 
 def property_counts(things):
     ''' Input: A subset of everything.
