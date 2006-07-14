@@ -10,18 +10,6 @@ sample_links = 'http://www.cthuugle.com/'
 yahoo_results = [] # a list of dicts of {'query': query, 'language': ..., 'count': count}
 google_reslut = [] # the kind of typo you don't fix
 
-def yahoo_test():
-    global yahoo_results
-    yahoo_results = []
-    for query in sample_queries:
-        for license in [None] + simpleyahoo.licenses:
-            for language in [None] + simpleyahoo.languages.keys():
-                for country in [None] + simpleyahoo.countries.keys():
-                    count = simpleyahoo.legitimate_yahoo_count(query=query, cc_spec=license, country=country, language=language)
-                    result = {'query': query, 'license': license, 'language': language, 'country': country, 'count': count}
-                    yahoo_results.append(result)
-    return yahoo_results # In case you think I do functional programming.
-
 def google_test():
     global google_reslut
     google_reslut = []
@@ -85,14 +73,16 @@ class GoogleExperiments(unittest.TestCase):
         self.link_searches = google_experiment('link:http://www.google.com/', countries=['United States', 'Poland'], languages=[None, 'English', 'French'])
         self.regular_search = google_experiment("Cthuugle", countries = [None, 'United States', 'Iceland'], languages = [None, 'Greek', 'Arabic'])
         self.work = google_experiment("work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
+        self.us_work = google_experiment("work", cc_spec=["cc_attribute"], countries=['United States'], languages=[None])[0] # in the US
+        self.english_work = google_experiment("work", cc_spec=["cc_attribute"], countries=[None], languages=['English'])[0] # in English
+        self.us_english_work = google_experiment("work", cc_spec=["cc_attribute"], countries=['United States'], languages=['English'])[0] # in English
+
+        ## Test usefulness of not
         self.not_work = google_experiment("-work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
         self.week = google_experiment("work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
         self.week_not_work = google_experiment("week -work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
         self.week_and_work = google_experiment("week work", cc_spec=["cc_attribute"], countries=[None], languages=[None])[0] # Work everywhere
-        self.us_work = google_experiment("work", cc_spec=["cc_attribute"], countries=['United States'], languages=[None])[0] # in the US
-        self.english_work = google_experiment("work", cc_spec=["cc_attribute"], countries=[None], languages=['English'])[0] # in English
-        self.us_english_work = google_experiment("work", cc_spec=["cc_attribute"], countries=['United States'], languages=['English'])[0] # in English
-    
+
     def test_link_search_is_broken(self):
         self.assertNotEqual(self.link_searches[0]['count'], 0) # Uninteresting if the first count is 0
         assert(allthesame([k['count'] for k in self.link_searches]))
