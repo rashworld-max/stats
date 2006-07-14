@@ -110,8 +110,12 @@ def pie_chart(data, title):
     # make a square figure and axes
     pylab.figure(figsize=(8,8))
 
-    labels = data.keys()
-    fracs = [data[k] for k in labels]
+    # here's some fun: sort the labels by the values (-:
+    data_unpacked = [ (data[key], key) for key in data ]
+    data_unpacked.sort()
+
+    fracs = [ datum[0] for datum in data_unpacked ]
+    labels= [ datum[1] for datum in data_unpacked ]
     
     explode=[0.05 for k in labels]
     pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=False, colors=('b', 'g', 'r', 'c', 'm', 'y', 'w'))
@@ -124,7 +128,7 @@ def pie_chart(data, title):
     #pylab.setp(ltext, fontsize='small')
     #pylab.legend()
 
-    pylab.title(title, bbox={'facecolor':0.8, 'pad':5})
+    pylab.title(title, bbox={'facecolor':'0.8', 'pad':5})
     pylab.savefig(fname(title))
     pylab.close() # This is key!
     return title
