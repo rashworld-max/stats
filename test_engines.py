@@ -124,6 +124,8 @@ class YahooExperiments(unittest.TestCase):
         assert(self.fr_work['count'])
         assert(self.english_work['count'])
         assert(self.fr_english_work['count'])
+        # FIXME add tests for InlinkData results for language and country
+        
         
     def test_cc_searches_vary_across_countries(self):
         assert(self.work['count'] > self.fr_work['count'])
