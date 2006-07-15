@@ -171,6 +171,8 @@ def date_chart(lots_of_data, title):
         global color_index
         graph_colors=('b', 'g', 'r', 'c', 'm', 'y', 'k')
         color_index += 1
+        if (color_index >= len(graph_colors)):
+            color_index = 0
         return graph_colors[color_index]
 
     labels = []
@@ -377,6 +379,7 @@ def main():
     # FIXME: Need return values of filenames!
     # First, generate all the graphs
     filenames.extend(simple_aggregate_date_chart())
+    filenames.extend(specific_license_date_chart())
     filenames.extend(exact_license_pie_chart())
     filenames.extend(property_bar_chart())
     filenames.extend(jurisdiction_pie_chart())
@@ -392,6 +395,29 @@ def main():
     fd = open(os.path.join(BASEDIR, 'index.html'), 'w')
     fd.write(html)
     fd.close()
+
+def specific_license_date_chart():
+    def data_fn(table, engine):
+        print 'no way'
+        # It is impossible to implement this fully cleanly because
+        # the license tag data we want is not available in the database. :-(
+        query = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], table.c.search_engine == engine)
+        query.group_by(table.c.license_uri)
+        data = {} # a mapping of 'by' -> {date: num, date: num, ...}
+        print query
+        for datum in query.execute():
+            print datum
+            attribs = urlParse(datum.license_uri)['attribs']
+            if attribs:
+                name = attribs2name(attribs)
+                if name not in data:
+                    data[name] = {}
+                data[name][datum.timestamp] = int(datum[0])
+        print data
+        return data
+    def chart_fn(data, engine):
+        return date_chart(data, "%s linkbacks per license" % engine)
+    return for_search_engine(chart_fn, data_fn, db.simple)
 
 if __name__ == '__main__':
     main()
