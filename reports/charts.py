@@ -398,22 +398,18 @@ def main():
 
 def specific_license_date_chart():
     def data_fn(table, engine):
-        print 'no way'
         # It is impossible to implement this fully cleanly because
         # the license tag data we want is not available in the database. :-(
         query = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], table.c.search_engine == engine)
         query.group_by(table.c.license_uri)
         data = {} # a mapping of 'by' -> {date: num, date: num, ...}
-        print query
         for datum in query.execute():
-            print datum
             attribs = urlParse(datum.license_uri)['attribs']
             if attribs:
                 name = attribs2name(attribs)
                 if name not in data:
                     data[name] = {}
                 data[name][datum.timestamp] = int(datum[0])
-        print data
         return data
     def chart_fn(data, engine):
         return date_chart(data, "%s linkbacks per license" % engine)
