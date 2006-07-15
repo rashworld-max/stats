@@ -151,9 +151,9 @@ def main():
     lc.count_google()
     lc.count_yahoo()
     lc.count_msn()
-    lc.specific_google_counter()
-    lc.specific_yahoo_counter() # This makes too many queries?
     lc.count_alltheweb() # Done last because of long sleep times
+    lc.specific_google_counter() 
+    lc.specific_yahoo_counter() # This makes too many queries?
 
 if __name__ == '__main__':
     main()
