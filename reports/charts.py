@@ -82,8 +82,6 @@ def get_all_urlParse_results(key, everything):
         ret.add(r)
     return ret
 
-
-
 def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     labels = data.keys()
     values = [data[k] for k in labels]
@@ -158,8 +156,10 @@ def date_chart_data(engine, table):
     return send_this
 
 def date_chart(lots_of_data, title):
-    """ data is now input as dict that maps label -> a dict that maps dates to data
+    """ data is now input as a dict.
     So we can't guarantee the order of keys. """
+    ax = pylab.subplot(111) # We're going to have a plot, okay?
+
     global color_index # FIXME: I dislike this global
     color_index = -1
     def color():
@@ -169,21 +169,20 @@ def date_chart(lots_of_data, title):
         return graph_colors[color_index]
 
     labels = []
-    # We assume the date ranges are the same...
     for label in lots_of_data:
         data = lots_of_data[label]
         data_keys = data.keys()
         data_keys.sort()
         dates = [pylab.date2num(date) for date in data_keys]
-        opens = [data[date] for date in data_keys]
+        values = [data[date] for date in data_keys]
 
         # Calculate date delta to decide if later on we'll be in
         # months mode or years mode
         delta = data_keys[-1] - data_keys[0]
-        ax = pylab.subplot(111)
         labels.append(label)
+        pylab.plot_date(dates, values, color() + '-')
     pylab.legend(labels)
-    
+
     years    = YearLocator()   # every year
     yearsFmt = DateFormatter('%Y')
     mondays   = pylab.WeekdayLocator(MONDAY)    # every monday
