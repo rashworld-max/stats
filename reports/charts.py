@@ -33,6 +33,11 @@ BASEDIR='/home/paulproteus/public_html/tmp/'
 def fname(s):
     return os.path.join(BASEDIR, s)
 
+def attribs2name(attribs):
+    attribs = list(attribs)
+    attribs.sort()
+    return '-'.join(attribs)
+
 from sqlalchemy.ext.sqlsoup import SqlSoup
 import sqlalchemy
 import pylab, matplotlib
@@ -156,7 +161,7 @@ def date_chart_data(engine, table):
     return send_this
 
 def date_chart(lots_of_data, title):
-    """ data is now input as a dict.
+    """ data is now input as a dict that maps label -> a dict that maps dates to data
     So we can't guarantee the order of keys. """
     ax = pylab.subplot(111) # We're going to have a plot, okay?
 
@@ -169,6 +174,7 @@ def date_chart(lots_of_data, title):
         return graph_colors[color_index]
 
     labels = []
+    # We assume the date ranges are the same...
     for label in lots_of_data:
         data = lots_of_data[label]
         data_keys = data.keys()
@@ -230,11 +236,9 @@ def license_counts(things):
     Output: A hash of e.g. "by-sa" -> count, plus an extra "total" -> total'''
     ret = {}
     for thing in things:
-        props = urlParse(thing.license_uri)['attribs']
-        if props:
-            props = list(props)
-            props.sort()
-            propsname = '-'.join(props)
+        attribs = urlParse(thing.license_uri)['attribs']
+        if attribs:
+            propsname = attribs2name(attribs)
             ret[propsname] = ret.get(propsname, 0) + thing.count
             ret['total'] = ret.get('total',0) + thing.count
     return ret
@@ -388,7 +392,6 @@ def main():
     fd = open(os.path.join(BASEDIR, 'index.html'), 'w')
     fd.write(html)
     fd.close()
-    # FIXME: Tables at bottom
 
 if __name__ == '__main__':
     main()
