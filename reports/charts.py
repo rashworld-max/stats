@@ -25,8 +25,17 @@ import datetime
 # latest.  Be sure to get that max separately per 
 # search engine.
 
-# FIXME: I dislike this global
-color_index = 0
+# FIXME: Move this somewhere I can use it later.
+class ListCycle:
+    def __init__(self, l):
+        self.l = l
+        self.index = 0
+    def next(self):
+        if self.index >= len(self.l):
+            self.index = -1
+        ret = self.l[self.index]
+        self.index += 1
+        return ret
 
 import os
 BASEDIR='/home/paulproteus/public_html/tmp/'
@@ -165,15 +174,7 @@ def date_chart(lots_of_data, title):
     So we can't guarantee the order of keys. """
     ax = pylab.subplot(111) # We're going to have a plot, okay?
 
-    global color_index # FIXME: I dislike this global
-    color_index = -1
-    def color():
-        global color_index
-        graph_colors=('b', 'g', 'r', 'c', 'm', 'y', 'k')
-        color_index += 1
-        if (color_index >= len(graph_colors)):
-            color_index = 0
-        return graph_colors[color_index]
+    colors = ListCycle( ('b', 'g', 'r', 'c', 'm', 'y', 'k') )
 
     labels = []
     # We assume the date ranges are the same...
@@ -188,7 +189,7 @@ def date_chart(lots_of_data, title):
         # months mode or years mode
         delta = data_keys[-1] - data_keys[0]
         labels.append(label)
-        pylab.plot_date(dates, values, color() + '-')
+        pylab.plot_date(dates, values, colors.next() + '-')
     pylab.legend(labels)
 
     years    = YearLocator()   # every year
@@ -332,7 +333,7 @@ def data2htmltable(data, formatstring = '%1.1f%%'):
     return ret
 
 def data_for_tables_at_bottom(table, engine):
-    engine = 'Yahoo' # FIXME: Hard-coding an engine because I have to make decisions
+    engine = 'Yahoo' # FIXME: Hard-coding an engine because otherwise I have to make decisions ASKMIKE
     # about statistics otherwise
     recent = get_all_most_recent(table, engine)
     # Going to implement this the slow way
@@ -376,7 +377,6 @@ def property_bar_chart():
 def main():
     ''' Current goal: Emulate existing stats pages. '''
     filenames = []
-    # FIXME: Need return values of filenames!
     # First, generate all the graphs
     filenames.extend(simple_aggregate_date_chart())
     filenames.extend(specific_license_date_chart())
