@@ -1,3 +1,8 @@
+try:
+    import psyco
+except ImportError:
+    pass
+
 import link_counts
 import xml.dom.pulldom as pulldom
 import datetime
