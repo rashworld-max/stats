@@ -7,19 +7,6 @@ from snippets import *
 sample_queries = 'license', '-license', 'watermelon', 'cantaloupe'
 sample_links = 'http://www.cthuugle.com/'
 
-yahoo_results = [] # a list of dicts of {'query': query, 'language': ..., 'count': count}
-google_reslut = [] # the kind of typo you don't fix
-
-def google_test():
-    global google_reslut
-    google_reslut = []
-    licenses = ["cc_publicdomain", "cc_attribute", "cc_sharealike", "cc_noncommercial", "cc_nonderived", "cc_publicdomain|cc_attribute|cc_sharealike|cc_noncommercial|cc_nonderived"]
-    for lang in [None] + simplegoogle.languages.keys():
-        for country in [None] + simplegoogle.countries.keys():
-            for license in [None] + licenses:
-                pass #Should use google_experiment
-    return google_reslut # In case you think...
-
 def google_experiment(query, countries = 'all', languages = 'all', cc_spec = []):
     ''' This runs some query on Google with various country and language values. '''
     # This is the wrong place for this function.  Perhaps
