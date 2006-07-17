@@ -9,11 +9,11 @@ languages = {'portuguese': 'pt', 'czech': 'cs', 'spanish': 'es', 'japanese': 'ja
 
 countries = {'Brazil': 'br', 'Canada': 'ca', 'Italy': 'it', 'France': 'fr', 'Argentina': 'ar', 'Norway': 'no', 'Australia': 'au', 'Czechoslovakia': 'cz', 'China': 'cn',  'Germany': 'de', 'Spain': 'es', 'Netherlands': 'nl', 'Denmark': 'dk', 'Poland': 'pl', 'Finland': 'fi', 'United States': 'us', 'Belgium': 'be', 'Sweden': 'se', 'Korea': 'kr', 'Switzerland': 'ch', 'United Kingdom': 'uk', 'Austria': 'at', 'Japan': 'jp', 'Taiwan': 'tw'}  # Taken from http://developer.yahoo.com/search/countries.html on 2006-06-28 ; removed Russia at the urging of pYsearch
 
-## FIXME! rename "type" to "apimethod"
-def legitimate_yahoo_count(query, type = 'Web', cc_spec=[], country=None, language=None):
+## FIXME! rename "type" to "apimethod" and test
+def legitimate_yahoo_count(query, apimethod = 'Web', cc_spec=[], country=None, language=None):
     ''' cc_spec is a list of things the Yahoo module knows about '''
-    assert(type in ['Web', 'InlinkData']) # known types here
-    s = create_search(type, APPID, query=query, results=0)
+    assert(apimethod in ['Web', 'InlinkData']) # known types here
+    s = create_search(apimethod, APPID, query=query, results=0)
     if cc_spec:
         s.license = cc_spec
     if country:
