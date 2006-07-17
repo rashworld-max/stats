@@ -383,6 +383,7 @@ def main():
     filenames.extend(exact_license_pie_chart())
     filenames.extend(property_bar_chart())
     filenames.extend(jurisdiction_pie_chart())
+    filenames.extend(license_versions_date_chart())
     # Now make a trivial HTML page
     filenames.sort()
     html = '<html><body>'
@@ -396,21 +397,42 @@ def main():
     fd.write(html)
     fd.close()
 
+def aggregate_for_date_chart(table, engine, fn):
+    ''' Input: table and engine, plus a fn for determing keys
+    Output: {fn-return-val1: {date: val, date:val, ...} '''
+    # It is impossible to implement this fully cleanly because
+    # the license tag data we want is not available in the database. :-(
+    query = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], table.c.search_engine == engine)
+    query.group_by(table.c.license_uri)
+    data = {} # a mapping of 'by' -> {date: num, date: num, ...}
+    for datum in query.execute():
+        name = fn(datum)
+        if name:
+            if name not in data:
+                data[name] = {}
+            data[name][datum.timestamp] = int(datum[0])
+    return data
+
+def license_versions_date_chart():
+    def data_fn(table, engine):
+        def fn(datum):
+            v = urlParse(datum.license_uri)['version']
+            if v:
+                return v
+            return None # fall-through for explicitness' sake
+        return aggregate_for_date_chart(table, engine, fn)
+    def chart_fn(data, engine):
+        return date_chart(data, "%s linkbacks per license version" % engine)
+    return for_search_engine(chart_fn, data_fn, db.simple)
+
 def specific_license_date_chart():
     def data_fn(table, engine):
-        # It is impossible to implement this fully cleanly because
-        # the license tag data we want is not available in the database. :-(
-        query = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], table.c.search_engine == engine)
-        query.group_by(table.c.license_uri)
-        data = {} # a mapping of 'by' -> {date: num, date: num, ...}
-        for datum in query.execute():
+        def fn(datum):
             attribs = urlParse(datum.license_uri)['attribs']
             if attribs:
-                name = attribs2name(attribs)
-                if name not in data:
-                    data[name] = {}
-                data[name][datum.timestamp] = int(datum[0])
-        return data
+                return attribs2name(attribs)
+            return None # fall-through for explicitness
+        return aggregate_for_date_chart(table, engine, fn)
     def chart_fn(data, engine):
         return date_chart(data, "%s linkbacks per license" % engine)
     return for_search_engine(chart_fn, data_fn, db.simple)
