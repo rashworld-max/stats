@@ -1,5 +1,5 @@
 from yahoo.search.factory import create_search
-from yahoo.search import SearchError
+from yahoo.search import SearchError, ParameterError
 
 APPID = 'cc license search'
 
