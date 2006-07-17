@@ -102,6 +102,18 @@ class YahooExperiments(unittest.TestCase):
         assert(colon['count'] % 10 == 0)
         assert(not(inlink['count'] % 10 == 0))
 
+    def test_link_colon_language(self):
+        all = yahoo_experiment('link:http://www.google.com/', countries = [None], languages = [None])[0]
+        french = yahoo_experiment('link:http://www.google.com/', countries = [None], languages = ['French'])[0]
+        assert(french['count'] != 0)
+        assert(all['count'] > french['count'])
+        
+    def test_link_colon_country(self):
+        all = yahoo_experiment('link:http://www.google.com/', countries = [None], languages = [None])[0]
+        france = yahoo_experiment('link:http://www.google.com/', countries = ['France'], languages = [None])[0]
+        assert(france['count'] != 0)
+        assert(all['count'] > france['count'])
+
     def test_broken_inlinkdata_language(self):
         all = yahoo_experiment('http://www.google.com/', apimethod='InlinkData',
                                countries = [None], languages = [None])[0]
