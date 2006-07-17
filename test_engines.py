@@ -62,6 +62,7 @@ def yahoo_experiment(query, apimethod = 'Web', countries = 'all', languages = 'a
 class GoogleExperiments(unittest.TestCase):
     """ These experiments make the following lessons:
     * Google's CC searches break language or country subsearching if you use 'cc_attribution', but work fine for real values accepted by their restrict parameter (like cc_attribute)
+    * Google's link: ignores language and country
     * TESTME: Google's -zomg queries are broken?
     * NOTEST (but true on Jul 11 2006): Google's SOAP Java junk blows up for count > 2^32 """
     # Here is where I document some facts of the Google API.
@@ -114,6 +115,20 @@ class YahooExperiments(unittest.TestCase):
         assert(colon['count'] % 10 == 0)
         assert(not(inlink['count'] % 10 == 0))
 
+    def test_inlinkdata_language(self):
+        all = yahoo_experiment('http://www.google.com/', apimethod='InlinkData',
+                               countries = [None], languages = [None])[0]
+        french = yahoo_experiment('http://www.google.com/', apimethod='InlinkData',
+                               countries = [None], languages = ['French'])[0]
+        assert(french['count'] < all['count'])
+
+    def test_inlinkdata_country(self):
+        all = yahoo_experiment('http://www.google.com/', apimethod='InlinkData',
+                               countries = [None], languages = [None])[0]
+        france = yahoo_experiment('http://www.google.com/', apimethod='InlinkData',
+                               countries = ['France'], languages = [None])[0]
+        assert(france['count'] < all['count'])
+
     def setUp(self):
         
         self.work = yahoo_experiment("+a", cc_spec=["cc_any"], countries=[None], languages=[None])[0] # Work everywhere
@@ -124,8 +139,6 @@ class YahooExperiments(unittest.TestCase):
         assert(self.fr_work['count'])
         assert(self.english_work['count'])
         assert(self.fr_english_work['count'])
-        # FIXME add tests for InlinkData results for language and country
-        
         
     def test_cc_searches_vary_across_countries(self):
         assert(self.work['count'] > self.fr_work['count'])
