@@ -43,8 +43,10 @@ class LinkCounter:
             ret.append(element.get('uri'))
         return ret # I'm not sorting.  So there.
 
-    def record(self, cc_license_uri, search_engine, count, country = None, language = None):
-        self.db.simple.insert(license_uri=cc_license_uri, search_engine=search_engine,count=count,timestamp = self.timestamp, country = country, language = language)
+    def record(self, cc_license_uri, search_engine, count, country = None, language = None, timestamp = None):
+        if timestamp is None:
+            timestamp = self.timestamp
+        self.db.simple.insert(license_uri=cc_license_uri, search_engine=search_engine,count=count,timestamp = timestamp, country = country, language = language)
         self.db.flush()
         debug("%s gave us %d hits via %s" % (cc_license_uri, count, search_engine))
 
@@ -141,8 +143,10 @@ class LinkCounter:
                             print e
                         
 
-    def record_complex(self, license_specifier, search_engine, count, query, country = None, language = None):
-        self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = self.timestamp, search_engine=search_engine, country=country, language=language)
+    def record_complex(self, license_specifier, search_engine, count, query, country = None, language = None, timestamp):
+        if timestamp is None:
+            timestamp = self.timestamp
+        self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = timestamp, search_engine=search_engine, country=country, language=language)
         self.db.flush()
         debug("%s gave us %d hits via %s" % (license_specifier, count, search_engine))
         

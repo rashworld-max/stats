@@ -1,3 +1,7 @@
+try:
+    import psyco
+except ImportError:
+    pass
 import pylab
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
 from matplotlib.dates import MONDAY, SATURDAY
@@ -46,13 +50,18 @@ def attribs2name(attribs):
     attribs = list(attribs)
     attribs.sort()
     return '-'.join(attribs)
-
-from sqlalchemy.ext.sqlsoup import SqlSoup
 import sqlalchemy
+## Set up db and tables
+db = sqlalchemy.create_engine('mysql://root:@localhost/cc')
+metadata = sqlalchemy.BoundMetaData(db)
+simple = sqlalchemy.Table('simple', metadata, autoload=True)
+
+#from sqlalchemy.ext.sqlsoup import SqlSoup
+# we'll stop using soup soon
+
+#db = SqlSoup('mysql://root:@localhost/cc')
 import pylab, matplotlib
  
-db = SqlSoup('mysql://root:@localhost/cc')
-
 search_engines = ['Google', 'All The Web', 'Yahoo', 'MSN']
 all_html_colors = [k.lower() for k in ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine', 'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue', 'Cornsilk', 'Crimson', 'Cyan', 'DarkBlue', 'DarkCyan', 'DarkGoldenRod', 'DarkGray', 'DarkGreen', 'DarkKhaki', 'DarkMagenta', 'DarkOliveGreen', 'Darkorange', 'DarkOrchid', 'DarkRed', 'DarkSalmon', 'DarkSeaGreen', 'DarkSlateBlue', 'DarkSlateGray', 'DarkTurquoise', 'DarkViolet', 'DeepPink', 'DeepSkyBlue', 'DimGray', 'DodgerBlue', 'Feldspar', 'FireBrick', 'FloralWhite', 'ForestGreen', 'Fuchsia', 'Gainsboro', 'GhostWhite', 'Gold', 'GoldenRod', 'Gray', 'Green', 'GreenYellow', 'HoneyDew', 'HotPink', 'IndianRed', 'Indigo', 'Ivory', 'Khaki', 'Lavender', 'LavenderBlush', 'LawnGreen', 'LemonChiffon', 'LightBlue', 'LightCoral', 'LightCyan', 'LightGoldenRodYellow', 'LightGrey', 'LightGreen', 'LightPink', 'LightSalmon', 'LightSeaGreen', 'LightSkyBlue', 'LightSlateBlue', 'LightSlateGray', 'LightSteelBlue', 'LightYellow', 'Lime', 'LimeGreen', 'Linen', 'Magenta', 'Maroon', 'MediumAquaMarine', 'MediumBlue', 'MediumOrchid', 'MediumPurple', 'MediumSeaGreen', 'MediumSlateBlue', 'MediumSpringGreen', 'MediumTurquoise', 'MediumVioletRed', 'MidnightBlue', 'MintCream', 'MistyRose', 'Moccasin', 'NavajoWhite', 'Navy', 'OldLace', 'Olive', 'OliveDrab', 'Orange', 'OrangeRed', 'Orchid', 'PaleGoldenRod', 'PaleGreen', 'PaleTurquoise', 'PaleVioletRed', 'PapayaWhip', 'PeachPuff', 'Peru', 'Pink', 'Plum', 'PowderBlue', 'Purple', 'Red', 'RosyBrown', 'RoyalBlue', 'SaddleBrown', 'Salmon', 'SandyBrown', 'SeaGreen', 'SeaShell', 'Sienna', 'Silver', 'SkyBlue', 'SlateBlue', 'SlateGray', 'Snow', 'SpringGreen', 'SteelBlue', 'Tan', 'Teal', 'Thistle', 'Tomato', 'Turquoise', 'Violet', 'VioletRed', 'Wheat', 'White', 'WhiteSmoke', 'Yellow', 'YellowGreen']]
 
@@ -161,10 +170,11 @@ def max_date(engine, table):
 def date_chart_data(engine, table):
     s = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp], table.c.search_engine == engine)
     s.group_by(table.c.timestamp)
-    data = s.execute().fetchall() # sum() returns a string, BEWARE!
+    data = s.execute() # sum() returns a string, BEWARE!
 
     send_this = {}
-    for value, timestamp in data:
+    for datum in data:
+        value, timestamp = datum
         value = int(value) # sqlalchemy bug: SUM() returns a string
         send_this[timestamp] = value
     return send_this
@@ -248,7 +258,7 @@ def license_counts(things):
 
 def get_all_most_recent(table, engine):
     recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)]).execute().fetchone()[0]
-    recent = table.select(sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)) # I should be able to avoid execute() above, I hear.
+    recent = sqlalchemy.select(table.columns, sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)).execute()
     return recent
 
 def for_search_engine(chart_fn, data_fn, table):
@@ -298,7 +308,7 @@ def jurisdiction_pie_chart():
     def chart_fn(data, engine):
         return pie_chart(data, "%s Jurisdiction data" % engine)
 
-    return for_search_engine(chart_fn, data_fn, db.simple)
+    return for_search_engine(chart_fn, data_fn, simple)
 
 def exact_license_pie_chart():
     def data_fn(table, engine):
@@ -308,14 +318,14 @@ def exact_license_pie_chart():
         return better
     def chart_fn(data, engine):
         return pie_chart(data, "%s exact license distribution" % engine)
-    return for_search_engine(chart_fn, data_fn, db.simple)
+    return for_search_engine(chart_fn, data_fn, simple)
 
 def simple_aggregate_date_chart():
     def data_fn(table, engine):
         return {'Total linkbacks': date_chart_data(engine, table)}
     def chart_fn(data, engine):
         return date_chart(data, "%s total linkbacks line graph" % engine)
-    return for_search_engine(chart_fn, data_fn, db.simple)
+    return for_search_engine(chart_fn, data_fn, simple)
 
 def data2htmltable(data, formatstring = '%1.1f%%'):
     ''' Input: data is a mapping from license identifiers to
@@ -372,7 +382,7 @@ def property_bar_chart():
     
     def chart_fn(data, engine):
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
-    return for_search_engine(chart_fn, data_fn, db.simple)
+    return for_search_engine(chart_fn, data_fn, simple)
 
 def main():
     ''' Current goal: Emulate existing stats pages. '''
@@ -390,7 +400,7 @@ def main():
     for f in filenames:
         html += '<img src="%s.png" /><br />' % f
 
-    html += data2htmltable(data_for_tables_at_bottom(db.simple, 'Yahoo'))
+    html += data2htmltable(data_for_tables_at_bottom(simple, 'Yahoo'))
     
     html += '</body></html>'
     fd = open(os.path.join(BASEDIR, 'index.html'), 'w')
@@ -423,7 +433,7 @@ def license_versions_date_chart():
         return aggregate_for_date_chart(table, engine, fn)
     def chart_fn(data, engine):
         return date_chart(data, "%s linkbacks per license version" % engine)
-    return for_search_engine(chart_fn, data_fn, db.simple)
+    return for_search_engine(chart_fn, data_fn, simple)
 
 def specific_license_date_chart():
     def data_fn(table, engine):
@@ -435,7 +445,7 @@ def specific_license_date_chart():
         return aggregate_for_date_chart(table, engine, fn)
     def chart_fn(data, engine):
         return date_chart(data, "%s linkbacks per license" % engine)
-    return for_search_engine(chart_fn, data_fn, db.simple)
+    return for_search_engine(chart_fn, data_fn, simple)
 
 if __name__ == '__main__':
     main()

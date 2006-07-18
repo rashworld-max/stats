@@ -76,3 +76,8 @@ class Importer:
                                            search_engine=self.engine,
                                            count=val)
                             # no country, language
+
+if __name__ == '__main__':
+    import sys
+    Importer(sys.stdin)
+    
