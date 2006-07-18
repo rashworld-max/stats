@@ -143,7 +143,7 @@ class LinkCounter:
                             print e
                         
 
-    def record_complex(self, license_specifier, search_engine, count, query, country = None, language = None, timestamp):
+    def record_complex(self, license_specifier, search_engine, count, query, country = None, language = None, timestamp = None):
         if timestamp is None:
             timestamp = self.timestamp
         self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = timestamp, search_engine=search_engine, country=country, language=language)
