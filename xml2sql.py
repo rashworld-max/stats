@@ -58,15 +58,18 @@ class Importer:
                         license_uri = node.getAttribute('URL')
                         cc_spec = node.getAttribute('Rest')
                         query = node.getAttribute('Term')
-                        if cc_spec or query: # This is how I detect YahooCC/GoogleCC
+                        if not query:
+                            query = None
+                        if self.table == 'complex' or query: # This is how I detect YahooCC/GoogleCC/AllTheWebWeird
                             assert(query)
-                            assert(self.table == 'complex')
                             self.lc.record_complex(license_specifier=cc_spec,
                                                    search_engine=self.engine,
                                                    count=val,
                                                    query=query)
                             # no country, no language
                         else:
+                            assert(query is None)
+                            assert(self.table == 'simple')
                             assert(license_uri)
                             assert(self.table == 'simple')
                             self.lc.record(cc_license_uri=license_uri,
