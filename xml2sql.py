@@ -4,7 +4,7 @@ except ImportError:
     pass
 
 import link_counts
-import xml.dom.pulldom as pulldom
+import xml.dom
 import datetime
 
 def doTag(saxxer, tag, characters, attrs = {}):
@@ -28,7 +28,7 @@ class Importer:
         self.parse(fd)
 
     def parse(self, fd):
-        events = pulldom.parse(fd)
+        events = xml.dom.pulldom.parse(fd)
         for (event, node) in events:
             if event == 'START_ELEMENT':
                 if node.tagName == 'Dataset':
@@ -65,7 +65,7 @@ class Importer:
                             self.lc.record_complex(license_specifier=cc_spec,
                                                    search_engine=self.engine,
                                                    count=val,
-                                                   query=query)
+                                                   query=query, timestamp = self.date)
                             # no country, no language
                         else:
                             assert(query is None)
@@ -74,7 +74,7 @@ class Importer:
                             assert(self.table == 'simple')
                             self.lc.record(cc_license_uri=license_uri,
                                            search_engine=self.engine,
-                                           count=val)
+                                           count=val, timestamp = self.date)
                             # no country, language
 
 if __name__ == '__main__':
