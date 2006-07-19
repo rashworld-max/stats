@@ -137,7 +137,7 @@ def pie_chart(data, title):
     labels= [ datum[1] for datum in data_unpacked ]
     
     explode=[0.05 for k in labels]
-    pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=False, colors=('b', 'g', 'r', 'c', 'm', 'y', 'w'))
+    pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=False, colors=('b', 'g', 'r', 'c', 'm', 'y', 'w')) # pctradius=0.85
 
     ## I would have a legend, but they often overlap with the pie itself.
     #pylab.figlegend()
