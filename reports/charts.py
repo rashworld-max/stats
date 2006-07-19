@@ -6,6 +6,10 @@ import pylab
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
 from matplotlib.dates import MONDAY, SATURDAY
 import datetime
+from sqlalchemy.ext.sqlsoup import SqlSoup
+import sqlalchemy
+import os
+import pylab, matplotlib
 # Jurisdictions
 # for search_engine in 'Yahoo', 'Google', 'All The Web':
 # select from simple where search_engine=search_engine
@@ -41,26 +45,11 @@ class ListCycle:
         self.index += 1
         return ret
 
-import os
 BASEDIR='/home/paulproteus/public_html/tmp/'
 def fname(s):
     return os.path.join(BASEDIR, s)
 
-def attribs2name(attribs):
-    attribs = list(attribs)
-    attribs.sort()
-    return '-'.join(attribs)
-import sqlalchemy
-## Set up db and tables
-db = sqlalchemy.create_engine('mysql://root:@localhost/cc')
-metadata = sqlalchemy.BoundMetaData(db)
-simple = sqlalchemy.Table('simple', metadata, autoload=True)
-
-#from sqlalchemy.ext.sqlsoup import SqlSoup
-# we'll stop using soup soon
-
-#db = SqlSoup('mysql://root:@localhost/cc')
-import pylab, matplotlib
+db = SqlSoup('mysql://root:@localhost/cc')
  
 search_engines = ['Google', 'All The Web', 'Yahoo', 'MSN']
 all_html_colors = [k.lower() for k in ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine', 'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue', 'Cornsilk', 'Crimson', 'Cyan', 'DarkBlue', 'DarkCyan', 'DarkGoldenRod', 'DarkGray', 'DarkGreen', 'DarkKhaki', 'DarkMagenta', 'DarkOliveGreen', 'Darkorange', 'DarkOrchid', 'DarkRed', 'DarkSalmon', 'DarkSeaGreen', 'DarkSlateBlue', 'DarkSlateGray', 'DarkTurquoise', 'DarkViolet', 'DeepPink', 'DeepSkyBlue', 'DimGray', 'DodgerBlue', 'Feldspar', 'FireBrick', 'FloralWhite', 'ForestGreen', 'Fuchsia', 'Gainsboro', 'GhostWhite', 'Gold', 'GoldenRod', 'Gray', 'Green', 'GreenYellow', 'HoneyDew', 'HotPink', 'IndianRed', 'Indigo', 'Ivory', 'Khaki', 'Lavender', 'LavenderBlush', 'LawnGreen', 'LemonChiffon', 'LightBlue', 'LightCoral', 'LightCyan', 'LightGoldenRodYellow', 'LightGrey', 'LightGreen', 'LightPink', 'LightSalmon', 'LightSeaGreen', 'LightSkyBlue', 'LightSlateBlue', 'LightSlateGray', 'LightSteelBlue', 'LightYellow', 'Lime', 'LimeGreen', 'Linen', 'Magenta', 'Maroon', 'MediumAquaMarine', 'MediumBlue', 'MediumOrchid', 'MediumPurple', 'MediumSeaGreen', 'MediumSlateBlue', 'MediumSpringGreen', 'MediumTurquoise', 'MediumVioletRed', 'MidnightBlue', 'MintCream', 'MistyRose', 'Moccasin', 'NavajoWhite', 'Navy', 'OldLace', 'Olive', 'OliveDrab', 'Orange', 'OrangeRed', 'Orchid', 'PaleGoldenRod', 'PaleGreen', 'PaleTurquoise', 'PaleVioletRed', 'PapayaWhip', 'PeachPuff', 'Peru', 'Pink', 'Plum', 'PowderBlue', 'Purple', 'Red', 'RosyBrown', 'RoyalBlue', 'SaddleBrown', 'Salmon', 'SandyBrown', 'SeaGreen', 'SeaShell', 'Sienna', 'Silver', 'SkyBlue', 'SlateBlue', 'SlateGray', 'Snow', 'SpringGreen', 'SteelBlue', 'Tan', 'Teal', 'Thistle', 'Tomato', 'Turquoise', 'Violet', 'VioletRed', 'Wheat', 'White', 'WhiteSmoke', 'Yellow', 'YellowGreen']]
@@ -93,6 +82,10 @@ def urlParse(url):
                    ('nc' in attribs) or
                    ('nd' in attribs) or
                    ('sa' in attribs))
+        # now canonicalize which
+        whichparts = which.split('-')
+        whichparts.sort()
+        which = '-'.join(whichparts)
     else:
         which, version, jurisdiction, attribs = None, None, None, []
     ret = {'which': which, 'version': version, 'jurisdiction': jurisdiction, 'attribs': tuple(attribs)}
@@ -249,10 +242,10 @@ def license_counts(things):
     Output: A hash of e.g. "by-sa" -> count, plus an extra "total" -> total'''
     ret = {}
     for thing in things:
+        which = urlParse(thing.license_uri)['which']
         attribs = urlParse(thing.license_uri)['attribs']
-        if attribs:
-            propsname = attribs2name(attribs)
-            ret[propsname] = ret.get(propsname, 0) + thing.count
+        if attribs or (which == 'pd'):
+            ret[which] = ret.get(which, 0) + thing.count
             ret['total'] = ret.get('total',0) + thing.count
     return ret
 
@@ -308,7 +301,7 @@ def jurisdiction_pie_chart():
     def chart_fn(data, engine):
         return pie_chart(data, "%s Jurisdiction data" % engine)
 
-    return for_search_engine(chart_fn, data_fn, simple)
+    return for_search_engine(chart_fn, data_fn, db.simple)
 
 def exact_license_pie_chart():
     def data_fn(table, engine):
@@ -318,14 +311,14 @@ def exact_license_pie_chart():
         return better
     def chart_fn(data, engine):
         return pie_chart(data, "%s exact license distribution" % engine)
-    return for_search_engine(chart_fn, data_fn, simple)
+    return for_search_engine(chart_fn, data_fn, db.simple)
 
 def simple_aggregate_date_chart():
     def data_fn(table, engine):
         return {'Total linkbacks': date_chart_data(engine, table)}
     def chart_fn(data, engine):
         return date_chart(data, "%s total linkbacks line graph" % engine)
-    return for_search_engine(chart_fn, data_fn, simple)
+    return for_search_engine(chart_fn, data_fn, db.simple)
 
 def data2htmltable(data, formatstring = '%1.1f%%'):
     ''' Input: data is a mapping from license identifiers to
@@ -382,7 +375,7 @@ def property_bar_chart():
     
     def chart_fn(data, engine):
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
-    return for_search_engine(chart_fn, data_fn, simple)
+    return for_search_engine(chart_fn, data_fn, db.simple)
 
 def main():
     ''' Current goal: Emulate existing stats pages. '''
@@ -400,7 +393,7 @@ def main():
     for f in filenames:
         html += '<img src="%s.png" /><br />' % f
 
-    html += data2htmltable(data_for_tables_at_bottom(simple, 'Yahoo'))
+    html += data2htmltable(data_for_tables_at_bottom(db.simple, 'Yahoo'))
     
     html += '</body></html>'
     fd = open(os.path.join(BASEDIR, 'index.html'), 'w')
@@ -433,19 +426,20 @@ def license_versions_date_chart():
         return aggregate_for_date_chart(table, engine, fn)
     def chart_fn(data, engine):
         return date_chart(data, "%s linkbacks per license version" % engine)
-    return for_search_engine(chart_fn, data_fn, simple)
+    return for_search_engine(chart_fn, data_fn, db.simple)
 
 def specific_license_date_chart():
     def data_fn(table, engine):
         def fn(datum):
             attribs = urlParse(datum.license_uri)['attribs']
-            if attribs:
-                return attribs2name(attribs)
+            which = urlParse(datum.license_uri)['which']
+            if attribs or (which == 'pd'):
+                return which
             return None # fall-through for explicitness
         return aggregate_for_date_chart(table, engine, fn)
     def chart_fn(data, engine):
         return date_chart(data, "%s linkbacks per license" % engine)
-    return for_search_engine(chart_fn, data_fn, simple)
+    return for_search_engine(chart_fn, data_fn, db.simple)
 
 if __name__ == '__main__':
     main()
