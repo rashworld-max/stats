@@ -196,7 +196,7 @@ def find_month_count_that_fits(start_date, end_date, max_ticks):
         dates = matplotlib.dates.drange(start_date, end_date, delta)
         if len(dates) <= max_ticks:
             return factor
-    raise AssertionError, "Really?  Gawsh!"
+    raise AssertionError, "Really?  Gawrsh!"
 
 def date_chart(lots_of_data, title):
     """ data is now input as a dict that maps label -> a dict that maps dates to data
@@ -205,7 +205,10 @@ def date_chart(lots_of_data, title):
 
     colors = ListCycle( ('b', 'g', 'r', 'c', 'm', 'y', 'k') )
 
-    labels = []
+    # We'll order the labels descending based on the last values
+    # so we'll avoid plotting until we've got all the values
+    graph_this_data = []
+
     # We assume the date ranges are the same...
     for label in lots_of_data:
         data = lots_of_data[label]
@@ -218,8 +221,22 @@ def date_chart(lots_of_data, title):
         # months mode or years mode
         start_date = data_keys[0]
         end_date   = data_keys[-1]
-        labels.append(label)
+        graph_this_data.append( (dates, values, label) )
+
+    # re-order the lines
+    def plot_cmp(a, b):
+        a_values = a[1]
+        last_a_value = a_values[-1]
+        b_values = b[1]
+        last_b_value = b_values[-1]
+        return cmp(last_b_value, last_a_value)
+    graph_this_data.sort(plot_cmp)
+
+    labels = []
+    for elt in graph_this_data:
+        dates, values, label = elt
         pylab.plot_date(dates, values, colors.next() + '-')
+        labels.append(label)
     pylab.legend(labels)
 
     # There is room for 15 month labels
@@ -228,8 +245,9 @@ def date_chart(lots_of_data, title):
     # So let's calculate the smallest factor of 12 we can do this for
     
     monthcount = find_month_count_that_fits(start_date, end_date, max_ticks=15)
+    # ASKMIKE?
 
-    rule = matplotlib.dates.rrulewrapper(matplotlib.dates.MONTHLY, interval=monthcount)
+    rule = matplotlib.dates.rrulewrapper(matplotlib.dates.MONTHLY, interval=3)
     loc = matplotlib.dates.RRuleLocator(rule)
     formatter = matplotlib.dates.DateFormatter('%m/%y')
 
