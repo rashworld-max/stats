@@ -178,6 +178,26 @@ def date_chart_data(engine, table):
         send_this[timestamp] = value
     return send_this
 
+class smartDateTicker:
+    def __init__(self):
+        self.year = None
+    def tick(self, date):
+        if date.year == self.year:
+            return time.strftime('%m', date)
+        else:
+            self.year = date.year
+            return time.strftime('%m/%y', date)
+
+def find_month_count_that_fits(start_date, end_date, max_ticks):
+    factors = (1, 2, 3, 4, 6, 12, 23, 36, 48) # That should cover us
+
+    for factor in factors:
+        delta = datetime.timedelta(days=(factor*30)) # HACK!  Not correct. :-)
+        dates = matplotlib.dates.drange(start_date, end_date, delta)
+        if len(dates) <= max_ticks:
+            return factor
+    raise AssertionError, "Really?  Gawsh!"
+
 def date_chart(lots_of_data, title):
     """ data is now input as a dict that maps label -> a dict that maps dates to data
     So we can't guarantee the order of keys. """
@@ -196,7 +216,8 @@ def date_chart(lots_of_data, title):
 
         # Calculate date delta to decide if later on we'll be in
         # months mode or years mode
-        delta = data_keys[-1] - data_keys[0]
+        start_date = data_keys[0]
+        end_date   = data_keys[-1]
         labels.append(label)
         pylab.plot_date(dates, values, colors.next() + '-')
     pylab.legend(labels)
@@ -204,9 +225,11 @@ def date_chart(lots_of_data, title):
     # There is room for 15 month labels
     # Anything more and it's too squished
     # Meanwhile, want the month labels to happen on some factor of 12
-    # So FIXME: let's calculate the smallest factor of 12 we can do this for
+    # So let's calculate the smallest factor of 12 we can do this for
+    
+    monthcount = find_month_count_that_fits(start_date, end_date, max_ticks=15)
 
-    rule = matplotlib.dates.rrulewrapper(matplotlib.dates.MONTHLY, interval=2)
+    rule = matplotlib.dates.rrulewrapper(matplotlib.dates.MONTHLY, interval=monthcount)
     loc = matplotlib.dates.RRuleLocator(rule)
     formatter = matplotlib.dates.DateFormatter('%m/%y')
 
@@ -418,7 +441,7 @@ def aggregate_for_date_chart(table, engine, fn):
         if name:
             if name not in data:
                 data[name] = {}
-            data[name][datum.timestamp] = int(datum[0])
+            data[name][datum.timestamp] = data[name].get(datum.timestamp, 0) + int(datum[0])
     return data
 
 def license_versions_date_chart():
@@ -427,8 +450,6 @@ def license_versions_date_chart():
             v = urlParse(datum.license_uri)['version']
             if v:
                 return v
-            #print 'YOW, VERSIONLESS', datum.license_uri
-            #print 'on', datum.timestamp
             return None # fall-through for explicitness' sake
         return aggregate_for_date_chart(table, engine, fn)
     def chart_fn(data, engine):
