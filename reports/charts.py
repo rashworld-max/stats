@@ -209,28 +209,13 @@ def date_chart(lots_of_data, title):
     rule = matplotlib.dates.rrulewrapper(matplotlib.dates.MONTHLY, interval=2)
     loc = matplotlib.dates.RRuleLocator(rule)
     formatter = matplotlib.dates.DateFormatter('%m/%y')
-    
-
-    years    = YearLocator()   # every year
-    yearsFmt = DateFormatter('%Y')
-    mondays   = pylab.WeekdayLocator(MONDAY)    # every monday
-    months    = MonthLocator(range(1,13), bymonthday=1)           # every month
-    monthsFmt = DateFormatter("%m/%y")
 
     # format the ticks
-    if 1: # delta.days < 365:
-        # months mode
-        ax.xaxis.set_major_locator(loc)
-        ax.xaxis.set_major_formatter(formatter)
-        #ax.xaxis.set_minor_locator(mondays)
-        ax.autoscale_view()
-    else:
-        # years mode
-        ax.xaxis.set_major_locator(years)
-        ax.xaxis.set_major_formatter(yearsFmt)
-        ax.xaxis.set_minor_locator(months)
-        ax.autoscale_view()
+    ax.xaxis.set_major_locator(loc)
+    ax.xaxis.set_major_formatter(formatter)
+    ax.autoscale_view()
 
+    # And shrink the text!
     locs, labels = pylab.xticks()
     pylab.setp(labels, fontsize=8)
 
