@@ -1,3 +1,4 @@
+import pdb
 try:
     import psyco
 except ImportError:
@@ -56,7 +57,11 @@ all_html_colors = [k.lower() for k in ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aqu
 
 # Thanks, Will.
 # Needs tests.
+urlParse_cache = {}
 def urlParse(url):
+    global urlParse_cache
+    if url in urlParse_cache:
+        return urlParse_cache[url]
     jurisdiction=''
     elements=url.split('/')
     if len(elements) >= 6:
@@ -89,6 +94,7 @@ def urlParse(url):
     else:
         which, version, jurisdiction, attribs = None, None, None, []
     ret = {'which': which, 'version': version, 'jurisdiction': jurisdiction, 'attribs': tuple(attribs)}
+    urlParse_cache[url] = ret
     return ret
 
 def get_all_urlParse_results(key, everything):
@@ -195,18 +201,28 @@ def date_chart(lots_of_data, title):
         pylab.plot_date(dates, values, colors.next() + '-')
     pylab.legend(labels)
 
+    # There is room for 15 month labels
+    # Anything more and it's too squished
+    # Meanwhile, want the month labels to happen on some factor of 12
+    # So FIXME: let's calculate the smallest factor of 12 we can do this for
+
+    rule = matplotlib.dates.rrulewrapper(matplotlib.dates.MONTHLY, interval=2)
+    loc = matplotlib.dates.RRuleLocator(rule)
+    formatter = matplotlib.dates.DateFormatter('%m/%y')
+    
+
     years    = YearLocator()   # every year
     yearsFmt = DateFormatter('%Y')
     mondays   = pylab.WeekdayLocator(MONDAY)    # every monday
     months    = MonthLocator(range(1,13), bymonthday=1)           # every month
-    monthsFmt = DateFormatter("%b '%y")
+    monthsFmt = DateFormatter("%m/%y")
 
     # format the ticks
-    if delta.days < 365:
+    if 1: # delta.days < 365:
         # months mode
-        ax.xaxis.set_major_locator(months)
-        ax.xaxis.set_major_formatter(monthsFmt)
-        ax.xaxis.set_minor_locator(mondays)
+        ax.xaxis.set_major_locator(loc)
+        ax.xaxis.set_major_formatter(formatter)
+        #ax.xaxis.set_minor_locator(mondays)
         ax.autoscale_view()
     else:
         # years mode
@@ -214,6 +230,9 @@ def date_chart(lots_of_data, title):
         ax.xaxis.set_major_formatter(yearsFmt)
         ax.xaxis.set_minor_locator(months)
         ax.autoscale_view()
+
+    locs, labels = pylab.xticks()
+    pylab.setp(labels, fontsize=8)
 
     ax.format_xdata = DateFormatter('%Y-%m-%d')
     ax.format_ydata = lambda f: f
@@ -407,6 +426,7 @@ def aggregate_for_date_chart(table, engine, fn):
     # the license tag data we want is not available in the database. :-(
     query = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], table.c.search_engine == engine)
     query.group_by(table.c.license_uri)
+    query.group_by(table.c.timestamp)
     data = {} # a mapping of 'by' -> {date: num, date: num, ...}
     for datum in query.execute():
         name = fn(datum)
@@ -422,6 +442,8 @@ def license_versions_date_chart():
             v = urlParse(datum.license_uri)['version']
             if v:
                 return v
+            #print 'YOW, VERSIONLESS', datum.license_uri
+            #print 'on', datum.timestamp
             return None # fall-through for explicitness' sake
         return aggregate_for_date_chart(table, engine, fn)
     def chart_fn(data, engine):
