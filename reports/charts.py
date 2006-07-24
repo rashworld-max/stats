@@ -371,11 +371,10 @@ def data2htmltable(data, formatstring = '%1.1f%%'):
         for percent, jurisdiction in data[l]:
             ret += ('<tr><td>%s</td><td>' + formatstring + '</td></tr>') % (jurisdiction, percent)
         ret += '</table>'
-    print ret
     return ret
 
 def data_for_tables_at_bottom(table, engine):
-    recent = get_all_most_recent(table, engine)
+    recent = get_all_most_recent(table, engine).fetchall() # Memory-stealing hack
     # Going to implement this the slow way
     # because our database is too dumb
 
@@ -411,18 +410,17 @@ def property_bar_chart():
         return percentage_ify(property_counts, recent)
     
     def chart_fn(data, engine):
-        print data
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-def main():
+def main(): # FIXME max_date):
     ''' Current goal: Emulate existing stats pages. '''
     filenames = []
     # First, generate all the graphs
     filenames.extend(simple_aggregate_date_chart())
     filenames.extend(specific_license_date_chart())
     filenames.extend(exact_license_pie_chart())
-    #filenames.extend(property_bar_chart()) # FIXME: This totally blows up.
+    #filenames.extend(property_bar_chart()) # FIXME: Blows up!
     filenames.extend(jurisdiction_pie_chart())
     filenames.extend(license_versions_date_chart())
     # Now make a trivial HTML page
@@ -430,7 +428,6 @@ def main():
     html = '<html><body>'
     for f in filenames:
         html += '<img src="%s.png" /><br />' % f
-
     html += data2htmltable(data_for_tables_at_bottom(db.simple, 'Yahoo'))
     
     html += '</body></html>'
@@ -485,7 +482,12 @@ def specific_license_date_chart():
 
 if __name__ == '__main__':
     import sys
-    main()
+    if len(sys.argv) < 2:
+        print >> sys.stderr, "You must pass an ISO date to this program."
+        print >> sys.stderr, "Only events from on or before this date will be considered in the data analysis."
+        print >> sys.stderr, "This allows you to re-run the chart generation and be sure of what data will be included."
+        sys.exist(-1)
+    main() # FIXME! sys.argv[1])
     
 # FIXME: x1e+7 is what?
 # Scale actual data down; print at top, "in millions"
