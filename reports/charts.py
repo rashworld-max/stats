@@ -1,4 +1,4 @@
-#from __future__ import generators # YOW!
+from __future__ import generators # YOW!
 import pdb
 try:
     import psyco
@@ -81,7 +81,7 @@ def urlParse(url):
         if jurisdiction=='' or jurisdiction=='us' or jurisdiction=='deed-music':
             jurisdiction='generic'
         # attribs: if it's a CC license, then the list of CC attributes
-        if which in ('GPL', 'LGPL', 'devnations', 'sampling', 'pd'): # How to handle PD later in later graphs?
+        if which in ('GPL', 'LGPL', 'devnations', 'sampling', 'pd'): # FIXME: How to handle PD later in later graphs?
             attribs = []
         else:
             if which in ('sampling+', 'nc-sampling+'):
@@ -164,16 +164,8 @@ def pie_chart(data, title):
     pylab.close() # This is key!
     return title
 
-def min_date(engine, table):
-    return sqlalchemy.select([sqlalchemy.func.min(table.c.timestamp)],
-           table.c.search_engine==engine).execute().fetchone()[0]
-
-def max_date(engine, table):
-    return sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)],
-           table.c.search_engine==engine).execute().fetchone()[0]
-
 def date_chart_data(engine, table):
-    s = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp], table.c.search_engine == engine)
+    s = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp], sqlalchemy.and_(table.c.search_engine == engine, table.c.timestamp < MAX_DATE))
     s.group_by(table.c.timestamp)
     data = s.execute() # sum() returns a string, BEWARE!
 
@@ -292,7 +284,7 @@ def license_counts(things):
     return ret
 
 def get_all_most_recent(table, engine):
-    recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)]).execute().fetchone()[0]
+    recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)], table.c.timestamp < MAX_DATE).execute().fetchone()[0]
     recent = sqlalchemy.select(table.columns, sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)).execute()
     return recent
 
@@ -450,7 +442,7 @@ def aggregate_for_date_chart(table, engine, fn):
     Output: {fn-return-val1: {date: val, date:val, ...} '''
     # It is impossible to implement this fully cleanly because
     # the license tag data we want is not available in the database. :-(
-    query = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], table.c.search_engine == engine)
+    query = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], sqlalchemy.and_(table.c.search_engine == engine, table.c.timestamp < MAX_DATE))
     query.group_by(table.c.license_uri)
     query.group_by(table.c.timestamp)
     data = {} # a mapping of 'by' -> {date: num, date: num, ...}
