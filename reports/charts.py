@@ -35,6 +35,10 @@ import pylab, matplotlib
 # latest.  Be sure to get that max separately per 
 # search engine.
 
+MAX_DATE = datetime.datetime(3000, 1, 1) # In the grim future of humanity
+                                         # there are only license
+                                         # usage statistics
+
 # FIXME: Move this somewhere I can use it later.
 class ListCycle:
     def __init__(self, l):
@@ -407,14 +411,20 @@ def data_for_tables_at_bottom(table, engine):
 def property_bar_chart():
     def data_fn(table, engine):
         recent = get_all_most_recent(table, engine)
+        print MAX_DATE
         return percentage_ify(property_counts, recent)
     
     def chart_fn(data, engine):
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-def main(): # FIXME max_date):
+def main(max_date):
     ''' Current goal: Emulate existing stats pages. '''
+    # For max_date handling, for now: set a global variable to its value
+    # and mention it in all our queries
+    global MAX_DATE
+    y,m,d = map(int, max_date.split('-'))
+    MAX_DATE = datetime.datetime(y,m,d) + datetime.timedelta(days=1)
     filenames = []
     # First, generate all the graphs
     filenames.extend(simple_aggregate_date_chart())
@@ -487,7 +497,7 @@ if __name__ == '__main__':
         print >> sys.stderr, "Only events from on or before this date will be considered in the data analysis."
         print >> sys.stderr, "This allows you to re-run the chart generation and be sure of what data will be included."
         sys.exist(-1)
-    main() # FIXME! sys.argv[1])
+    main(sys.argv[1])
     
 # FIXME: x1e+7 is what?
 # Scale actual data down; print at top, "in millions"
