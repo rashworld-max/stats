@@ -1,3 +1,4 @@
+#from __future__ import generators # YOW!
 import pdb
 try:
     import psyco
@@ -132,6 +133,7 @@ def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     return title
 
 def pie_chart(data, title):
+    # FIXME: Make pcts and text use smaller font
     # make a square figure and axes
     pylab.figure(figsize=(8,8))
 
@@ -178,16 +180,6 @@ def date_chart_data(engine, table):
         send_this[timestamp] = value
     return send_this
 
-class smartDateTicker:
-    def __init__(self):
-        self.year = None
-    def tick(self, date):
-        if date.year == self.year:
-            return time.strftime('%m', date)
-        else:
-            self.year = date.year
-            return time.strftime('%m/%y', date)
-
 def find_month_count_that_fits(start_date, end_date, max_ticks):
     factors = (1, 2, 3, 4, 6, 12, 23, 36, 48) # That should cover us
 
@@ -199,6 +191,7 @@ def find_month_count_that_fits(start_date, end_date, max_ticks):
     raise AssertionError, "Really?  Gawrsh!"
 
 def date_chart(lots_of_data, title):
+    # FIXME: Use space more efficiently
     """ data is now input as a dict that maps label -> a dict that maps dates to data
     So we can't guarantee the order of keys. """
     ax = pylab.subplot(111) # We're going to have a plot, okay?
@@ -378,11 +371,10 @@ def data2htmltable(data, formatstring = '%1.1f%%'):
         for percent, jurisdiction in data[l]:
             ret += ('<tr><td>%s</td><td>' + formatstring + '</td></tr>') % (jurisdiction, percent)
         ret += '</table>'
+    print ret
     return ret
 
 def data_for_tables_at_bottom(table, engine):
-    engine = 'Yahoo' # FIXME: Hard-coding an engine because otherwise I have to make decisions ASKMIKE
-    # about statistics otherwise
     recent = get_all_most_recent(table, engine)
     # Going to implement this the slow way
     # because our database is too dumb
@@ -419,6 +411,7 @@ def property_bar_chart():
         return percentage_ify(property_counts, recent)
     
     def chart_fn(data, engine):
+        print data
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
     return for_search_engine(chart_fn, data_fn, db.simple)
 
@@ -429,7 +422,7 @@ def main():
     filenames.extend(simple_aggregate_date_chart())
     filenames.extend(specific_license_date_chart())
     filenames.extend(exact_license_pie_chart())
-    filenames.extend(property_bar_chart())
+    #filenames.extend(property_bar_chart()) # FIXME: This totally blows up.
     filenames.extend(jurisdiction_pie_chart())
     filenames.extend(license_versions_date_chart())
     # Now make a trivial HTML page
@@ -462,7 +455,10 @@ def aggregate_for_date_chart(table, engine, fn):
             data[name][datum.timestamp] = data[name].get(datum.timestamp, 0) + int(datum[0])
     return data
 
+# FIXME: Jurisdictions by log over time
+
 def license_versions_date_chart():
+    # FIXME: Make that percentage
     def data_fn(table, engine):
         def fn(datum):
             v = urlParse(datum.license_uri)['version']
@@ -488,6 +484,12 @@ def specific_license_date_chart():
     return for_search_engine(chart_fn, data_fn, db.simple)
 
 if __name__ == '__main__':
+    import sys
     main()
     
+# FIXME: x1e+7 is what?
+# Scale actual data down; print at top, "in millions"
 
+# FIXME: wrap in subdir-generating ISO date emulating thing
+
+# FIXME: These h
