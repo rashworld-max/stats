@@ -110,6 +110,7 @@ def get_all_urlParse_results(key, everything):
     return ret
 
 def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
+    pylab.figure(figsize=(8,8))
     labels = data.keys()
     values = [data[k] for k in labels]
     # Bar supports multiple, well, bars
@@ -137,7 +138,6 @@ def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     return title
 
 def pie_chart(data, title):
-    # FIXME: Make pcts and text use smaller font
     # make a square figure and axes
     pylab.figure(figsize=(8,8))
 
@@ -149,7 +149,13 @@ def pie_chart(data, title):
     labels= [ datum[1] for datum in data_unpacked ]
     
     explode=[0.05 for k in labels]
-    pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=False, colors=('b', 'g', 'r', 'c', 'm', 'y', 'w')) # pctradius=0.85
+    patches, texts, autotexts = pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=False, colors=('b', 'g', 'r', 'c', 'm', 'y', 'w')) # pctradius=0.85
+
+    # Shrink the both text chunks' font size
+    proptease = matplotlib.font_manager.FontProperties()
+    proptease.set_size('xx-small') # I don't think it goes smaller than xx
+    pylab.setp(autotexts, fontproperties=proptease)
+    pylab.setp(texts, fontproperties=proptease)
 
     ## I would have a legend, but they often overlap with the pie itself.
     #pylab.figlegend()
@@ -202,7 +208,7 @@ def date_chart(lots_of_data, title):
 
     # First things first: Make a clean copy of the lots_of_data dict
     lots_of_data = clean_dict(lots_of_data)
-    
+    pylab.figure(figsize=(8,8))
     ax = pylab.subplot(111) # We're going to have a plot, okay?
 
     colors = ListCycle( ('b', 'g', 'r', 'c', 'm', 'y', 'k') )
@@ -332,7 +338,12 @@ def percentage_ify(fn, things):
     for thing in counts.keys():
         if thing != 'total':
             # into percent:
-            counts[thing] = (100.0 * counts[thing] / counts['total'])
+            if counts['total'] == 0:
+                ratio = 0
+            else:
+                ratio = counts[thing] / counts['total']
+            counts[thing] = 100.0 * ratio
+                
     del counts['total']
     return counts    
 
@@ -425,12 +436,13 @@ def property_bar_chart():
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-def main(max_date):
-    ''' Current goal: Emulate existing stats pages. '''
+def main(y, m, d):
+    ''' Current goal: Emulate existing stats pages.
+    Takes the arguments y, m, d and representing the year/month/day of the last day
+    whose data to consider.'''
     # For max_date handling, for now: set a global variable to its value
     # and mention it in all our queries
     global MAX_DATE
-    y,m,d = map(int, max_date.split('-'))
     MAX_DATE = datetime.datetime(y,m,d) + datetime.timedelta(days=1)
     filenames = []
     # First, generate all the graphs
@@ -503,12 +515,12 @@ if __name__ == '__main__':
         print >> sys.stderr, "You must pass an ISO date to this program."
         print >> sys.stderr, "Only events from on or before this date will be considered in the data analysis."
         print >> sys.stderr, "This allows you to re-run the chart generation and be sure of what data will be included."
-        sys.exist(-1)
-    main(sys.argv[1])
+        sys.exist(-1) # "No typo." ;-)
+    max_date = sys.argv[1]
+    y,m,d = map(int, max_date.split('-'))
+    main(y,m,d)
     
 # FIXME: x1e+7 is what?
 # Scale actual data down; print at top, "in millions"
 
-# FIXME: wrap in subdir-generating ISO date emulating thing
-
-# FIXME: These h
+# FIXME: These h <-- !??!
