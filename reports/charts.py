@@ -186,10 +186,23 @@ def find_month_count_that_fits(start_date, end_date, max_ticks):
             return factor
     raise AssertionError, "Really?  Gawrsh!"
 
+def clean_dict(d):
+    ''' Input: A dict.
+    Output: A dict with all the keys in d that had values, mapped to the right values. '''
+    ret = {}
+    for key in d:
+        if d[key]:
+            ret[key] = d[key]
+    return ret
+
 def date_chart(lots_of_data, title):
-    # FIXME: Use space more efficiently
+    # FIXME: Use horizontal space more efficiently
     """ data is now input as a dict that maps label -> a dict that maps dates to data
     So we can't guarantee the order of keys. """
+
+    # First things first: Make a clean copy of the lots_of_data dict
+    lots_of_data = clean_dict(lots_of_data)
+    
     ax = pylab.subplot(111) # We're going to have a plot, okay?
 
     colors = ListCycle( ('b', 'g', 'r', 'c', 'm', 'y', 'k') )
@@ -232,8 +245,9 @@ def date_chart(lots_of_data, title):
     # Anything more and it's too squished
     # Meanwhile, want the month labels to happen on some factor of 12
     # So let's calculate the smallest factor of 12 we can do this for
-    
-    monthcount = find_month_count_that_fits(start_date, end_date, max_ticks=15)
+
+    if lots_of_data:
+        monthcount = find_month_count_that_fits(start_date, end_date, max_ticks=15)
     # ASKMIKE?
 
     rule = matplotlib.dates.rrulewrapper(matplotlib.dates.MONTHLY, interval=3)
@@ -243,7 +257,8 @@ def date_chart(lots_of_data, title):
     # format the ticks
     ax.xaxis.set_major_locator(loc)
     ax.xaxis.set_major_formatter(formatter)
-    ax.autoscale_view()
+    if lots_of_data:
+        ax.autoscale_view()
 
     # And shrink the text!
     locs, labels = pylab.xticks()
