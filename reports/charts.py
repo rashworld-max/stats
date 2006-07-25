@@ -196,7 +196,9 @@ def find_month_count_that_fits(start_date, end_date, max_ticks):
     raise AssertionError, "Really?  Gawrsh!"
 
 def clean_dict(d):
-    ''' Input: A dict.
+    ''' WARNING: Only call this before graphing data.  It is evil to corrupt data
+    in a context other than displaying it.
+    Input: A dict.
     Output: A dict with all the keys in d that had values, mapped to the right values. '''
     ret = {}
     for key in d:
@@ -280,6 +282,15 @@ def date_chart(lots_of_data, title):
     pylab.savefig(fname(title))
     pylab.close()
     return title
+
+def make_total(d):
+    ret = {}
+    so_far = 0
+    for k in d:
+        ret[k] = d[k]
+        so_far += d[k]
+    ret['total'] = so_far
+    return ret
 
 def property_counts(things):
     ''' Input: A subset of everything.
@@ -487,12 +498,30 @@ def aggregate_for_date_chart(table, engine, fn):
 def license_versions_date_chart():
     # FIXME: Make that percentage
     def data_fn(table, engine):
+        # FYI, this looks totally crazy.  The workings of this will be forgotten by Thursday.
         def fn(datum):
             v = urlParse(datum.license_uri)['version']
             if v:
                 return v
             return None # fall-through for explicitness' sake
-        return aggregate_for_date_chart(table, engine, fn)
+        raw_data = aggregate_for_date_chart(table, engine, fn)
+        license_types = raw_data.keys()
+        # let's union the dates up
+        bag_of_dates = [raw_data[lic].keys() for lic in license_types]
+        dates = set()
+        for bag in bag_of_dates:
+            dates.update(set(bag))
+        # FIXME: This makes no sense because some dates don't have data for some licenses!
+        percentaged = {}
+        for lic in license_types:
+            percentaged[lic] = {}
+        for date in dates:
+            percentages = [ (lic, raw_data[lic].get(date, 0)) for lic in license_types ]
+            dictified = dict(percentages)
+            percentaged_dict = percentage_ify(make_total, dictified)
+            for lic in license_types:
+                percentaged[lic][date] = percentaged_dict[lic]
+        return percentaged
     def chart_fn(data, engine):
         return date_chart(data, "%s linkbacks per license version" % engine)
     return for_search_engine(chart_fn, data_fn, db.simple)
