@@ -111,6 +111,7 @@ def get_all_urlParse_results(key, everything):
 
 def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     pylab.figure(figsize=(8,8))
+    data = clean_dict(data)
     labels = data.keys()
     values = [data[k] for k in labels]
     # Bar supports multiple, well, bars
@@ -119,7 +120,9 @@ def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     # So forget it.
     ind = pylab.arange(len(values))  # the x locations for the groups
     width = 0.35       # the width of the bars
-    pylab.p1 = pylab.bar(ind, values, width, color='r')
+    p1 = pylab.bar(ind, values, width, color='r',
+                   yerr=[0] * len(values),xerr=[0] * len(values))
+    # xerr,yerr is matplotlib workaround; not needed in 0.87.4
     
     pylab.ylabel(ylabel)
     pylab.title(title)
@@ -341,7 +344,7 @@ def percentage_ify(fn, things):
             if counts['total'] == 0:
                 ratio = 0
             else:
-                ratio = counts[thing] / counts['total']
+                ratio = counts[thing] / (1.0 * counts['total'])
             counts[thing] = 100.0 * ratio
                 
     del counts['total']
@@ -429,7 +432,6 @@ def data_for_tables_at_bottom(table, engine):
 def property_bar_chart():
     def data_fn(table, engine):
         recent = get_all_most_recent(table, engine)
-        print MAX_DATE
         return percentage_ify(property_counts, recent)
     
     def chart_fn(data, engine):
@@ -449,7 +451,7 @@ def main(y, m, d):
     filenames.extend(simple_aggregate_date_chart())
     filenames.extend(specific_license_date_chart())
     filenames.extend(exact_license_pie_chart())
-    #filenames.extend(property_bar_chart()) # FIXME: Blows up!
+    filenames.extend(property_bar_chart())
     filenames.extend(jurisdiction_pie_chart())
     filenames.extend(license_versions_date_chart())
     # Now make a trivial HTML page
