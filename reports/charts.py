@@ -317,7 +317,6 @@ def for_search_engine(chart_fn, data_fn, table):
     for engine in search_engines:
         data = data_fn(table, engine)
         ret.append(chart_fn(data, engine))
-        # FIXME: May die if no hits from this engine?
     return ret
 
 def flatten_small_percents(data, percent_floor):
