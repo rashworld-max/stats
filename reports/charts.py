@@ -446,7 +446,7 @@ def property_bar_chart():
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-def main(y, m, d):
+def main(y, m, d, jurismode = False):
     ''' Current goal: Emulate existing stats pages.
     Takes the arguments y, m, d and representing the year/month/day of the last day
     whose data to consider.'''
@@ -460,8 +460,9 @@ def main(y, m, d):
     filenames.extend(specific_license_date_chart())
     filenames.extend(exact_license_pie_chart())
     filenames.extend(property_bar_chart())
-    filenames.extend(jurisdiction_pie_chart())
-    filenames.extend(jurisdiction_log_date_chart())
+    if jurismode:
+        filenames.extend(jurisdiction_pie_chart())
+        filenames.extend(jurisdiction_log_date_chart())
     filenames.extend(license_versions_percentage_date_chart())
     # Now make a trivial HTML page
     filenames.sort()
@@ -578,9 +579,6 @@ if __name__ == '__main__':
         print >> sys.stderr, "Only events from on or before this date will be considered in the data analysis."
         print >> sys.stderr, "This allows you to re-run the chart generation and be sure of what data will be included."
         sys.exist(-1) # "No typo." ;-)
-    if len(sys.argv) < 3:
-        print >> sys.stderr, "You must pass either the special word ALL or an"
-#all-lowercase identifier for a "
     max_date = sys.argv[1]
     y,m,d = map(int, max_date.split('-'))
     main(y,m,d)
