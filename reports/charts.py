@@ -26,9 +26,6 @@ import pylab, matplotlib
 # But it works for now, I suppose.
 # Something smarter would be to store this in the database.
 
-# FIXME: This code assumes you're always looking at the "simple"
-# table.  That's dumb.
-
 # Note that it should only do this for a particular 
 # run, not every single run.  Might as well get the 
 # maximum value in that timestamp column to do the 
