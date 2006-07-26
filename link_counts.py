@@ -48,7 +48,7 @@ class LinkCounter:
             timestamp = self.timestamp
         self.db.simple.insert(license_uri=cc_license_uri, search_engine=search_engine,count=count,timestamp = timestamp, country = country, language = language)
         self.db.flush()
-        debug("%s gave us %d hits via %s" % (cc_license_uri, count, search_engine))
+        debug("%s gave us %d hits via %s on %s" % (cc_license_uri, count, search_engine, timestamp))
 
     def count_google(self):
         ## Once from webtrawl
@@ -148,7 +148,7 @@ class LinkCounter:
             timestamp = self.timestamp
         self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = timestamp, search_engine=search_engine, country=country, language=language)
         self.db.flush()
-        debug("%s gave us %d hits via %s" % (license_specifier, count, search_engine))
+        debug("%s gave us %d hits via %s on %s" % (license_specifier, count, search_engine, timestamp))
         
 def main():
     lc = LinkCounter(dburl='mysql://root:@localhost/cc', xmlpath='old/api/licenses.xml')
