@@ -460,7 +460,7 @@ def main(y, m, d):
     filenames.extend(exact_license_pie_chart())
     filenames.extend(property_bar_chart())
     filenames.extend(jurisdiction_pie_chart())
-    filenames.extend(license_versions_date_chart())
+    filenames.extend(license_versions_percent_date_chart())
     # Now make a trivial HTML page
     filenames.sort()
     html = '<html><body>'
@@ -492,8 +492,7 @@ def aggregate_for_date_chart(table, engine, fn):
 
 # FIXME: Jurisdictions by log over time
 
-def license_versions_date_chart():
-    # FIXME: Make that percentage
+def license_versions_percentage_date_chart():
     def data_fn(table, engine):
         # FYI, this looks totally crazy.  The workings of this will be forgotten by Thursday.
         def fn(datum):
@@ -508,7 +507,8 @@ def license_versions_date_chart():
         dates = set()
         for bag in bag_of_dates:
             dates.update(set(bag))
-        # FIXME: This makes no sense because some dates don't have data for some licenses!
+            
+        # Now percentage_ify, but carefully
         percentaged = {}
         for lic in license_types:
             percentaged[lic] = {}
@@ -559,7 +559,4 @@ if __name__ == '__main__':
     y,m,d = map(int, max_date.split('-'))
     main(y,m,d)
     
-# FIXME: x1e+7 is what?
-# Scale actual data down; print at top, "in millions"
-
 # FIXME: These h <-- !??!
