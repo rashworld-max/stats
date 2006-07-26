@@ -248,7 +248,7 @@ def date_chart(lots_of_data, title, scaledown = 1):
         dates, values, label = elt
         pylab.plot_date(dates, values, colors.next() + '-')
         labels.append(label)
-    pylab.legend(labels)
+    pylab.legend(labels, loc='upper left')
 
     # There is room for 15 month labels
     # Anything more and it's too squished
@@ -502,7 +502,6 @@ def aggregate_for_date_chart(table, engine, fn, logbase=None):
                 data[name][timestamp] = vallog
     return data
 
-# FIXME: Jurisdictions by log over time
 def jurisdiction_log_date_chart():
     def data_fn(table, engine):
         def fn(datum):
