@@ -5,6 +5,7 @@ try:
 except ImportError:
     pass
 import pylab
+import math
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
 from matplotlib.dates import MONDAY, SATURDAY
 import datetime
@@ -460,7 +461,8 @@ def main(y, m, d):
     filenames.extend(exact_license_pie_chart())
     filenames.extend(property_bar_chart())
     filenames.extend(jurisdiction_pie_chart())
-    filenames.extend(license_versions_percent_date_chart())
+    filenames.extend(jurisdiction_log_date_chart())
+    filenames.extend(license_versions_percentage_date_chart())
     # Now make a trivial HTML page
     filenames.sort()
     html = '<html><body>'
@@ -473,7 +475,7 @@ def main(y, m, d):
     fd.write(html)
     fd.close()
 
-def aggregate_for_date_chart(table, engine, fn):
+def aggregate_for_date_chart(table, engine, fn, logbase=None):
     ''' Input: table and engine, plus a fn for determing keys
     Output: {fn-return-val1: {date: val, date:val, ...} '''
     # It is impossible to implement this fully cleanly because
@@ -488,9 +490,31 @@ def aggregate_for_date_chart(table, engine, fn):
             if name not in data:
                 data[name] = {}
             data[name][datum.timestamp] = data[name].get(datum.timestamp, 0) + int(datum[0])
+    # Optionally handle log:
+    if logbase is not None:
+        for name in data:
+            for timestamp in data[name]:
+                val = data[name][timestamp]
+                if val == 0:
+                    vallog = 0 # Tee-hee, this is a lie.
+                else:
+                    vallog = math.log(val, logbase)
+                data[name][timestamp] = vallog
     return data
 
 # FIXME: Jurisdictions by log over time
+def jurisdiction_log_date_chart():
+    def data_fn(table, engine):
+        def fn(datum):
+            jur = urlParse(datum.license_uri)['jurisdiction']
+            if jur:
+                return jur
+            return None # fall-through for explicitness
+        return aggregate_for_date_chart(table, engine, fn, logbase=10)
+    def chart_fn(data, engine):
+        return date_chart(data, "%s jurisdiction count (log10)" % engine)
+    return for_search_engine(chart_fn, data_fn, db.simple)
+
 
 def license_versions_percentage_date_chart():
     def data_fn(table, engine):
@@ -555,6 +579,10 @@ if __name__ == '__main__':
         print >> sys.stderr, "Only events from on or before this date will be considered in the data analysis."
         print >> sys.stderr, "This allows you to re-run the chart generation and be sure of what data will be included."
         sys.exist(-1) # "No typo." ;-)
+    if len(sys.argv) < 3:
+        print 'zomg'
     max_date = sys.argv[1]
     y,m,d = map(int, max_date.split('-'))
     main(y,m,d)
+
+# FIXME: Individual jurisdiction reports
