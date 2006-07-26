@@ -558,5 +558,3 @@ if __name__ == '__main__':
     max_date = sys.argv[1]
     y,m,d = map(int, max_date.split('-'))
     main(y,m,d)
-    
-# FIXME: These h <-- !??!
