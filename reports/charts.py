@@ -132,7 +132,7 @@ def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     for x,y in zip(xrange(len(values)), values):
         pylab.text(x+width/2., y, labelfmt % y, va='bottom', ha='center')
     
-    pylab.savefig(fname(title))
+    pylab.savefig(fname(title),dpi=100)
     pylab.close()
     
     # http://matplotlib.sourceforge.net/screenshots/barchart_demo.py shows how to smarten the legend
@@ -167,7 +167,7 @@ def pie_chart(data, title):
     #pylab.legend()
 
     pylab.title(title, bbox={'facecolor':'0.8', 'pad':5})
-    pylab.savefig(fname(title))
+    pylab.savefig(fname(title),dpi=100)
     pylab.close() # This is key!
     return title
 
@@ -277,7 +277,7 @@ def date_chart(lots_of_data, title, scaledown = 1):
     ax.format_ydata = lambda f: f
     pylab.title(title)
     pylab.grid(True)
-    pylab.savefig(fname(title))
+    pylab.savefig(fname(title),dpi=100)
     pylab.close()
     return title
 
@@ -579,7 +579,8 @@ if __name__ == '__main__':
         print >> sys.stderr, "This allows you to re-run the chart generation and be sure of what data will be included."
         sys.exist(-1) # "No typo." ;-)
     if len(sys.argv) < 3:
-        print 'zomg'
+        print >> sys.stderr, "You must pass either the special word ALL or an"
+#all-lowercase identifier for a "
     max_date = sys.argv[1]
     y,m,d = map(int, max_date.split('-'))
     main(y,m,d)
