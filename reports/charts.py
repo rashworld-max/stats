@@ -515,15 +515,26 @@ def license_versions_date_chart():
         percentaged = {}
         for lic in license_types:
             percentaged[lic] = {}
-        for date in dates:
+        yesterday_licenses = None
+        sorted_dates = list(dates)
+        sorted_dates.sort()
+        for date in sorted_dates:
             percentages = [ (lic, raw_data[lic].get(date, 0)) for lic in license_types ]
             dictified = dict(percentages)
             percentaged_dict = percentage_ify(make_total, dictified)
-            for lic in license_types:
-                percentaged[lic][date] = percentaged_dict[lic]
+            # A heuristic to smooth sloppy data: Throw away a day if there is a license in yesterday but not today
+            today_licenses = set([lic for lic in license_types if date in raw_data[lic]]) # YEEK
+            if yesterday_licenses is None: # base case
+                yesterday_licenses = today_licenses
+            if yesterday_licenses.issubset(today_licenses): # then today_licenses is considered useful
+                for lic in today_licenses:
+                    percentaged[lic][date] = percentaged_dict[lic]
+                yesterday_licenses = today_licenses # Store this as a model for future days to live up to
+            else:
+                print 'threw away', date, 'because', today_licenses, 'not a subset of', yesterday_licenses
         return percentaged
     def chart_fn(data, engine):
-        return date_chart(data, "%s linkbacks per license version" % engine)
+        return date_chart(data, "%s license version percentages" % engine)
     return for_search_engine(chart_fn, data_fn, db.simple)
 
 def specific_license_date_chart():
