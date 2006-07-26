@@ -203,7 +203,7 @@ def clean_dict(d):
             ret[key] = d[key]
     return ret
 
-def date_chart(lots_of_data, title):
+def date_chart(lots_of_data, title, scaledown = 1):
     # FIXME: Use horizontal space more efficiently
     """ data is now input as a dict that maps label -> a dict that maps dates to data
     So we can't guarantee the order of keys. """
@@ -225,7 +225,7 @@ def date_chart(lots_of_data, title):
         data_keys = data.keys()
         data_keys.sort()
         dates = [pylab.date2num(date) for date in data_keys]
-        values = [data[date] for date in data_keys]
+        values = [data[date] / (scaledown * 1.0) for date in data_keys]
 
         # Calculate date delta to decide if later on we'll be in
         # months mode or years mode
@@ -386,7 +386,8 @@ def simple_aggregate_date_chart():
     def data_fn(table, engine):
         return {'Total linkbacks': date_chart_data(engine, table)}
     def chart_fn(data, engine):
-        return date_chart(data, "%s total linkbacks line graph" % engine)
+        return date_chart(data, "%s total linkbacks line graph in millions" % engine,
+                          scaledown=1000*1000)
     return for_search_engine(chart_fn, data_fn, db.simple)
 
 def data2htmltable(data, formatstring = '%1.1f%%'):
@@ -543,7 +544,8 @@ def specific_license_date_chart():
             return None # fall-through for explicitness
         return aggregate_for_date_chart(table, engine, fn)
     def chart_fn(data, engine):
-        return date_chart(data, "%s linkbacks per license" % engine)
+        return date_chart(data, "%s linkbacks per license in millions" % engine,
+                          scaledown=1000*1000)
     return for_search_engine(chart_fn, data_fn, db.simple)
 
 if __name__ == '__main__':
