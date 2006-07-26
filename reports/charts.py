@@ -303,8 +303,7 @@ def property_counts(things):
     return ret
 
 def license_counts(things):
-    ''' FIXME: Poorly-named.
-    Input: A subset of everything.
+    ''' Input: A subset of everything.
     Output: A hash of e.g. "by-sa" -> count, plus an extra "total" -> total'''
     ret = {}
     for thing in things:
