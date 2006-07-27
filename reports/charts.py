@@ -483,20 +483,20 @@ def main(y, m, d, jurismode = False):
     # and mention it in all our queries
     global MAX_DATE
     MAX_DATE = datetime.datetime(y,m,d) + datetime.timedelta(days=1)
-    filenames = [] # a list of tuples: (chart name, HTML for it) # FIXME RENAME -> charts
+    charts = [] # a list of tuples: (chart name, HTML for it)
     # First, generate all the graphs
-    filenames.extend(map(show_png_chart, simple_aggregate_date_chart()))
-    filenames.extend(map(show_png_chart, specific_license_date_chart()))
-    filenames.extend(map(show_png_chart, exact_license_pie_chart()))
-    filenames.extend(map(show_png_chart, property_bar_chart()))
+    charts.extend(map(show_png_chart, simple_aggregate_date_chart()))
+    charts.extend(map(show_png_chart, specific_license_date_chart()))
+    charts.extend(map(show_png_chart, exact_license_pie_chart()))
+    charts.extend(map(show_png_chart, property_bar_chart()))
     if jurismode:
-        filenames.extend(map(show_png_chart, jurisdiction_pie_chart()))
-        filenames.extend(map(show_png_chart, jurisdiction_log_date_chart()))
-    filenames.extend(map(show_png_chart, license_versions_percentage_date_chart()))
+        charts.extend(map(show_png_chart, jurisdiction_pie_chart()))
+        charts.extend(map(show_png_chart, jurisdiction_log_date_chart()))
+    charts.extend(map(show_png_chart, license_versions_percentage_date_chart()))
     # Now make a trivial HTML page
-    filenames.sort()
+    charts.sort()
     doc = HTMLgen.SimpleDocument()
-    for fname, html in filenames:
+    for fname, html in charts:
         doc.append(html)
     doc.append(data2htmltable(data_for_tables_at_bottom(db.simple, 'Yahoo')))
     fd = open(os.path.join(BASEDIR, 'index.html'), 'w')
