@@ -20,6 +20,10 @@ from sqlalchemy.ext.sqlsoup import SqlSoup
 
 ## FIXME: Start using experiment functions
 
+## FIXME: Do queries also while *not* using the CC APIs
+
+## FIXME: Find 5 or so "seemingly non-biased" queries (e.g., "+a")
+
 class LinkCounter:
     dumb_queries = ['license', '-license', 'work', '-work', 'html', '-html']
     ## TRYME: ccTLDs?

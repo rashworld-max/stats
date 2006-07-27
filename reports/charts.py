@@ -33,9 +33,12 @@ import pylab, matplotlib
 # latest.  Be sure to get that max separately per 
 # search engine.
 
+# FIXME: Write a date_chart that shows total Google's or() of all the CC attributes
+
 MAX_DATE = datetime.datetime(3000, 1, 1) # In the grim future of humanity
                                          # there are only license
                                          # usage statistics
+JURI = None
 
 # FIXME: Move this somewhere I can use it later.
 class ListCycle:
@@ -139,6 +142,7 @@ def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     return title
 
 def pie_chart(data, title):
+    # FIXME: Also generate HTML table versions of the data
     # make a square figure and axes
     pylab.figure(figsize=(8,8))
 
@@ -172,13 +176,19 @@ def pie_chart(data, title):
     return title
 
 def date_chart_data(engine, table):
-    s = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp], sqlalchemy.and_(table.c.search_engine == engine, table.c.timestamp < MAX_DATE))
+    # FIXME: I don't remember why this works or what it's for.
+    restrictions = sqlalchemy.and_(table.c.search_engine == engine, table.c.timestamp < MAX_DATE)
+    s = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], restrictions)
     s.group_by(table.c.timestamp)
     data = s.execute() # sum() returns a string, BEWARE!
 
     send_this = {}
     for datum in data:
-        value, timestamp = datum
+        if JURI:
+            juri = urlParse(datum.license_uri)['jurisdiction']
+            if juri != JURI:
+                continue
+        value, timestamp, jurisdiction = datum
         value = int(value) # sqlalchemy bug: SUM() returns a string
         send_this[timestamp] = value
     return send_this
@@ -257,7 +267,7 @@ def date_chart(lots_of_data, title, scaledown = 1):
 
     if lots_of_data:
         monthcount = find_month_count_that_fits(start_date, end_date, max_ticks=15)
-    # ASKMIKE?
+    # FIXME: See top of function.
 
     rule = matplotlib.dates.rrulewrapper(matplotlib.dates.MONTHLY, interval=3)
     loc = matplotlib.dates.RRuleLocator(rule)
@@ -318,7 +328,12 @@ def license_counts(things):
 def get_all_most_recent(table, engine):
     recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)], table.c.timestamp < MAX_DATE).execute().fetchone()[0]
     recent = sqlalchemy.select(table.columns, sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)).execute()
-    return recent
+    for datum in recent:
+        if JURI:
+            juri = urlParse(datum.license_uri)['jurisdiction']
+            if juri != JURI:
+                continue
+        yield datum
 
 def for_search_engine(chart_fn, data_fn, table):
     ret = []
@@ -407,7 +422,7 @@ def data2htmltable(data, formatstring = '%1.1f%%'):
     return ret
 
 def data_for_tables_at_bottom(table, engine):
-    recent = get_all_most_recent(table, engine).fetchall() # Memory-stealing hack
+    recent = get_all_most_recent(table, engine) # Memory-stealing hack
     # Going to implement this the slow way
     # because our database is too dumb
 
@@ -415,6 +430,7 @@ def data_for_tables_at_bottom(table, engine):
     all_jurisdictions = get_all_urlParse_results('jurisdiction', recent)
 
     data = {}
+    recent = get_all_most_recent(table, engine) # Have to re-create generator
     for jur in all_jurisdictions:
         just_jur = [k for k in recent if urlParse(k.license_uri)['jurisdiction'] == jur]
         jur_percents = percentage_ify(license_counts, just_jur)
@@ -486,6 +502,10 @@ def aggregate_for_date_chart(table, engine, fn, logbase=None):
     query.group_by(table.c.timestamp)
     data = {} # a mapping of 'by' -> {date: num, date: num, ...}
     for datum in query.execute():
+        if JURI:
+            juri = urlParse(datum.license_uri)['jurisdiction']
+            if juri != JURI:
+                continue
         name = fn(datum)
         if name:
             if name not in data:
@@ -572,7 +592,7 @@ def specific_license_date_chart():
                           scaledown=1000*1000)
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-if __name__ == '__main__':
+def mmain(): # FIXME: Lamme nname
     import sys
     if len(sys.argv) < 2:
         print >> sys.stderr, "You must pass an ISO date to this program."
@@ -581,6 +601,25 @@ if __name__ == '__main__':
         sys.exist(-1) # "No typo." ;-)
     max_date = sys.argv[1]
     y,m,d = map(int, max_date.split('-'))
+    juris = get_all_urlParse_results('jurisdiction', get_all_most_recent(db.simple, 'Yahoo'))
+    global BASEDIR # This global junk is lame.
+    global JURI # also lame.
+    BASEBASEDIR = BASEDIR
+    for juri in juris:
+        if juri:
+            JURI = juri
+            BASEDIR = os.path.join(BASEBASEDIR, juri)
+            if not os.path.exists(BASEDIR): # LAME
+                os.mkdir(BASEDIR)
+            print 'jurying for', juri
+            main(y,m,d,jurismode=True)
+    JURI = None
+    if not os.path.exists(BASEDIR): # LAME
+        os.mkdir(BASEDIR)
+    BASEDIR = os.path.join(BASEBASEDIR, 'all')
     main(y,m,d)
 
-# FIXME: Individual jurisdiction reports
+if __name__ == '__main__':
+    mmain()
+
+# FIXME: 
