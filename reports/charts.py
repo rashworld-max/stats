@@ -428,7 +428,7 @@ def pic_and_data(pic, data, fmtstr = "%s"):
     intab = HTMLgen.Table()
     intab.body = []
     for key in sorted_dict_keys_by_value(data):
-        intab.body.append( [key, fmtstr % data[key]] )
+        intab.body.append( map(HTMLgen.Text, [key, fmtstr % data[key]]) )
     intab.body.reverse() # since sorted comes out little to big
     img = HTMLgen.Image(filename=os.path.join(BASEDIR, pic), src=pic, alt=pic)
 
