@@ -409,25 +409,21 @@ def jurisdiction_pie_chart():
     def chart_fn(data, engine):
         pic = pie_chart(data, "%s Jurisdiction data" % engine)
         html = pic_and_data(pic, data)
-        print 'zomg'
         ret = FileAndHtml(f=pic, h=str(html))
         return ret
 
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-def dict_as_sorted_tuples(d):
-    l = []
-    k = d.keys()
-    k.sort()
-    for key in k:
-        l.append( (key, d[key]) )
-    return tuple(l)
+def sorted_dict_keys(d):
+    keys = d.keys()
+    keys.sort()
+    return keys
 
 def pic_and_data(pic, data):
     intab = HTMLgen.Table()
     intab.body = []
-    for key, val in dict_as_sorted_tuples(data):
-        intab.body.append( [key, val] )
+    for key in sorted_dict_keys(d):
+        intab.body.append( [key, data[key]] )
     img = HTMLgen.Image(filename=os.path.join(BASEDIR, pic), src=pic, alt=pic)
 
     # a table of one row, two columns
@@ -461,10 +457,8 @@ def data2htmltable(data, formatstring = '%1.1f%%'):
     ''' Input: data is a mapping from license identifiers to
     (percent, jurisdiction) pairs.
     Output: HTML. '''
-    licenses = data.keys() # FIXME: use new function
-    licenses.sort() # 'by' first, etc.
     ret = '' # FIXME: Evil HTML creation
-    for l in licenses:
+    for l in sorted_dict_keys(d):
         ret += '<table border=1 style="float: left;">'
         ret += '<caption>%s</caption>' % l
         for percent, jurisdiction in data[l]:
@@ -526,7 +520,6 @@ def main(y, m, d, jurismode = False):
     charts.extend(map(show_png_chart, simple_aggregate_date_chart()))
     charts.extend(map(show_png_chart, specific_license_date_chart()))
     charts.extend(exact_license_pie_chart())
-    print charts[-1]
     charts.extend(map(show_png_chart, property_bar_chart()))
     if jurismode:
         charts.extend(jurisdiction_pie_chart())
