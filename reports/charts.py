@@ -12,7 +12,8 @@ import datetime
 from sqlalchemy.ext.sqlsoup import SqlSoup
 import sqlalchemy
 import os
-import pylab, matplotlib
+import matplotlib
+import HTMLgen
 # Jurisdictions
 # for search_engine in 'Yahoo', 'Google', 'All The Web':
 # select from simple where search_engine=search_engine
@@ -134,12 +135,13 @@ def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     # Labels!
     for x,y in zip(xrange(len(values)), values):
         pylab.text(x+width/2., y, labelfmt % y, va='bottom', ha='center')
+    short_fname = title + '.png'
     
-    pylab.savefig(fname(title),dpi=100)
+    pylab.savefig(fname(short_fname),dpi=100)
     pylab.close()
     
     # http://matplotlib.sourceforge.net/screenshots/barchart_demo.py shows how to smarten the legend
-    return title
+    return short_fname
 
 def pie_chart(data, title):
     # FIXME: Also generate HTML table versions of the data
@@ -171,9 +173,10 @@ def pie_chart(data, title):
     #pylab.legend()
 
     pylab.title(title, bbox={'facecolor':'0.8', 'pad':5})
-    pylab.savefig(fname(title),dpi=100)
+    short_fname = title + '.png'
+    pylab.savefig(fname(short_fname),dpi=100)
     pylab.close() # This is key!
-    return title
+    return short_fname
 
 def date_chart_data(engine, table):
     # FIXME: I don't remember why this works or what it's for.
@@ -287,9 +290,10 @@ def date_chart(lots_of_data, title, scaledown = 1):
     ax.format_ydata = lambda f: f
     pylab.title(title)
     pylab.grid(True)
-    pylab.savefig(fname(title),dpi=100)
+    short_fname = title + '.png'
+    pylab.savefig(fname(short_fname),dpi=100)
     pylab.close()
-    return title
+    return short_fname
 
 def make_total(d):
     ret = {}
@@ -482,14 +486,14 @@ def main(y, m, d, jurismode = False):
     filenames.extend(license_versions_percentage_date_chart())
     # Now make a trivial HTML page
     filenames.sort()
-    html = '<html><body>'
+    doc = HTMLgen.SimpleDocument()
     for f in filenames:
-        html += '<img src="%s.png" /><br />' % f
-    html += data2htmltable(data_for_tables_at_bottom(db.simple, 'Yahoo'))
-    
-    html += '</body></html>'
+        img = HTMLgen.Image(filename=os.path.join(BASEDIR, f), src=f, alt='zomg')
+        doc.append(img)
+        doc.append(HTMLgen.BR())
+    doc.append(data2htmltable(data_for_tables_at_bottom(db.simple, 'Yahoo')))
     fd = open(os.path.join(BASEDIR, 'index.html'), 'w')
-    fd.write(html)
+    print >> fd, doc
     fd.close()
 
 def aggregate_for_date_chart(table, engine, fn, logbase=None):
