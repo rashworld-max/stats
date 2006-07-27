@@ -217,7 +217,16 @@ def clean_dict(d):
             ret[key] = d[key]
     return ret
 
+def show_png_chart(path):
+    html = '' # Sorry for spewing out a string
+    img = HTMLgen.Image(filename='', src=path, alt=path) # fake filename
+    html += str(img)
+    html += str(HTMLgen.BR())
+    return (path, html)
+
 def date_chart(lots_of_data, title, scaledown = 1):
+    ''' Input: Some data, a title, and a percentage by which we scale down the data.
+    Output: The relative path to a PNG I created. '''
     # FIXME: Use horizontal space more efficiently
     """ data is now input as a dict that maps label -> a dict that maps dates to data
     So we can't guarantee the order of keys. """
@@ -474,23 +483,21 @@ def main(y, m, d, jurismode = False):
     # and mention it in all our queries
     global MAX_DATE
     MAX_DATE = datetime.datetime(y,m,d) + datetime.timedelta(days=1)
-    filenames = []
+    filenames = [] # a list of tuples: (chart name, HTML for it) # FIXME RENAME -> charts
     # First, generate all the graphs
-    filenames.extend(simple_aggregate_date_chart())
-    filenames.extend(specific_license_date_chart())
-    filenames.extend(exact_license_pie_chart())
-    filenames.extend(property_bar_chart())
+    filenames.extend(map(show_png_chart, simple_aggregate_date_chart()))
+    filenames.extend(map(show_png_chart, specific_license_date_chart()))
+    filenames.extend(map(show_png_chart, exact_license_pie_chart()))
+    filenames.extend(map(show_png_chart, property_bar_chart()))
     if jurismode:
-        filenames.extend(jurisdiction_pie_chart())
-        filenames.extend(jurisdiction_log_date_chart())
-    filenames.extend(license_versions_percentage_date_chart())
+        filenames.extend(map(show_png_chart, jurisdiction_pie_chart()))
+        filenames.extend(map(show_png_chart, jurisdiction_log_date_chart()))
+    filenames.extend(map(show_png_chart, license_versions_percentage_date_chart()))
     # Now make a trivial HTML page
     filenames.sort()
     doc = HTMLgen.SimpleDocument()
-    for f in filenames:
-        img = HTMLgen.Image(filename=os.path.join(BASEDIR, f), src=f, alt='zomg')
-        doc.append(img)
-        doc.append(HTMLgen.BR())
+    for fname, html in filenames:
+        doc.append(html)
     doc.append(data2htmltable(data_for_tables_at_bottom(db.simple, 'Yahoo')))
     fd = open(os.path.join(BASEDIR, 'index.html'), 'w')
     print >> fd, doc
@@ -609,6 +616,8 @@ def mmain(): # FIXME: Lamme nname
     global BASEDIR # This global junk is lame.
     global JURI # also lame.
     BASEBASEDIR = BASEDIR
+    if len(sys.argv) >= 3 and sys.argv[2] == 'nojuris':
+        juris = []
     for juri in juris:
         if juri:
             JURI = juri
