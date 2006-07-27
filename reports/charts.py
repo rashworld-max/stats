@@ -219,7 +219,8 @@ def clean_dict(d):
 
 def show_png_chart(path):
     html = '' # Sorry for spewing out a string
-    img = HTMLgen.Image(filename='', src=path, alt=path) # fake filename
+    img = HTMLgen.Image(filename=os.path.join(BASEDIR, path), src=path, alt=path)
+    # Why does HTMLgen not pick up on the metadata (width, height)?
     html += str(img)
     html += str(HTMLgen.BR())
     return (path, html)
