@@ -255,8 +255,7 @@ def date_chart(lots_of_data, title, scaledown = 1):
     # We assume the date ranges are the same...
     for label in lots_of_data:
         data = lots_of_data[label]
-        data_keys = data.keys()
-        data_keys.sort()
+        data_keys = sorted_dict_keys(data)
         dates = [pylab.date2num(date) for date in data_keys]
         values = [data[date] / (scaledown * 1.0) for date in data_keys]
 
@@ -404,11 +403,11 @@ def jurisdiction_pie_chart():
             jurisdiction = urlParse(event.license_uri)['jurisdiction']
             if jurisdiction:
                 data[jurisdiction] = data.get(jurisdiction, 0) + event.count
-        data = flatten_small_percents(data, percent_floor=0.5)
         return data
     def chart_fn(data, engine):
-        pic = pie_chart(data, "%s Jurisdiction data" % engine)
-        html = pic_and_data(pic, data)
+        crushed = flatten_small_percents(data, percent_floor=0.5)
+        pic = pie_chart(crushed, "%s Jurisdiction data" % engine)
+        html = pic_and_data(pic, data, fmtstr = "%1.1f")
         ret = FileAndHtml(f=pic, h=str(html))
         return ret
 
@@ -419,11 +418,18 @@ def sorted_dict_keys(d):
     keys.sort()
     return keys
 
-def pic_and_data(pic, data):
+def sorted_dict_keys_by_value(d):
+    all = [ (d[key], key) for key in d ]
+    all.sort()
+    for val, key in all:
+        yield key
+
+def pic_and_data(pic, data, fmtstr = "%s"):
     intab = HTMLgen.Table()
     intab.body = []
-    for key in sorted_dict_keys(d):
-        intab.body.append( [key, data[key]] )
+    for key in sorted_dict_keys_by_value(data):
+        intab.body.append( [key, fmtstr % data[key]] )
+        intab.body.reverse() # since sorted comes out little to big
     img = HTMLgen.Image(filename=os.path.join(BASEDIR, pic), src=pic, alt=pic)
 
     # a table of one row, two columns
@@ -436,11 +442,11 @@ def exact_license_pie_chart():
     def data_fn(table, engine):
         recent = get_all_most_recent(table, engine)
         percents = percentage_ify(license_counts, recent)
-        better = flatten_small_percents(percents, percent_floor=0.2)
-        return better
+        return percents
     def chart_fn(data, engine):
-        pic = pie_chart(data, "%s exact license distribution" % engine)
-        html = pic_and_data(pic, data)
+        crushed = flatten_small_percents(data, percent_floor=0.2)
+        pic = pie_chart(crushed, "%s exact license distribution" % engine)
+        html = pic_and_data(pic, data, fmtstr = "%1.1f")
         ret = FileAndHtml(f=pic, h=html)
         return ret
     return for_search_engine(chart_fn, data_fn, db.simple)
@@ -458,7 +464,7 @@ def data2htmltable(data, formatstring = '%1.1f%%'):
     (percent, jurisdiction) pairs.
     Output: HTML. '''
     ret = '' # FIXME: Evil HTML creation
-    for l in sorted_dict_keys(d):
+    for l in sorted_dict_keys(data):
         ret += '<table border=1 style="float: left;">'
         ret += '<caption>%s</caption>' % l
         for percent, jurisdiction in data[l]:
