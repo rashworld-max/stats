@@ -19,8 +19,6 @@ import HTMLgen
 # select from simple where search_engine=search_engine
 # and language=NULL and country=NULL
 
-# FIXME: My HTML templating is pure evil.
-
 # But how to count jurisidictions?
 # I could manually regex against the database results.
 # That's hilariously inefficient.
