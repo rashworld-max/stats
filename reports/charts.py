@@ -71,6 +71,7 @@ def urlParse(url):
     ''' Input: http://creativecommons.org/some/license/URI/
     Output: A dict with keys (which, version, jurisdiction, attribs)
     of types (str, str, str, tuple)'''
+    # Note: ret['attribs'] is empty for a public domain dedication.
     global urlParse_cache
     if url in urlParse_cache:
         return urlParse_cache[url]
@@ -87,8 +88,8 @@ def urlParse(url):
             jurisdiction=elements[6]
         if jurisdiction=='' or jurisdiction=='us' or jurisdiction=='deed-music':
             jurisdiction='generic'
-        # attribs: if it's a CC license, then the list of CC attributes
-        if which in ('GPL', 'LGPL', 'devnations', 'sampling', 'pd'): # FIXME: How to handle PD later in later graphs?
+        # attribs: if it's a "normal" CC license, then the list of CC attributes
+        if which in ('GPL', 'LGPL', 'devnations', 'sampling', 'pd'):
             attribs = []
         else:
             if which in ('sampling+', 'nc-sampling+'):
