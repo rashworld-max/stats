@@ -521,7 +521,7 @@ def property_bar_chart():
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-def main(y, m, d, jurismode = False):
+def generate_charts(y, m, d, jurismode = False):
     ''' Current goal: Emulate existing stats pages.
     Takes the arguments y, m, d and representing the year/month/day of the last day
     whose data to consider.'''
@@ -649,13 +649,13 @@ def specific_license_date_chart():
                           scaledown=1000*1000)
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-def mmain(): # FIXME: Lamme nname
+def main():
     import sys
     if len(sys.argv) < 2:
         print >> sys.stderr, "You must pass an ISO date to this program."
         print >> sys.stderr, "Only events from on or before this date will be considered in the data analysis."
         print >> sys.stderr, "This allows you to re-run the chart generation and be sure of what data will be included."
-        sys.exist(-1) # "No typo." ;-)
+        sys.exit(-1)
     max_date = sys.argv[1]
     y,m,d = map(int, max_date.split('-'))
     juris = get_all_urlParse_results('jurisdiction', get_all_most_recent(db.simple, 'Yahoo'))
@@ -671,12 +671,12 @@ def mmain(): # FIXME: Lamme nname
             if not os.path.exists(BASEDIR): # LAME
                 os.mkdir(BASEDIR)
             print 'jurying for', juri
-            main(y,m,d,jurismode=True)
+            generate_charts(y,m,d,jurismode=True)
     JURI = None
     if not os.path.exists(BASEDIR): # LAME
         os.mkdir(BASEDIR)
     BASEDIR = os.path.join(BASEBASEDIR, 'all')
-    main(y,m,d)
+    generate_charts(y,m,d)
 
 if __name__ == '__main__':
     mmain()
