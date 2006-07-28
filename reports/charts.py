@@ -57,6 +57,9 @@ class ListCycle:
 
 BASEDIR='/home/paulproteus/public_html/tmp/'
 def fname(s):
+    if not os.path.isdir(BASEDIR):
+        os.mkdir(BASEDIR)
+        # If that failed, let the exception blow up the whole program.
     return os.path.join(BASEDIR, s)
 
 db = SqlSoup('mysql://root:@localhost/cc')
@@ -659,8 +662,12 @@ def main():
     max_date = sys.argv[1]
     y,m,d = map(int, max_date.split('-'))
     juris = get_all_urlParse_results('jurisdiction', get_all_most_recent(db.simple, 'Yahoo'))
-    global BASEDIR # This global junk is lame.
-    global JURI # also lame.
+    if not os.path.isdir(BASEDIR):
+        print "%s needs to be a directory that exists.  Good-bye." % BASEDIR
+        sys.exit(-1)
+    global BASEDIR # This global junk is lame,
+    global JURI # but it's here to stay.
+    # Functions are more reusable than methods of classes.
     BASEBASEDIR = BASEDIR
     if len(sys.argv) >= 3 and sys.argv[2] == 'nojuris':
         juris = []
@@ -668,12 +675,10 @@ def main():
         if juri:
             JURI = juri
             BASEDIR = os.path.join(BASEBASEDIR, juri)
-            if not os.path.exists(BASEDIR): # LAME
-                os.mkdir(BASEDIR)
             print 'jurying for', juri
             generate_charts(y,m,d,jurismode=True)
     JURI = None
-    if not os.path.exists(BASEDIR): # LAME
+    if not os.path.exists(BASEDIR):
         os.mkdir(BASEDIR)
     BASEDIR = os.path.join(BASEBASEDIR, 'all')
     generate_charts(y,m,d)
@@ -681,4 +686,3 @@ def main():
 if __name__ == '__main__':
     mmain()
 
-# FIXME: 
