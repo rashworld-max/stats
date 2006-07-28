@@ -43,6 +43,9 @@ JURI = None
 
 # FIXME: Move this somewhere I can use it later.
 class ListCycle:
+    ''' Takes a list l and, on calling next(), keeps cycling
+    through its contents, starting with the first element.
+    Goes on forever and never overflows.'''
     def __init__(self, l):
         self.l = l
         self.index = 0
@@ -66,6 +69,9 @@ all_html_colors = [k.lower() for k in ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aqu
 # Needs tests.
 urlParse_cache = {}
 def urlParse(url):
+    ''' Input: http://creativecommons.org/some/license/URI/
+    Output: A dict with keys (which, version, jurisdiction, attribs)
+    of types (str, str, str, tuple)'''
     global urlParse_cache
     if url in urlParse_cache:
         return urlParse_cache[url]
@@ -105,13 +111,17 @@ def urlParse(url):
     return ret
 
 def get_all_urlParse_results(key, everything):
-    ''' Neat for testing! '''
+    ''' Pass me an iterable of everything and I return to you
+    a set of all urlParse(k)[key] for k in everything'''
     ret = set()
     for r in [urlParse(k.license_uri)[key] for k in everything]:
         ret.add(r)
     return ret
 
 def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
+    ''' Input: a dict that maps bar labels to values and a title for the chart.
+    Output: relative path to a PNG bar chart.  ylabel controls the y axis
+    lablel. It labels the bars with the values, by default a percent.'''
     pylab.figure(figsize=(8,8))
     data = clean_dict(data)
     labels = data.keys()
@@ -144,16 +154,13 @@ def bar_chart(data, title,ylabel='',labelfmt='%1.1f'):
     return short_fname
 
 def pie_chart(data, title):
-    # FIXME: Also generate HTML table versions of the data
+    ''' Input: A dict that maps labels to values; a title for the pie.
+    Output: A relative path to a PNG that is the rendered pie chart. '''
     # make a square figure and axes
     pylab.figure(figsize=(8,8))
 
-    # here's some fun: sort the labels by the values (-:
-    data_unpacked = [ (data[key], key) for key in data ]
-    data_unpacked.sort()
-
-    fracs = [ datum[0] for datum in data_unpacked ]
-    labels= [ datum[1] for datum in data_unpacked ]
+    labels = sorted_dict_keys_by_value(data)
+    fracs = [ data[label] for label in labels ]
     
     explode=[0.05 for k in labels]
     patches, texts, autotexts = pylab.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=False, colors=('b', 'g', 'r', 'c', 'm', 'y', 'w')) # pctradius=0.85
@@ -179,7 +186,8 @@ def pie_chart(data, title):
     return short_fname
 
 def date_chart_data(engine, table):
-    # FIXME: I don't remember why this works or what it's for.
+    ''' Input: a search engine and a SQLAlchemy table.
+    Output: {date1: sum of allowed (based on MAX_DATE and JURI) data from table on date1, date2: same for date2, ...}'''
     restrictions = sqlalchemy.and_(table.c.search_engine == engine, table.c.timestamp < MAX_DATE)
     s = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], restrictions)
     s.group_by(table.c.timestamp)
@@ -197,6 +205,8 @@ def date_chart_data(engine, table):
     return send_this
 
 def find_month_count_that_fits(start_date, end_date, max_ticks):
+    ''' Returns the smallest nice-looking number of months that lets you have
+    at most max_ticks ticks on a graph axis betweeen start_date and end_date.'''
     factors = (1, 2, 3, 4, 6, 12, 23, 36, 48) # That should cover us
 
     for factor in factors:
@@ -209,8 +219,7 @@ def find_month_count_that_fits(start_date, end_date, max_ticks):
 def clean_dict(d):
     ''' WARNING: Only call this before graphing data.  It is evil to corrupt data
     in a context other than displaying it.
-    Input: A dict.
-    Output: A dict with all the keys in d that had values, mapped to the right values. '''
+    It removes keys from d where the value is false (0, None, etc.).'''
     ret = {}
     for key in d:
         if d[key]:
@@ -421,8 +430,7 @@ def sorted_dict_keys(d):
 def sorted_dict_keys_by_value(d):
     all = [ (d[key], key) for key in d ]
     all.sort()
-    for val, key in all:
-        yield key
+    return [ key for val,key in all ]
 
 def pic_and_data(pic, data, fmtstr = "%s"):
     intab = HTMLgen.Table()
