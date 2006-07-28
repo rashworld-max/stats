@@ -1,4 +1,3 @@
-## What API parameters do the engines ignore?
 import simpleyahoo
 import simplegoogle
 import unittest
