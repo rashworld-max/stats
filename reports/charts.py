@@ -41,7 +41,6 @@ MAX_DATE = datetime.datetime(3000, 1, 1) # In the grim future of humanity
                                          # usage statistics
 JURI = None
 
-# FIXME: Move this somewhere I can use it later.
 class ListCycle:
     ''' Takes a list l and, on calling next(), keeps cycling
     through its contents, starting with the first element.
