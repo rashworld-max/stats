@@ -471,7 +471,7 @@ def data2htmltable(data, formatstring = '%1.1f%%'):
     ''' Input: data is a mapping from license identifiers to
     (percent, jurisdiction) pairs.
     Output: HTML. '''
-    ret = '' # FIXME: Evil HTML creation
+    ret = '' # HTML as strings because HTMLgen.Table doesn't support style=
     for l in sorted_dict_keys(data):
         ret += '<table border=1 style="float: left;">'
         ret += '<caption>%s</caption>' % l
