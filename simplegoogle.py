@@ -1,4 +1,5 @@
 import google
+import time  # wish I didn't have to do this!
 google.setLicense('8cJjiPdQFHK2T3LGWq+Ro04dyJr0fyZs')
 
 # The main reason for this module is that the Google SOAP API has an
@@ -22,7 +23,16 @@ def search(query, cc_spec=[], country=None, language=None):
     if language:
         restrict.append(languages[language])
 
-    result = google.doGoogleSearch(query,restrict='.'.join(restrict))
+    retries = 0
+    while retries < 5:
+        try:
+            result = google.doGoogleSearch(query,restrict='.'.join(restrict))
+        except Exception, e:
+            print e
+            retries += 1
+            sleeptime = retries * 6
+            print "sleeping for 30"
+            time.sleep(sleeptime) # sleeping, assume API is acting up
     return result
 
 def count(query, cc_spec=[], country=None, language=None):
