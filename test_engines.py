@@ -23,7 +23,7 @@ def google_experiment(query, countries = 'all', languages = 'all', cc_spec = [])
     ret = []
     for country in countries:
         for language in languages:
-            reslut = {'query': query, 'license': license,
+            reslut = {'query': query, 'license': cc_spec,
                           'count': simplegoogle.count(query, cc_spec=cc_spec,
                                                       country=country, language=language),
                           'country':country}
