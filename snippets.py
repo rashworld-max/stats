@@ -1,3 +1,4 @@
+from sets import Set as set
 def list2dict(l):
     ''' Input: a list of even length
     Output: A dict where the odd-numbered elements map to their successors. '''
