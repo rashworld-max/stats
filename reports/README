@@ -1,0 +1,17 @@
+This directory contains code that generates reports from CC's stats database.
+
+== charts.py ==
+
+=== Configuration ===
+
+At the top, set:
+* BASEDIR: The directory where you want stats to be generated
+* DB: A URL-style description of the path to the database you want
+** (I use mysql, but SQLAlchemy will probably work with other things, e.g. sqlite or postgres.)
+
+=== Usage ===
+
+ $ ./charts.py <some date in ISO format, e.g. 2006-01-31>
+
+This creates BASEDIR/<date>/ and in that directory creates a report for
+each jurisdiction.
