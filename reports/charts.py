@@ -652,6 +652,8 @@ def specific_license_date_chart():
     return for_search_engine(chart_fn, data_fn, db.simple)
 
 def mmain():
+    global BASEDIR # This global junk is lame,
+    global JURI # but it's here to stay.
     import sys
     if len(sys.argv) < 2:
         print >> sys.stderr, "You must pass an ISO date to this program."
@@ -664,8 +666,6 @@ def mmain():
     if not os.path.isdir(BASEDIR):
         print "%s needs to be a directory that exists.  Good-bye." % BASEDIR
         sys.exit(-1)
-    global BASEDIR # This global junk is lame,
-    global JURI # but it's here to stay.
     # Functions are more reusable than methods of classes.
     BASEBASEDIR = BASEDIR
     if len(sys.argv) >= 3 and sys.argv[2] == 'nojuris':
