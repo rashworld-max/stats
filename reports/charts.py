@@ -670,6 +670,8 @@ def mmain():
         print "%s needs to be a directory that exists.  Good-bye." % BASEDIR
         sys.exit(-1)
     # Functions are more reusable than methods of classes.
+    BASEDIR = os.path.join(BASEDIR, max_date)
+    os.makedirs(BASEDIR, mode=0755)
     BASEBASEDIR = BASEDIR
     if len(sys.argv) >= 3 and sys.argv[2] == 'nojuris':
         juris = []
@@ -681,7 +683,7 @@ def mmain():
             generate_charts(y,m,d,jurismode=True)
     JURI = None
     if not os.path.exists(BASEDIR):
-        os.mkdir(BASEDIR)
+        os.makedirs(BASEDIR, mode=0755)
     BASEDIR = os.path.join(BASEBASEDIR, 'all')
     generate_charts(y,m,d)
 
