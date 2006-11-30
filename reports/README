@@ -15,3 +15,10 @@ At the top, set:
 
 This creates BASEDIR/<date>/ and in that directory creates a report for
 each jurisdiction.
+
+== generate_back_charts.py ==
+
+ $ ./generate_back_charts.py
+
+This generates charts for every date between the beginning of time
+(2004-04-01) and today (dynamically calculated on run).

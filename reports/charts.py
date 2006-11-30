@@ -654,16 +654,9 @@ def specific_license_date_chart():
                           scaledown=1000*1000)
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-def mmain():
+def main(max_date):
     global BASEDIR # This global junk is lame,
     global JURI # but it's here to stay.
-    import sys
-    if len(sys.argv) < 2:
-        print >> sys.stderr, "You must pass an ISO date to this program."
-        print >> sys.stderr, "Only events from on or before this date will be considered in the data analysis."
-        print >> sys.stderr, "This allows you to re-run the chart generation and be sure of what data will be included."
-        sys.exit(-1)
-    max_date = sys.argv[1]
     y,m,d = map(int, max_date.split('-'))
     juris = get_all_urlParse_results('jurisdiction', get_all_most_recent(db.simple, 'Yahoo'))
     if not os.path.isdir(BASEDIR):
@@ -688,5 +681,12 @@ def mmain():
     generate_charts(y,m,d)
 
 if __name__ == '__main__':
-    mmain()
+    import sys
+    if len(sys.argv) < 2:
+        print >> sys.stderr, "You must pass an ISO date to this program."
+        print >> sys.stderr, "Only events from on or before this date will be considered in the data analysis."
+        print >> sys.stderr, "This allows you to re-run the chart generation and be sure of what data will be included."
+        sys.exit(-1)
+    max_date = sys.argv[1]
+    main(max_date)
 
