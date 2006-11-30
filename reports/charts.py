@@ -664,7 +664,8 @@ def main(max_date):
         sys.exit(-1)
     # Functions are more reusable than methods of classes.
     BASEDIR = os.path.join(BASEDIR, max_date)
-    os.makedirs(BASEDIR, mode=0755)
+    if not os.path.isdir(BASEDIR):
+        os.makedirs(BASEDIR, mode=0755)
     BASEBASEDIR = BASEDIR
     if len(sys.argv) >= 3 and sys.argv[2] == 'nojuris':
         juris = []
