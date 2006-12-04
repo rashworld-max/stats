@@ -55,6 +55,7 @@ class LinkCounter:
         debug("%s gave us %d hits via %s on %s" % (cc_license_uri, count, search_engine, timestamp))
 
     def count_google(self):
+        return # FIXME: Google is broken. :-(
         ## Once from webtrawl
         for uri in self.uris:
             try:
@@ -110,7 +111,7 @@ class LinkCounter:
 
         Unfortunately, it doesn't let you do a raw count, so we hack
         around that by adding up queries like -license and +license."""
-        
+        return # FIXME: Google is broken.
         ## The is Google's idea of how to encode CC stuff.
         licenses = [["cc_publicdomain"], ["cc_attribute"], ["cc_sharealike"], ["cc_noncommercial"], ["cc_nonderived"], ["cc_publicdomain","cc_attribute","cc_sharealike","cc_noncommercial","cc_nonderived"]]
         for license in licenses:
@@ -155,7 +156,8 @@ class LinkCounter:
         debug("%s gave us %d hits via %s on %s" % (license_specifier, count, search_engine, timestamp))
         
 def main():
-    lc = LinkCounter(dburl='mysql://root:@localhost/cc', xmlpath='old/api/licenses.xml')
+    import dbconfig
+    lc = LinkCounter(dburl=dbconfig.dburl, xmlpath='old/api/licenses.xml')
     lc.count_google()
     lc.count_yahoo()
     lc.count_msn()
