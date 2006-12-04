@@ -1,0 +1,21 @@
+wtf?
+
+>>> import directgoogle
+>>> directgoogle.search('zomg', restrict='cc_attribute', lr='lang_sv')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+  File "directgoogle.py", line 11, in search
+    resluts = _server.doGoogleSearch(
+  File "/usr/lib/python2.3/site-packages/SOAPpy/Client.py", line 421, in __call__
+    return self.__r_call(*args, **kw)
+  File "/usr/lib/python2.3/site-packages/SOAPpy/Client.py", line 443, in __r_call
+    self.__hd, self.__ma)
+  File "/usr/lib/python2.3/site-packages/SOAPpy/Client.py", line 345, in __call
+    config = self.config)
+  File "/usr/lib/python2.3/site-packages/SOAPpy/Client.py", line 249, in call
+    raise HTTPError(code, msg)
+SOAPpy.Errors.HTTPError: <HTTPError 502 Bad Gateway>
+# That was temporary
+>>> directgoogle.search('zomg', lr='lang_sv')
+ # works
+
