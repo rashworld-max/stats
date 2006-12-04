@@ -1,6 +1,7 @@
 import BeautifulSoup
 import re
 import urllib2
+import time
 
 ## They have some SOAP thing that is only documented in an MSI.  What a freaking pain.
 def msn_count(query):
@@ -35,3 +36,15 @@ def atw_count(query):
         # I guess it's worth looking inside then
     count = re.search(r'<span class="ofSoMany">(.+?)</span>', result).group(1)
     return str2int(count)
+
+def try_thrice(fn, *arglist, **argdict):
+    tries = 0
+    while tries < 3:
+        try:
+            return fn(*arglist, **argdict)
+        except Exception, e:
+            print "Huh, while doing %s(%s, %s), %s happened." % (fn, arglist, argdict, e)
+            tries += 1
+            sleeptime = 2 ** tries
+            print 'trying again after sleeping for %d' % sleeptime
+            time.sleep(sleeptime)

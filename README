@@ -11,13 +11,18 @@ program.  If you want to use postgres or sqlite or Oracle or Microsoft
 SQL Server, you should be able to use the rest of the code just fine if
 you can adapt this schema definition.
 
-== dbconfig.py ==
+== dbconfig_TEMPLATE.py ==
 
-
+COPY THIS to dbconfig.py and then customize it to have your database
+username, password, host, and database.
 
 == lc_util.py ==
 
-Utilities for making link_counts.py easier. 
+Utilities:
+
+* MSN link counter
+* All The Web link counter
+* "try_thrice" function for calling code with backoff when exceptions happen :-)
 
 == xml2sql.py ==
 
