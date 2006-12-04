@@ -25,8 +25,8 @@ def str2int(s):
     return int(s)
 
 def atw_count(query):
-    PREFIX="http://www.alltheweb.com/search?cat=web&o=0&_sb_lang=any&q="
-    result = urllib2.urlopen(PREFIX + query).read()
+    PREFIX="http://www.alltheweb.com/search?cat=web&o=0&cs=utf-8&_sb_lang=any&q="
+    result = unicode(urllib2.urlopen(PREFIX + query).read(), 'utf-8')
     bs = BeautifulSoup.BeautifulSoup()
     bs.feed(result)
     for p in bs('p'):
