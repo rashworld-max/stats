@@ -1,0 +1,4 @@
+* Fix Google querying (what the heck is going on?)
+* If I run link_count.py twice on one day, what should happen?
+
+* Everyone deserves the hacks to work around "temporarily unavailable", not just Google.
