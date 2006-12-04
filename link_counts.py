@@ -70,7 +70,7 @@ class LinkCounter:
         ## Once from webtrawl
         for uri in self.uris:
             try:
-                count = lc_util.try_thrice(lc_util.msn_count("link:%s" % uri))
+                count = lc_util.try_thrice(lc_util.msn_count, "link:%s" % uri)
                 # We record the specific uri, count pair in the DB
                 self.record(cc_license_uri=uri, search_engine='MSN', count=count)
             except Exception, e:
@@ -84,7 +84,7 @@ class LinkCounter:
         # user-agent.  Oops.
         for uri in self.uris:
             try:
-                self.record(cc_license_uri=uri, search_engine="All The Web", count=lc_util.try_thrice(lc_util.atw_count("link:%s" % uri)))
+                self.record(cc_license_uri=uri, search_engine="All The Web", count=lc_util.try_thrice(lc_util.atw_count, "link:%s" % uri))
             except Exception, e:
                 print "Something sad happened while ATWing", uri
                 print e
@@ -94,7 +94,7 @@ class LinkCounter:
         # No sleep here because we're APIing it up.
         for uri in self.uris:
             try:
-                count = lc_util.try_thrice(simpleyahoo.legitimate_yahoo_count(uri, 'InlinkData'))
+                count = lc_util.try_thrice(simpleyahoo.legitimate_yahoo_count, uri, 'InlinkData')
                 # Country is not a valid parameter for inlinkdata :-(
 		# And languages get ignored! :-(
                 self.record(cc_license_uri=uri,
@@ -135,7 +135,7 @@ class LinkCounter:
                 for language in [None] + simpleyahoo.languages.keys():
                     for country in [None] + simpleyahoo.countries.keys():
                         try:
-                            count = lc_util.try_thrice(simpleyahoo.legitimate_yahoo_count(query=dumb_query, cc_spec=license, country=country, language=language)) # Query with the terse form
+                            count = lc_util.try_thrice(simpleyahoo.legitimate_yahoo_count, query=dumb_query, cc_spec=license, country=country, language=language) # Query with the terse form
                             self.record_complex(license_specifier='&'.join(license),
                                                 search_engine='Yahoo',
                                                 count=count,
