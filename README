@@ -1,0 +1,37 @@
+This directory contains code for generating statistics on the usage of
+CC licenses.
+
+== create_tables.sql ==
+
+"mysql -u{USERNAME} {DATABASENAME} < create_tables.sql" to initialize
+the structures for holding our results.
+
+Note that this should be the only database-dependent part of the
+program.  If you want to use postgres or sqlite or Oracle or Microsoft
+SQL Server, you should be able to use the rest of the code just fine if
+you can adapt this schema definition.
+
+== lc_util.py ==
+
+Utilities for making link_counts.py easier. 
+
+== xml2sql.py ==
+
+This converts the old XML format we used to use for storing statistics
+results and imports them into the database.
+
+== simplegoogle.py ==
+
+Trivial wrapper around the Google SOAP API to make querying it a teensy
+bit easier for me.
+
+== simpleyahoo.py ==
+
+Same deal as simplegoogle.py, but for Yahoo!'s API.
+
+== link_counts.py ==
+
+Run this to actually generate counts.  At CC, we run it nightly.
+
+Right now, Google is disabled as I get crazy errors from them.
+
