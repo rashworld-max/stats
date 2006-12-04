@@ -11,6 +11,10 @@ program.  If you want to use postgres or sqlite or Oracle or Microsoft
 SQL Server, you should be able to use the rest of the code just fine if
 you can adapt this schema definition.
 
+== dbconfig.py ==
+
+
+
 == lc_util.py ==
 
 Utilities for making link_counts.py easier. 

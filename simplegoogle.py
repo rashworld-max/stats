@@ -1,11 +1,11 @@
 import google
 import time  # wish I didn't have to do this!
-google.setLicense('8cJjiPdQFHK2T3LGWq+Ro04dyJr0fyZs')
-
+google.setLicense('oaiAhUtQFHIBLkPQ25A5u+EOItzW0PaK')
 # The main reason for this module is that the Google SOAP API has an
 # opaque "restrict" parameter.
-
 # This should make it easier to deal with.
+
+
 
 licenses = ['cc_publicdomain', 'cc_attribute', 'cc_sharealike', 'cc_noncommercial', 'cc_nonderived']
 languages = {'Swedish': 'lang_sv', 'Icelandic': 'lang_is', 'Estonian': 'lang_et', 'Chinese (T)': 'lang_zh-TW', 'Romanian': 'lang_ro', 'English': 'lang_en', 'Dutch': 'lang_nl', 'Korean': 'lang_ko', 'Danish': 'lang_da', 'Hungarian': 'lang_hu', 'Turkish': 'lang_tr', 'French': 'lang_fr', 'Norwegian': 'lang_no', 'Russian': 'lang_ru', 'Finnish': 'lang_fi', 'Hebrew': 'lang_iw', 'Greek': 'lang_el', 'Latvian': 'lang_lv', 'Polish': 'lang_pl', 'Italian': 'lang_it', 'Portuguese': 'lang_pt', 'Czech': 'lang_cs', 'Japanese': 'lang_ja', 'German': 'lang_de', 'Chinese (S)': 'lang_zh-CN', 'Spanish': 'lang_es', 'Lithuanian': 'lang_lt', 'Arabic': 'lang_ar'}
@@ -24,19 +24,20 @@ def search(query, cc_spec=[], country=None, language=None):
         restrict.append(languages[language])
 
     retries = 0
-    while retries < 5:
+    while retries < 1:
         try:
             result = google.doGoogleSearch(query,restrict='.'.join(restrict))
         except Exception, e:
             print e
             retries += 1
-            sleeptime = retries * 6
-            print "sleeping for 30"
+            sleeptime = retries * 2
+            print "sleeping for", sleeptime
             time.sleep(sleeptime) # sleeping, assume API is acting up
     return result
 
 def count(query, cc_spec=[], country=None, language=None):
-    result = search(query, cc_spec, country, language)
+    if country and language:
+         print 'eek'
+         country = None
+    result = None # search(query, cc_spec, country, language)
     return result.meta.estimatedTotalResultsCount
-    
-    

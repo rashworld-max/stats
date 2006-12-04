@@ -6,6 +6,7 @@ except ImportError:
 import link_counts
 import xml.dom
 import datetime
+import dbconfig
 
 def doTag(saxxer, tag, characters, attrs = {}):
     saxxer.startElement(tag, attrs)
@@ -20,7 +21,7 @@ def getText(nodelist):
     return rc
 
 class Importer:
-    def __init__(self, fd, db = 'mysql://root:@localhost/cc'):
+    def __init__(self, fd, db = dbconfig.dburl):
         ''' Takes an fd as an input.
         Creates some internal state and does some SQL queries as a result. '''
         self.lc = link_counts.LinkCounter(db, 'old/api/licenses.xml')
