@@ -48,3 +48,4 @@ def try_thrice(fn, *arglist, **argdict):
             sleeptime = 2 ** tries
             print 'trying again after sleeping for %d' % sleeptime
             time.sleep(sleeptime)
+    raise e
