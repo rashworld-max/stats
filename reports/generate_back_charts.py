@@ -10,4 +10,5 @@ while PROCESS_THIS < TODAY:
     print "Going to process", iso,
     charts.main(iso)
     print "(done)."
+    PROCESS_THIS += datetime.timedelta(days=1)
 
