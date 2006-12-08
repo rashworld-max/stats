@@ -18,3 +18,6 @@ create table complex (
 	country VARCHAR(255),
 	language VARCHAR(255)
 );
+
+create index simple_timestamp_index on simple (timestamp);
+create index complex_timestamp_index on complex (timestamp);
