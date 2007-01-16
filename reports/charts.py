@@ -1,5 +1,5 @@
 ## CONFIGURATION
-BASEDIR='/home/paulproteus/public_html/tmp/'
+_BASEDIR='/home/paulproteus/public_html/tmp/'
 DB = 'mysql://stats:ioP1gae8@localhost/stats'
 
 ## CODE 
@@ -60,11 +60,20 @@ class ListCycle:
         self.index += 1
         return ret
 
+ISO_DATE=''
 def fname(s):
-    if not os.path.isdir(BASEDIR):
-        os.mkdir(BASEDIR)
+    assert(ISO_DATE)
+    assert('/' not in ISO_DATE)
+    if JURI is None:
+        juri_dirpart = 'all'
+    else:
+        juri_dirpart = JURI
+    dirpart = os.path.join(_BASEDIR, ISO_DATE, juri_dirpart)
+    if not os.path.isdir(dirpart):
+        os.mkdir(dirpart)
         # If that failed, let the exception blow up the whole program.
-    return os.path.join(BASEDIR, s)
+    print dirpart
+    return os.path.join(dirpart, s)
 
 search_engines = ['Google', 'All The Web', 'Yahoo', 'MSN']
 all_html_colors = [k.lower() for k in ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine', 'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue', 'Cornsilk', 'Crimson', 'Cyan', 'DarkBlue', 'DarkCyan', 'DarkGoldenRod', 'DarkGray', 'DarkGreen', 'DarkKhaki', 'DarkMagenta', 'DarkOliveGreen', 'Darkorange', 'DarkOrchid', 'DarkRed', 'DarkSalmon', 'DarkSeaGreen', 'DarkSlateBlue', 'DarkSlateGray', 'DarkTurquoise', 'DarkViolet', 'DeepPink', 'DeepSkyBlue', 'DimGray', 'DodgerBlue', 'Feldspar', 'FireBrick', 'FloralWhite', 'ForestGreen', 'Fuchsia', 'Gainsboro', 'GhostWhite', 'Gold', 'GoldenRod', 'Gray', 'Green', 'GreenYellow', 'HoneyDew', 'HotPink', 'IndianRed', 'Indigo', 'Ivory', 'Khaki', 'Lavender', 'LavenderBlush', 'LawnGreen', 'LemonChiffon', 'LightBlue', 'LightCoral', 'LightCyan', 'LightGoldenRodYellow', 'LightGrey', 'LightGreen', 'LightPink', 'LightSalmon', 'LightSeaGreen', 'LightSkyBlue', 'LightSlateBlue', 'LightSlateGray', 'LightSteelBlue', 'LightYellow', 'Lime', 'LimeGreen', 'Linen', 'Magenta', 'Maroon', 'MediumAquaMarine', 'MediumBlue', 'MediumOrchid', 'MediumPurple', 'MediumSeaGreen', 'MediumSlateBlue', 'MediumSpringGreen', 'MediumTurquoise', 'MediumVioletRed', 'MidnightBlue', 'MintCream', 'MistyRose', 'Moccasin', 'NavajoWhite', 'Navy', 'OldLace', 'Olive', 'OliveDrab', 'Orange', 'OrangeRed', 'Orchid', 'PaleGoldenRod', 'PaleGreen', 'PaleTurquoise', 'PaleVioletRed', 'PapayaWhip', 'PeachPuff', 'Peru', 'Pink', 'Plum', 'PowderBlue', 'Purple', 'Red', 'RosyBrown', 'RoyalBlue', 'SaddleBrown', 'Salmon', 'SandyBrown', 'SeaGreen', 'SeaShell', 'Sienna', 'Silver', 'SkyBlue', 'SlateBlue', 'SlateGray', 'Snow', 'SpringGreen', 'SteelBlue', 'Tan', 'Teal', 'Thistle', 'Tomato', 'Turquoise', 'Violet', 'VioletRed', 'Wheat', 'White', 'WhiteSmoke', 'Yellow', 'YellowGreen']]
@@ -242,7 +251,7 @@ class FileAndHtml:
 
 def show_png_chart(path):
     html = '' # Sorry for spewing out a string
-    img = HTMLgen.Image(filename=os.path.join(BASEDIR, path), src=path, alt=path)
+    img = HTMLgen.Image(filename=fname(path), src=path, alt=path)
     # Why does HTMLgen not pick up on the metadata (width, height)?
     html += str(img)
     html += str(HTMLgen.BR())
@@ -443,7 +452,7 @@ def pic_and_data(pic, data, fmtstr = "%s"):
     for key in sorted_dict_keys_by_value(data):
         intab.body.append( map(HTMLgen.Text, [key, fmtstr % data[key]]) )
     intab.body.reverse() # since sorted comes out little to big
-    img = HTMLgen.Image(filename=os.path.join(BASEDIR, pic), src=pic, alt=pic)
+    img = HTMLgen.Image(filename=fpath(pic), src=pic, alt=pic)
 
     # a table of one row, two columns
     # second column is (egad) a table
@@ -526,7 +535,7 @@ def property_bar_chart():
         return bar_chart(data, "%s property bar chart" % engine, 'Percent of total','%1.1f%%')
     return for_search_engine(chart_fn, data_fn, db.simple)
 
-def generate_charts(y, m, d, jurismode = False):
+def generate_charts(y, m, d, jurismode = False, juri = None):
     ''' Current goal: Emulate existing stats pages.
     Takes the arguments y, m, d and representing the year/month/day of the last day
     whose data to consider.'''
@@ -550,7 +559,7 @@ def generate_charts(y, m, d, jurismode = False):
     for chart in charts:
         doc.append(chart.html)
     doc.append(data2htmltable(data_for_tables_at_bottom(db.simple, 'Yahoo')))
-    fd = open(os.path.join(BASEDIR, 'index.html'), 'w')
+    fd = open(fpath('index.html'), 'w')
     print >> fd, doc
     fd.close()
 
@@ -655,30 +664,38 @@ def specific_license_date_chart():
     return for_search_engine(chart_fn, data_fn, db.simple)
 
 def main(max_date,nojuris=False):
-    global BASEDIR # This global junk is lame,
-    global JURI # but it's here to stay.
+    # Step 0: Assert sanity of _BASEDIR
+    if not os.path.isdir(_BASEDIR):
+        print "%s needs to be a directory that exists.  Good-bye." % _BASEDIR
+        sys.exit(-1)
+    
+    # Step 1: Parse input.
     y,m,d = map(int, max_date.split('-'))
     juris = get_all_urlParse_results('jurisdiction', get_all_most_recent(db.simple, 'Yahoo'))
-    if not os.path.isdir(BASEDIR):
-        print "%s needs to be a directory that exists.  Good-bye." % BASEDIR
-        sys.exit(-1)
-    # Functions are more reusable than methods of classes.
-    BASEDIR = os.path.join(BASEDIR, max_date)
-    if not os.path.isdir(BASEDIR):
-        os.makedirs(BASEDIR, mode=0755)
-    BASEBASEDIR = BASEDIR
+
+    # Step 2: Set global config vars to appropriate values
+    global MAX_DATE
+    global JURI # but it's here to stay.
+    MAX_DATE=max_date
+
+    # Step 3: Create the directory for this date's report
+    empty = fpath('')
+    if not os.path.isdir(empty):
+        os.makedirs(empty, mode=0755)
+        
+    # Step 4: Figure out which jursdictions to report for
     if nojuris:
         juris = []
+
+    # Step 5: For each jurisdiction, run the report
     for juri in juris:
         if juri:
             JURI = juri
-            BASEDIR = os.path.join(BASEBASEDIR, juri)
             print 'jurying for', juri
             generate_charts(y,m,d,jurismode=True)
+
+    # Step 6: Always run the empty jurisdiction
     JURI = None
-    if not os.path.exists(BASEDIR):
-        os.makedirs(BASEDIR, mode=0755)
-    BASEDIR = os.path.join(BASEBASEDIR, 'all')
     generate_charts(y,m,d)
 
 if __name__ == '__main__':
