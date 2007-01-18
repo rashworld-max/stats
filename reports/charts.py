@@ -20,6 +20,7 @@ import sqlalchemy
 import os
 import matplotlib
 import HTMLgen
+import sys
 # Jurisdictions
 # for search_engine in 'Yahoo', 'Google', 'All The Web':
 # select from simple where search_engine=search_engine
@@ -62,7 +63,7 @@ def split(dates, data):
 
 # FIXME: Write a date_chart that shows total Google's or() of all the CC attributes
 
-MAX_DATE = datetime.datetime(3000, 1, 1) # In the grim future of humanity
+_PROCESSING_MAX_DATE = datetime.datetime(3000, 1, 1) # In the grim future of humanity
                                          # there are only license
                                          # usage statistics
 db = SqlSoup(DB)
@@ -82,17 +83,18 @@ class ListCycle:
         self.index += 1
         return ret
 
-ISO_DATE=''
+REPORT_DATE=''
 def fname(s):
-    assert(ISO_DATE)
-    assert('/' not in ISO_DATE)
+    assert(REPORT_DATE)
+    #print REPORT_DATE, 'is report date'
+    assert('/' not in REPORT_DATE)
     if JURI is None:
         juri_dirpart = 'all'
     else:
         juri_dirpart = JURI
-    dirpart = os.path.join(_BASEDIR, ISO_DATE, juri_dirpart)
+    dirpart = os.path.join(_BASEDIR, REPORT_DATE, juri_dirpart)
     if not os.path.isdir(dirpart):
-        os.mkdir(dirpart)
+        os.makedirs(dirpart, mode=0755)
         # If that failed, let the exception blow up the whole program.
     print dirpart
     return os.path.join(dirpart, s)
@@ -223,8 +225,8 @@ def pie_chart(data, title):
 
 def date_chart_data(engine, table):
     ''' Input: a search engine and a SQLAlchemy table.
-    Output: {date1: sum of allowed (based on MAX_DATE and JURI) data from table on date1, date2: same for date2, ...}'''
-    restrictions = sqlalchemy.and_(table.c.search_engine == engine, table.c.timestamp < MAX_DATE)
+    Output: {date1: sum of allowed (based on _PROCESSING_MAX_DATE and JURI) data from table on date1, date2: same for date2, ...}'''
+    restrictions = sqlalchemy.and_(table.c.search_engine == engine, table.c.timestamp < _PROCESSING_MAX_DATE)
     s = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], restrictions)
     s.group_by(table.c.timestamp)
     data = s.execute() # sum() returns a string, BEWARE!
@@ -322,7 +324,10 @@ def date_chart(lots_of_data, title, scaledown = 1):
     labels = []
     for elt in graph_this_data:
         dates, values, label = elt
-        pylab.plot_date(dates, values, colors.next() + '-')
+        splitted = split(dates, values)
+        mycolor = colors.next()
+        for splitteddates, splittedvalues in splitted:
+            pylab.plot_date(splitteddates, splittedvalues, mycolor + '-')
         labels.append(label)
     pylab.legend(labels, loc='upper left')
 
@@ -393,7 +398,7 @@ def license_counts(things):
     return ret
 
 def get_all_most_recent(table, engine):
-    recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)], table.c.timestamp < MAX_DATE).execute().fetchone()[0]
+    recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)], table.c.timestamp < _PROCESSING_MAX_DATE).execute().fetchone()[0]
     recent = sqlalchemy.select(table.columns, sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)).execute()
     for datum in recent:
         if JURI:
@@ -474,7 +479,7 @@ def pic_and_data(pic, data, fmtstr = "%s"):
     for key in sorted_dict_keys_by_value(data):
         intab.body.append( map(HTMLgen.Text, [key, fmtstr % data[key]]) )
     intab.body.reverse() # since sorted comes out little to big
-    img = HTMLgen.Image(filename=fpath(pic), src=pic, alt=pic)
+    img = HTMLgen.Image(filename=fname(pic), src=pic, alt=pic)
 
     # a table of one row, two columns
     # second column is (egad) a table
@@ -561,10 +566,10 @@ def generate_charts(y, m, d, jurismode = False, juri = None):
     ''' Current goal: Emulate existing stats pages.
     Takes the arguments y, m, d and representing the year/month/day of the last day
     whose data to consider.'''
-    # For max_date handling, for now: set a global variable to its value
+    # For _PROCESSING_MAX_DATE handling, for now: set a global variable to its value
     # and mention it in all our queries
-    global MAX_DATE
-    MAX_DATE = datetime.datetime(y,m,d) + datetime.timedelta(days=1)
+    global _PROCESSING_MAX_DATE
+    _PROCESSING_MAX_DATE = datetime.datetime(y,m,d) + datetime.timedelta(days=1)
     charts = [] # a list of tuples: (chart name, HTML for it)
     # First, generate all the graphs
     charts.extend(map(show_png_chart, simple_aggregate_date_chart()))
@@ -581,7 +586,7 @@ def generate_charts(y, m, d, jurismode = False, juri = None):
     for chart in charts:
         doc.append(chart.html)
     doc.append(data2htmltable(data_for_tables_at_bottom(db.simple, 'Yahoo')))
-    fd = open(fpath('index.html'), 'w')
+    fd = open(fname('index.html'), 'w')
     print >> fd, doc
     fd.close()
 
@@ -590,7 +595,7 @@ def aggregate_for_date_chart(table, engine, fn, logbase=None):
     Output: {fn-return-val1: {date: val, date:val, ...} '''
     # It is impossible to implement this fully cleanly because
     # the license tag data we want is not available in the database. :-(
-    query = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], sqlalchemy.and_(table.c.search_engine == engine, table.c.timestamp < MAX_DATE))
+    query = sqlalchemy.select([sqlalchemy.func.sum(table.c.count), table.c.timestamp, table.c.license_uri], sqlalchemy.and_(table.c.search_engine == engine, table.c.timestamp < _PROCESSING_MAX_DATE))
     query.group_by(table.c.license_uri)
     query.group_by(table.c.timestamp)
     data = {} # a mapping of 'by' -> {date: num, date: num, ...}
@@ -696,12 +701,12 @@ def main(max_date,nojuris=False):
     juris = get_all_urlParse_results('jurisdiction', get_all_most_recent(db.simple, 'Yahoo'))
 
     # Step 2: Set global config vars to appropriate values
-    global MAX_DATE
+    global REPORT_DATE
     global JURI # but it's here to stay.
-    MAX_DATE=max_date
+    REPORT_DATE=max_date
 
     # Step 3: Create the directory for this date's report
-    empty = fpath('')
+    empty = fname('')
     if not os.path.isdir(empty):
         os.makedirs(empty, mode=0755)
         
