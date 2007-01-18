@@ -25,6 +25,28 @@ import HTMLgen
 # select from simple where search_engine=search_engine
 # and language=NULL and country=NULL
 
+def split(dates, data):
+    ret = [] # return a list of listss
+    currentdates = []
+    assert(len(dates) == len(data))
+    last = None
+    for k in range(len(dates)):
+            thisdate = dates[k]
+            if currentdates:
+                last = currentdates[-1]
+            else:
+                last = thisdate
+            if abs(thisdate - last) > 3:
+                    if currentdates:
+                            ret.append( (currentdates, [data.pop(0) for k in currentdates] ) )
+                            currentdates = [thisdate]
+            else:
+                    currentdates.append(thisdate)
+    if currentdates:
+            ret.append( (currentdates, [data.pop(0) for k in currentdates]))
+    return ret
+
+
 # But how to count jurisidictions?
 # I could manually regex against the database results.
 # That's hilariously inefficient.
