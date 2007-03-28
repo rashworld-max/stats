@@ -2,7 +2,9 @@ from lxml import etree
 import time
 import datetime
 
+global DEBUG
 DEBUG = 1
+DRYRUN = 0
 def debug(s):
     if DEBUG:
         print s
@@ -50,9 +52,10 @@ class LinkCounter:
     def record(self, cc_license_uri, search_engine, count, country = None, language = None, timestamp = None):
         if timestamp is None:
             timestamp = self.timestamp
-        self.db.simple.insert(license_uri=cc_license_uri, search_engine=search_engine,count=count,timestamp = timestamp, country = country, language = language)
+        if not DRYRUN: self.db.simple.insert(license_uri=cc_license_uri, search_engine=search_engine,count=count,timestamp = timestamp, country = country, language = language)
         self.db.flush()
         debug("%s gave us %d hits via %s on %s" % (cc_license_uri, count, search_engine, timestamp))
+        if DRYRUN: debug("FYI, this is a dry run.")
 
     def count_google(self):
         return # FIXME: Google is broken. :-(
@@ -63,6 +66,8 @@ class LinkCounter:
                 # We record the specific uri, count pair in the DB
                 self.record(cc_license_uri=uri, search_engine='Google', count=count)
             except Exception, e:
+                if isinstance(e, KeyboardInterrupt):
+                    raise e
                 print "Something sad happened while Googling", uri
                 print e
 
@@ -74,6 +79,8 @@ class LinkCounter:
                 # We record the specific uri, count pair in the DB
                 self.record(cc_license_uri=uri, search_engine='MSN', count=count)
             except Exception, e:
+                if isinstance(e, KeyboardInterrupt):
+                    raise e
                 print "Something sad happened while MSNing", uri
                 print e
 
@@ -86,6 +93,8 @@ class LinkCounter:
             try:
                 self.record(cc_license_uri=uri, search_engine="All The Web", count=lc_util.try_thrice(lc_util.atw_count, "link:%s" % uri))
             except Exception, e:
+                if isinstance(e, KeyboardInterrupt):
+                    raise e
                 print "Something sad happened while ATWing", uri
                 print e
             time.sleep(1) # "And, breathe."
@@ -101,6 +110,8 @@ class LinkCounter:
                             search_engine='Yahoo',
                             count = count)
             except Exception, e:
+                if isinstance(e, KeyboardInterrupt):
+                    raise e
                 print "Something sad happened while Yahooing", uri
                 print e
 
@@ -122,6 +133,8 @@ class LinkCounter:
                                         count=count,
                                         query=dumb_query)
                 except Exception, e:
+                    if isinstance(e, KeyboardInterrupt):
+                        raise e
                     print "Something sad happened while Googling", license, "with query", dumb_query
                     print e
     
@@ -143,6 +156,9 @@ class LinkCounter:
                                                 language=language,
                                                 country=country) # but store the human forms
                         except Exception, e:
+                            if isinstance(e, KeyboardInterrupt):
+                                raise e
+
                             print "Something sad happened while Yahooing:", locals()
                             print e
                         
@@ -150,9 +166,10 @@ class LinkCounter:
     def record_complex(self, license_specifier, search_engine, count, query, country = None, language = None, timestamp = None):
         if timestamp is None:
             timestamp = self.timestamp
-        self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = timestamp, search_engine=search_engine, country=country, language=language)
+        if not DRYRUN: self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = timestamp, search_engine=search_engine, country=country, language=language)
         self.db.flush()
         debug("%s gave us %d hits via %s on %s" % (license_specifier, count, search_engine, timestamp))
+        if DRYRUN: debug("FYI, this is a dry run.")
         
 def main():
     import dbconfig
@@ -165,4 +182,19 @@ def main():
     lc.specific_yahoo_counter() # This makes too many queries?
 
 if __name__ == '__main__':
+    import sys
+
+    # set DEBUG from argv
+    if 'debug' in sys.argv[1:]:
+        DEBUG = 1
+    else:
+        DEBUG = 0
+
+    # set DRYRUN from argv
+    if 'dryrun' in sys.argv[1:]:
+        DRYRUN = 1
+    else:
+        DRYRUN = 0
+
+    # Get going!
     main()
