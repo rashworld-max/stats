@@ -45,7 +45,7 @@ def try_thrice(fn, *arglist, **argdict):
         except Exception, e:
             print "Huh, while doing %s(%s, %s), %s happened." % (fn, arglist, argdict, e)
             tries += 1
-            sleeptime = 2 ** tries
+            sleeptime = 2 ** tries * 10
             print 'trying again after sleeping for %d' % sleeptime
             time.sleep(sleeptime)
     raise e

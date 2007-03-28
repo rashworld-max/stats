@@ -1,6 +1,14 @@
 from yahoo.search.factory import create_search
 from yahoo.search import SearchError, ParameterError
 
+# Discussion of rate limits:
+# http://developer.yahoo.com/search/siteexplorer/V1/inlinkData.html says we are limited to 5,000 queries per day.
+# However, http://developer.yahoo.com/search/rate.html explains that it's not really 5,000 per day but one per 17.28 seconds
+# Given that, we attempt to guarantee a sleep of 20s between queries to Yahoo.
+QUERY_TIME_DELTA = 20
+import time
+last_query_time = 0
+
 APPID = 'cc license search'
 
 licenses = [['cc_any'],['cc_commercial'],['cc_modifiable'],['cc_commercial', 'cc_modifiable']]
@@ -9,7 +17,6 @@ languages = {'portuguese': 'pt', 'czech': 'cs', 'spanish': 'es', 'japanese': 'ja
 
 countries = {'Brazil': 'br', 'Canada': 'ca', 'Italy': 'it', 'France': 'fr', 'Argentina': 'ar', 'Norway': 'no', 'Australia': 'au', 'Czechoslovakia': 'cz', 'China': 'cn',  'Germany': 'de', 'Spain': 'es', 'Netherlands': 'nl', 'Denmark': 'dk', 'Poland': 'pl', 'Finland': 'fi', 'United States': 'us', 'Belgium': 'be', 'Sweden': 'se', 'Korea': 'kr', 'Switzerland': 'ch', 'United Kingdom': 'uk', 'Austria': 'at', 'Japan': 'jp', 'Taiwan': 'tw'}  # Taken from http://developer.yahoo.com/search/countries.html on 2006-06-28 ; removed Russia at the urging of pYsearch
 
-## FIXME! rename "type" to "apimethod" and test
 def legitimate_yahoo_count(query, apimethod = 'Web', cc_spec=[], country=None, language=None):
     ''' cc_spec is a list of things the Yahoo module knows about '''
     assert(apimethod in ['Web', 'InlinkData']) # known types here
@@ -25,5 +32,12 @@ def legitimate_yahoo_count(query, apimethod = 'Web', cc_spec=[], country=None, l
         if language in languages:
             language = languages[language]
         s.language = language
+#    global last_query_time
+#    now = time.time()
+#    if (now - last_query_time < QUERY_TIME_DELTA):
+#        # not safe to proceed
+#        time.sleep(QUERY_TIME_DELTA - (now - last_query_time))
+#        # now safe to proceed
     res = s.parse_results()
+#    last_query_time = time.time()
     return res.totalResultsAvailable
