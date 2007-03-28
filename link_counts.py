@@ -1,6 +1,11 @@
 from lxml import etree
 import time
 import datetime
+import os
+try:
+    set
+except:
+    from sets import Set as set
 
 global DEBUG
 DEBUG = 1
@@ -40,6 +45,7 @@ class LinkCounter:
                           'http://creativecommons.org/licenses/publicdomain/1.0/',
                           'http://creativecommons.org/licenses/by-nc-nd/2.0/deed-music',
                           'http://creativecommons.org/licenses/by-nd-nc/2.0/']) # These were in old but not in the XML
+        self.uris = list(set(self.uris))  # eliminate duplicates
 
     def parse(self, xmlpath):
         ret = []
@@ -189,6 +195,13 @@ if __name__ == '__main__':
         DEBUG = 1
     else:
         DEBUG = 0
+
+    # if log is set in argv, set stdout to a datelog
+    if 'log' in sys.argv[1:]:
+        todate = datetime.date.today().isoformat()
+        sys.stdout = open('log.%s.%d' % (todate, os.getpid()), 'w')
+        print 'Begun logging:', datetime.datetime.now().isoformat()
+        sys.stdout.flush()
 
     # set DRYRUN from argv
     if 'dryrun' in sys.argv[1:]:
