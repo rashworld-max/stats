@@ -43,6 +43,8 @@ def try_thrice(fn, *arglist, **argdict):
         try:
             return fn(*arglist, **argdict)
         except Exception, e:
+            if isinstance(e, KeyboardInterrupt):
+               raise e
             print "Huh, while doing %s(%s, %s), %s happened." % (fn, arglist, argdict, e)
             tries += 1
             sleeptime = 2 ** tries * 10
