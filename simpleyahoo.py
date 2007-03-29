@@ -5,6 +5,7 @@ from yahoo.search import SearchError, ParameterError
 # http://developer.yahoo.com/search/siteexplorer/V1/inlinkData.html says we are limited to 5,000 queries per day.
 # However, http://developer.yahoo.com/search/rate.html explains that it's not really 5,000 per day but one per 17.28 seconds
 # Given that, we attempt to guarantee a sleep of 20s between queries to Yahoo.
+MINSLEEP=1 # Always sleep at least 1 second
 QUERY_TIME_DELTA = 20
 import time
 last_query_time = 0
@@ -20,6 +21,7 @@ countries = {'Brazil': 'br', 'Canada': 'ca', 'Italy': 'it', 'France': 'fr', 'Arg
 def legitimate_yahoo_count(query, apimethod = 'Web', cc_spec=[], country=None, language=None):
     ''' cc_spec is a list of things the Yahoo module knows about '''
     assert(apimethod in ['Web', 'InlinkData']) # known types here
+    time.sleep(MINSLEEP)
     s = create_search(apimethod, APPID, query=query, results=0)
     if cc_spec:
         s.license = cc_spec
