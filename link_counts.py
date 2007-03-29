@@ -2,6 +2,7 @@ from lxml import etree
 import time
 import datetime
 import os
+import threading
 try:
     set
 except:
@@ -34,9 +35,10 @@ from sqlalchemy.ext.sqlsoup import SqlSoup
 class LinkCounter:
     dumb_queries = ['license', '-license', 'work', '-work', 'html', '-html']
     ## TRYME: ccTLDs?
+
     def __init__(self, dburl, xmlpath):
         self.timestamp = datetime.datetime.now()
-        self.db = SqlSoup(dburl) # open this with sqlsoup or something
+        self.db = SqlSoup(dburl)
         self.uris = self.parse(xmlpath)
         # We need to get a list of URIs to search for
         assert(self.uris) # These should not be empty.
@@ -58,10 +60,12 @@ class LinkCounter:
     def record(self, cc_license_uri, search_engine, count, country = None, language = None, timestamp = None):
         if timestamp is None:
             timestamp = self.timestamp
-        if not DRYRUN: self.db.simple.insert(license_uri=cc_license_uri, search_engine=search_engine,count=count,timestamp = timestamp, country = country, language = language)
-        self.db.flush()
+        if not DRYRUN:
+            self.db.simple.insert(license_uri=cc_license_uri, search_engine=search_engine,count=count,timestamp = timestamp, country = country, language = language)
+            self.db.flush()
         debug("%s gave us %d hits via %s on %s" % (cc_license_uri, count, search_engine, timestamp))
-        if DRYRUN: debug("FYI, this is a dry run.")
+        if DRYRUN:
+            debug("FYI, this is a dry run.")
 
     def count_google(self):
         return # FIXME: Google is broken. :-(
@@ -172,20 +176,37 @@ class LinkCounter:
     def record_complex(self, license_specifier, search_engine, count, query, country = None, language = None, timestamp = None):
         if timestamp is None:
             timestamp = self.timestamp
-        if not DRYRUN: self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = timestamp, search_engine=search_engine, country=country, language=language)
-        self.db.flush()
+        if not DRYRUN:
+            self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = timestamp, search_engine=search_engine, country=country, language=language)
+            self.db.flush()
         debug("%s gave us %d hits via %s on %s" % (license_specifier, count, search_engine, timestamp))
-        if DRYRUN: debug("FYI, this is a dry run.")
-        
+        if DRYRUN:
+            debug("FYI, this is a dry run.")
+
+class LcRunner(threading.Thread):
+    def __init__(self, functions, kwargs):
+        threading.Thread.__init__(self)
+        self.lc = LinkCounter(**kwargs)
+        print 'I made an lc to run', functions
+        self.functions = functions
+
+    def run(self):
+        for function in self.functions:
+            print 'going to try running function', function
+            sys.stdout.flush()
+            method = getattr(self.lc, function)
+            method()
+
 def main():
     import dbconfig
-    lc = LinkCounter(dburl=dbconfig.dburl, xmlpath='old/api/licenses.xml')
-    lc.count_google()
-    lc.count_yahoo()
-    lc.count_msn()
-    lc.count_alltheweb() # Done last because of long sleep times
-    lc.specific_google_counter() 
-    lc.specific_yahoo_counter() # This makes too many queries?
+    lcargs = dict(dburl=dbconfig.dburl, xmlpath='old/api/licenses.xml')
+    for functions in (
+        ('count_google', 'specific_google_counter',),
+        ('count_yahoo', 'specific_yahoo_counter',),
+        ('count_msn',),
+        ('count_alltheweb',)):
+        working_set = LcRunner(functions, lcargs)
+        working_set.start()
 
 if __name__ == '__main__':
     import sys
