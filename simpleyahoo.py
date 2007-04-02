@@ -8,6 +8,7 @@ from yahoo.search import SearchError, ParameterError
 MINSLEEP=1 # Always sleep at least 1 second
 QUERY_TIME_DELTA = 20
 import time
+import socks_monkey
 last_query_time = 0
 
 APPID = 'cc license search'
@@ -21,7 +22,10 @@ countries = {'Brazil': 'br', 'Canada': 'ca', 'Italy': 'it', 'France': 'fr', 'Arg
 def legitimate_yahoo_count(query, apimethod = 'Web', cc_spec=[], country=None, language=None):
     ''' cc_spec is a list of things the Yahoo module knows about '''
     assert(apimethod in ['Web', 'InlinkData']) # known types here
-    time.sleep(MINSLEEP)
+    if cc_spec: # Enable Tor for cc_spec queries...
+        socks_monkey.enable_tor() # In theory, creates a race for multithreaded use
+    else:
+        time.sleep(MINSLEEP) # Tor is slow enough!
     s = create_search(apimethod, APPID, query=query, results=0)
     if cc_spec:
         s.license = cc_spec
@@ -42,4 +46,5 @@ def legitimate_yahoo_count(query, apimethod = 'Web', cc_spec=[], country=None, l
 #        # now safe to proceed
     res = s.parse_results()
 #    last_query_time = time.time()
+    socks_monkey.disable_tor() # it's always safe to disable Tor
     return res.totalResultsAvailable
