@@ -3,6 +3,8 @@ import time
 import datetime
 import os
 import threading
+import sys
+
 try:
     set
 except:
@@ -21,7 +23,9 @@ import lc_util
 
 from sqlalchemy.ext.sqlsoup import SqlSoup
 
-## THINKME: Google and Yahoo both have different ways to encode CC license types.  Later on, it's probably worth standardizing this somehow, or else their trash gets shoved into our DB.
+## THINKME: Google and Yahoo both have different ways to encode CC license 
+## types.  Later on, it's probably worth standardizing this somehow, or else 
+## their trash gets shoved into our DB.
 
 ## FIXME: Maybe I could loop over the URIs somewhere else so that I pass a URI
 ## in to the search-engine-specific things
@@ -31,6 +35,19 @@ from sqlalchemy.ext.sqlsoup import SqlSoup
 ## FIXME: Do queries also while *not* using the CC APIs
 
 ## FIXME: Find 5 or so "seemingly non-biased" queries (e.g., "+a")
+
+def parse_fields_from_uri(uri):
+    '''parses the license_type, license_version and jurisdiction
+    from the uri and returns it in a list in that order'''
+    license_type = license_version = jurisdiction = None
+    segments = uri.split('/')
+    if len(segments) > 4:
+        license_type = segments[4]
+        if len(segments) > 5:
+            license_version = segments[5]
+            if len(segments) > 6:
+                jurisdiction = segments[6]
+    return [license_type, license_version, jurisdiction]
 
 class LinkCounter:
     dumb_queries = ['license', '-license', 'work', '-work', 'html', '-html']
@@ -42,11 +59,12 @@ class LinkCounter:
         self.uris = self.parse(xmlpath)
         # We need to get a list of URIs to search for
         assert(self.uris) # These should not be empty.
-        self.uris.extend(['http://creativecommons.org','http://www.creativecommons.org',
-                          'http://creativecommons.org/licenses/publicdomain',
-                          'http://creativecommons.org/licenses/publicdomain/1.0/',
-                          'http://creativecommons.org/licenses/by-nc-nd/2.0/deed-music',
-                          'http://creativecommons.org/licenses/by-nd-nc/2.0/']) # These were in old but not in the XML
+        self.uris.extend(
+            ['http://creativecommons.org','http://www.creativecommons.org',
+             'http://creativecommons.org/licenses/publicdomain',
+             'http://creativecommons.org/licenses/publicdomain/1.0/',
+             'http://creativecommons.org/licenses/by-nc-nd/2.0/deed-music',
+             'http://creativecommons.org/licenses/by-nd-nc/2.0/']) # These were in old but not in the XML
         self.uris = list(set(self.uris))  # eliminate duplicates
 
     def parse(self, xmlpath):
@@ -57,15 +75,29 @@ class LinkCounter:
             ret.append(element.get('uri'))
         return ret # I'm not sorting.  So there.
 
-    def record(self, cc_license_uri, search_engine, count, country = None, language = None, timestamp = None):
+    def record(self, cc_license_uri, search_engine, count, jurisdiction = None, 
+                language = None, timestamp = None):
         if timestamp is None:
             timestamp = self.timestamp
         if not DRYRUN:
-            self.db.simple.insert(license_uri=cc_license_uri, search_engine=search_engine,count=count,timestamp = timestamp, country = country, language = language)
+            license_type, license_version, jurisdiction \
+                = parse_fields_from_uri(cc_license_uri)
+            self.db.simple.insert(
+                license_uri=cc_license_uri, 
+                search_engine=search_engine, 
+                count=count, 
+                timestamp = timestamp, 
+                # language=language # no more language in DB
+                jurisdiction = jurisdiction, 
+                license_type = license_type, 
+                license_version = license_version)
             self.db.flush()
-        debug("%s gave us %d hits via %s on %s" % (cc_license_uri, count, search_engine, timestamp))
-        if DRYRUN:
-            debug("FYI, this is a dry run.")
+        debug("%s gave us %d hits via %s on %s with jurisdiction %s, " \
+              "license_type %s and license_version %s" %               \
+               (cc_license_uri, count, search_engine, timestamp,       \
+                jurisdiction, license_type, license_version))
+        #if DRYRUN:
+        #    debug("FYI, this is a dry run.") # needlessly verbose
 
     def count_google(self):
         return # FIXME: Google is broken. :-(
@@ -74,7 +106,8 @@ class LinkCounter:
             try:
                 count = simplegoogle.count('link:%s' % uri)
                 # We record the specific uri, count pair in the DB
-                self.record(cc_license_uri=uri, search_engine='Google', count=count)
+                self.record(cc_license_uri=uri, search_engine='Google', 
+                    count=count)
             except Exception, e:
                 if isinstance(e, KeyboardInterrupt):
                     raise e
@@ -87,7 +120,8 @@ class LinkCounter:
             try:
                 count = lc_util.try_thrice(lc_util.msn_count, "link:%s" % uri)
                 # We record the specific uri, count pair in the DB
-                self.record(cc_license_uri=uri, search_engine='MSN', count=count)
+                self.record(cc_license_uri=uri, search_engine='MSN', 
+                    count=count)
             except Exception, e:
                 if isinstance(e, KeyboardInterrupt):
                     raise e
@@ -101,7 +135,8 @@ class LinkCounter:
         # user-agent.  Oops.
         for uri in self.uris:
             try:
-                self.record(cc_license_uri=uri, search_engine="All The Web", count=lc_util.try_thrice(lc_util.atw_count, "link:%s" % uri))
+                self.record(cc_license_uri=uri, search_engine="All The Web", 
+                    count=lc_util.try_thrice(lc_util.atw_count, "link:%s" % uri))
             except Exception, e:
                 if isinstance(e, KeyboardInterrupt):
                     raise e
@@ -113,7 +148,8 @@ class LinkCounter:
         # No sleep here because we're APIing it up.
         for uri in self.uris:
             try:
-                count = lc_util.try_thrice(simpleyahoo.legitimate_yahoo_count, uri, 'InlinkData')
+                count = lc_util.try_thrice(simpleyahoo.legitimate_yahoo_count, 
+                    uri, 'InlinkData')
                 # Country is not a valid parameter for inlinkdata :-(
 		# And languages get ignored! :-(
                 self.record(cc_license_uri=uri,
@@ -133,7 +169,9 @@ class LinkCounter:
         around that by adding up queries like -license and +license."""
         return # FIXME: Google is broken.
         ## The is Google's idea of how to encode CC stuff.
-        licenses = [["cc_publicdomain"], ["cc_attribute"], ["cc_sharealike"], ["cc_noncommercial"], ["cc_nonderived"], ["cc_publicdomain","cc_attribute","cc_sharealike","cc_noncommercial","cc_nonderived"]]
+        licenses = [["cc_publicdomain"], ["cc_attribute"], ["cc_sharealike"], 
+            ["cc_noncommercial"], ["cc_nonderived"], ["cc_publicdomain",
+            "cc_attribute","cc_sharealike","cc_noncommercial","cc_nonderived"]]
         for license in licenses:
             for dumb_query in self.dumb_queries:
                 try:
@@ -145,7 +183,8 @@ class LinkCounter:
                 except Exception, e:
                     if isinstance(e, KeyboardInterrupt):
                         raise e
-                    print "Something sad happened while Googling", license, "with query", dumb_query
+                    print "Something sad happened while Googling", license,\
+                        "with query", dumb_query
                     print e
     
     def specific_yahoo_counter(self):
@@ -156,32 +195,53 @@ class LinkCounter:
                 # FIXME: Use simpleyahoo experiment function
                 # CONSIDERME: Use yield and iterators for experiment function
                 for language in [None] + simpleyahoo.languages.keys():
-                    for country in [None] + simpleyahoo.countries.keys():
+                    for jurisdiction in [None] + simpleyahoo.countries.keys():
                         try:
-                            count = lc_util.try_thrice(simpleyahoo.legitimate_yahoo_count, query=dumb_query, cc_spec=license, country=country, language=language) # Query with the terse form
+                            count = lc_util.try_thrice(
+                                simpleyahoo.legitimate_yahoo_count, 
+                                query=dumb_query, 
+                                cc_spec=license, 
+                                jurisdiction=jurisdiction, 
+                                language=language) # Query with the 
+                                                   # terse form
                             self.record_complex(license_specifier='&'.join(license),
                                                 search_engine='Yahoo',
                                                 count=count,
                                                 query=dumb_query,
                                                 language=language,
-                                                country=country) # but store the human forms
+                                                jurisdiction=jurisdiction) 
                         except Exception, e:
                             if isinstance(e, KeyboardInterrupt):
                                 raise e
-
-                            print "Something sad happened while Yahooing:", locals()
+                            print "Something sad happened while Yahooing:", \
+                                locals()
                             print e
                         
 
-    def record_complex(self, license_specifier, search_engine, count, query, country = None, language = None, timestamp = None):
+    def record_complex(self, license_specifier, search_engine, count, query, 
+            jurisdiction = None, language = None, timestamp = None):
         if timestamp is None:
             timestamp = self.timestamp
         if not DRYRUN:
-            self.db.complex.insert(license_specifier=license_specifier, count = count, query = query, timestamp = timestamp, search_engine=search_engine, country=country, language=language)
+            license_type, license_version, jurisdiction \
+                = parse_fields_from_uri(cc_license_uri)
+            self.db.complex.insert(
+                license_specifier=license_specifier, 
+                count = count, 
+                query = query, 
+                timestamp = timestamp, 
+                search_engine=search_engine, 
+                # language=language # no more language in DB
+                jurisdiction = jurisdiction, 
+                license_type = license_type, 
+                license_version = license_version)
             self.db.flush()
-        debug("%s gave us %d hits via %s on %s" % (license_specifier, count, search_engine, timestamp))
-        if DRYRUN:
-            debug("FYI, this is a dry run.")
+        debug("%s gave us %d hits via %s on %s with jurisdiction %s, " \
+              "license_type %s and license_version %s" %               \
+              (license_specifier, count, search_engine, timestamp,     \
+               jurisdiction, license_type, license_version))
+#        if DRYRUN:
+#            debug("FYI, this is a dry run.") # needlessly verbose
 
 class LcRunner(threading.Thread):
     def __init__(self, functions, kwargs):
@@ -209,7 +269,6 @@ def main():
         working_set.start()
 
 if __name__ == '__main__':
-    import sys
 
     # set DEBUG from argv
     if 'debug' in sys.argv[1:]:
