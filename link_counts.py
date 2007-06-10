@@ -50,7 +50,7 @@ def parse_fields_from_uri(uri):
     return [license_type, license_version, jurisdiction]
 
 class LinkCounter:
-    dumb_queries = ['license', '-license', 'work', '-work', 'html', '-html']
+    dumb_queries = ['license', 'license OR -license', 'work', 'work OR -work', 'html', 'html OR -html']
     ## TRYME: ccTLDs?
 
     def __init__(self, dburl, xmlpath):
