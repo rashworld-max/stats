@@ -196,7 +196,7 @@ class LinkCounter:
                 # FIXME: Use simpleyahoo experiment function
                 # CONSIDERME: Use yield + iterators for experiment function
                 for language in [None] + simpleyahoo.languages.keys():
-                    for jurisdiction in [None] + simpleyahoo.countries.keys():
+                    for jurisdiction in [None] + simpleyahoo.jurisdictions.keys():
                         try:
                             count = lc_util.try_thrice(
                                 simpleyahoo.legitimate_yahoo_count, 
