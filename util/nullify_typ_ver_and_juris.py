@@ -6,6 +6,7 @@ in the database to NULL
 '''
 
 import sqlalchemy
+import dbconfig
 
 def nullify_fields():
     text = db.text("UPDATE simple SET license_type = NULL, "\
@@ -14,8 +15,7 @@ def nullify_fields():
 
 if __name__ == '__main__':
     # connect to the database
-    dburl="mysql://dannyc:asdf@localhost/stats"
-    db = sqlalchemy.create_engine(dburl)
+    db = sqlalchemy.create_engine(dbconfig.dburl)
 
     # nullify the fields
     nullify_fields()
