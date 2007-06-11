@@ -29,7 +29,7 @@ def legitimate_yahoo_count(query, apimethod = 'Web', cc_spec=[], jurisdiction=No
     if jurisdiction:
         if jurisdiction in jurisdictions:
             jurisdiction = jurisdictions[jurisdiction]
-        s.jurisdiction = jurisdiction
+        s.country = jurisdiction
     if language:
         language = language.lower()
         if language in languages:
