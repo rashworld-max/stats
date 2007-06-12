@@ -111,7 +111,6 @@ def main():
             del line
             continue
         else:
-            del line
             try: 
                 field_list = parse_fields_from_re_group(m.group()) 
                 log_date = parse_date(d_m.group()) # returns datetime object
@@ -131,6 +130,7 @@ def main():
 
             if debug:
                 print insert_text
+
             # execute the query
             if not dryrun:
                 try:
@@ -138,6 +138,9 @@ def main():
                     update.execute()
                 except Exception, e: 
                     print 'SQL STATEMENT EXECUTION FAILED', e
+
+            # free the memory of varialbes that are reused in the loop
+            del line, insert_text, field_list, log_date 
 
     log.close()
 
