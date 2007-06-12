@@ -219,9 +219,7 @@ class LinkCounter:
                             print e
 
     def record_complex(self, license_specifier, search_engine, count, 
-        query, jurisdiction = None, language = None, timestamp = None):
-        license_type, license_version, jurisdiction \
-            = parse_fields_from_uri(cc_license_uri)
+        query, coutry = None, language = None, timestamp = None):
         if timestamp is None:
             timestamp = self.timestamp
         if not DRYRUN:
@@ -231,15 +229,13 @@ class LinkCounter:
                 query = query, 
                 timestamp = timestamp, 
                 search_engine=search_engine, 
-                # language=language # no more language in DB
-                jurisdiction = jurisdiction, 
-                license_type = license_type, 
-                license_version = license_version)
+                language=language,
+                country = country)
             self.db.flush()
-        debug("%s gave us %d hits via %s on %s with jurisdiction %s, " \
-              "license_type %s and license_version %s" %               \
+        debug("%s gave us %d hits via %s on %s with country %s, " \
+              "language %s" %               \
               (license_specifier, count, search_engine, timestamp,     \
-               jurisdiction, license_type, license_version))
+               country, language))
 #        if DRYRUN:
 #            debug("FYI, this is a dry run.") # needlessly verbose
 
