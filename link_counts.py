@@ -219,7 +219,7 @@ class LinkCounter:
                             print e
 
     def record_complex(self, license_specifier, search_engine, count, 
-        query, coutry = None, language = None, timestamp = None):
+        query, country = None, language = None, timestamp = None):
         if timestamp is None:
             timestamp = self.timestamp
         if not DRYRUN:
