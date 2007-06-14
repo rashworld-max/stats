@@ -210,7 +210,7 @@ class LinkCounter:
                                                 count=count,
                                                 query=dumb_query,
                                                 language=language,
-                                                jurisdiction=jurisdiction) 
+                                                country=jurisdiction) 
                         except Exception, e:
                             if isinstance(e, KeyboardInterrupt):
                                 raise e
