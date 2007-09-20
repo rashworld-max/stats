@@ -282,7 +282,7 @@ if __name__ == '__main__':
     # if log is set in argv, set stdout to a datelog
     if 'log' in sys.argv[1:]:
         todate = datetime.date.today().isoformat()
-        sys.stdout = open('log.%s.%d' % (todate, os.getpid()), 'w')
+        sys.stdout = open('log/log.%s.%d' % (todate, os.getpid()), 'w')
         print 'Begun logging:', datetime.datetime.now().isoformat()
         sys.stdout.flush()
 
