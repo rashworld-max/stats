@@ -1,5 +1,5 @@
 ## CONFIGURATION
-_BASEDIR='/home/paulproteus/public_html/tmp/'
+_BASEDIR='/home/paulproteus/public_html/tmp/charts/'
 DB = 'mysql://stats:ioP1gae8@localhost/stats'
 
 ## CODE 
@@ -399,7 +399,7 @@ def license_counts(things):
 
 def get_all_most_recent(table, engine):
     recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)], table.c.timestamp < _PROCESSING_MAX_DATE).execute().fetchone()[0]
-    recent = sqlalchemy.select(table.columns, sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)).execute()
+    recent = sqlalchemy.select(table.c.keys(), sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)).execute()
     for datum in recent:
         if JURI:
             juri = urlParse(datum.license_uri)['jurisdiction']
