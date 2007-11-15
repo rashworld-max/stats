@@ -1,0 +1,41 @@
+def cc_total_estimate(community_list, search_engine_list): 
+    if len(community_list) == len(search_engine_list): 
+        number_of_lic_types = len(search_engine_list)
+    else: 
+        return 0
+    diff_list = []
+    count = 0
+    while count < number_of_lic_types: 
+        diff_list.append(search_engine_list[count] - community_list[count])
+        count += 1
+    min_diff = min(diff_list)
+    min_diff_pos = diff_list.index(min_diff)
+    scaling_Factor = 1 - float(min_diff)/float(search_engine_list[min_diff_pos])
+    result = 0
+    count = 0
+    while count<number_of_lic_types: 
+        result += (int(scaling_Factor*search_engine_list[count]))
+        count += 1
+    return result
+
+========================================================================================================================================================
+
+def cc_total_estimate(community_list, search_engine_list): 
+    if len(community_list) == len(search_engine_list): 
+        number_of_lic_types = len(search_engine_list)
+    else: 
+        return 0
+    diff_list = []
+    count = 0
+    while count < number_of_lic_types: 
+        diff_list.append(search_engine_list[count] - community_list[count])
+        count += 1
+    min_diff = min(diff_list)
+    min_diff_pos = diff_list.index(min_diff)
+    scaling_Factor = 1 - float(min_diff)/float(search_engine_list[min_diff_pos])
+    result = []
+    count = 0
+    while count<number_of_lic_types: 
+        result.append((int(scaling_Factor*search_engine_list[count])))
+        count += 1
+    return result
