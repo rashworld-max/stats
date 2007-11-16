@@ -20,7 +20,6 @@ def cc_total_estimate(community_list, search_engine_list): 				# Define the func
         count += 1									# Increment "count"
     return result									# Return "result"
 
-========================================================================================================================================================
 
 #inputs 2 list (of equal length - ie. same number of different license types) quantity from community/ies and search engine/ies and returns the estimated total of CC licenses as a list, providing the ability to examine the estimed distribution
 

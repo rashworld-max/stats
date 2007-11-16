@@ -18,8 +18,6 @@ def cc_total_estimate(community_list, search_engine_list):
         count += 1
     return result
 
-========================================================================================================================================================
-
 def cc_total_estimate(community_list, search_engine_list): 
     if len(community_list) == len(search_engine_list): 
         number_of_lic_types = len(search_engine_list)
