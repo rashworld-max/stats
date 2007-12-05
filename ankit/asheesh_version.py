@@ -5,7 +5,7 @@ def cc_total_estimate(community_lic2hits,
     engine like Google.
     Output: A scaled version of the search_engine_lic2hits.'''
 
-    assert community_lic2hits.keys() == search_engine_lic2hits.keys()
+    assert sorted(community_lic2hits.keys()) == sorted(search_engine_lic2hits.keys())
     # The dictionaries had better be talking about the same sort of thing
     
     # Prepare a dictionary of the deltas
@@ -26,26 +26,28 @@ def cc_total_estimate(community_lic2hits,
         ret[lic] = search_engine_lic2hits[lic] * scaling_factor
     return ret
 
-def usage():
+def usage(argv_zero = 'program.py'):
     print """
 Howdy!  Here's an example of how to use this program:
 
-$ python asheesh_version.py community=flickr by=3000 by-nc=40000 search_engine=google by=30000 by-nc=400000
+$ python %s community=flickr by=3000 by-nc=40000 search_engine=google by=30000 by-nc=400000
 
-And here's what you might get for output:
+And here's what you might get for output (with diff. output numbers):
 
 # Input data:
 # community flickr said {'by': 3000, 'by-nc': 40000}
 # search engine google said {'by': 30000, 'by-nc': 400000}
-A very conservative estimate, based on a method from Singopore by Prof. FIXME with code help from Ankit, of the total spread of CC licenses in the world follows:
+A very conservative estimate, based on a method from Singopore Management University by Prof. Cheliotis with code help from Ankit, of the total spread of CC licenses in the world follows:
 by-nc=40333
 by=302
-"""
+TOTAL=40635
+""" % argv_zero
+
 def main():
     import sys
     useful_args = sys.argv[1:]
     if not useful_args:
-        usage()
+        usage(sys.argv[0])
         sys.exit(1)
     
     search_engine_data = {}
@@ -63,7 +65,7 @@ def main():
             current = search_engine_data
         else:
             assert key not in current
-            current[key] = int(value)
+            current[key] = int(value.replace(',', ''))
 
     inform_user_of_input(search_engine_data=search_engine_data,
                          community_data=community_data,
@@ -81,9 +83,10 @@ def inform_user_of_input(search_engine_data, community_data, search_engine_name,
     print '# search engine %s said %s' % (search_engine_name, search_engine_data)
 
 def inform_user_of_output(total_estimate):
-    print 'A very conservative estimate, based on a method from Singopore by Prof. FIXME with code help from Ankit, of the total spread of CC licenses in the world follows:'
+    print 'A very conservative estimate, based on a method from Singapore Management University by Prof. Cheliotis with code help from Ankit G., of the total spread of CC licenses in the world follows:'
     for key in total_estimate:
         print '%s=%d' % (key, total_estimate[key])
+    print 'TOTAL=%d' % (sum([total_estimate[key] for key in total_estimate]))
     
 
 
