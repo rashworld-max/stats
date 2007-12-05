@@ -70,10 +70,22 @@ def main():
                          search_engine_name=search_engine_name,
                          community_name=community_name)
 
+    total_estimate = cc_total_estimate(community_lic2hits=community_data,
+                                       search_engine_lic2hits=search_engine_data)
+    
+    inform_user_of_output(total_estimate)
+
 def inform_user_of_input(search_engine_data, community_data, search_engine_name, community_name):
     print '# Input data'
     print '# community %s said %s' % (community_name, community_data)
     print '# search engine %s said %s' % (search_engine_name, search_engine_data)
+
+def inform_user_of_output(total_estimate):
+    print 'A very conservative estimate, based on a method from Singopore by Prof. FIXME with code help from Ankit, of the total spread of CC licenses in the world follows:'
+    for key in total_estimate:
+        print '%s=%d' % (key, total_estimate[key])
+    
+
 
 if __name__ == '__main__':
     main()
