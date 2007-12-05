@@ -25,3 +25,57 @@ def cc_total_estimate(community_lic2hits,
     for lic in search_engine_lic2hits:
         ret[lic] = search_engine_lic2hits[lic] * scaling_factor
     return ret
+
+def usage():
+    print """
+Howdy!  Here's an example of how to use this program:
+
+$ python asheesh_version.py community=flickr by=3000 by-nc=40000 search_engine=google by=30000 by-nc=400000
+
+And here's what you might get for output:
+
+# Input data:
+# community flickr said {'by': 3000, 'by-nc': 40000}
+# search engine google said {'by': 30000, 'by-nc': 400000}
+A very conservative estimate, based on a method from Singopore by Prof. FIXME with code help from Ankit, of the total spread of CC licenses in the world follows:
+by-nc=40333
+by=302
+"""
+def main():
+    import sys
+    useful_args = sys.argv[1:]
+    if not useful_args:
+        usage()
+        sys.exit(1)
+    
+    search_engine_data = {}
+    community_data = {}
+    community_name = None
+    search_engine_name = None
+    current = None
+    for arg in useful_args:
+        key, value = arg.split('=')
+        if key == 'community':
+            community_name = value
+            current = community_data
+        elif key == 'search_engine':
+            search_engine_name = value
+            current = search_engine_data
+        else:
+            assert key not in current
+            current[key] = int(value)
+
+    inform_user_of_input(search_engine_data=search_engine_data,
+                         community_data=community_data,
+                         search_engine_name=search_engine_name,
+                         community_name=community_name)
+
+def inform_user_of_input(search_engine_data, community_data, search_engine_name, community_name):
+    print '# Input data'
+    print '# community %s said %s' % (community_name, community_data)
+    print '# search engine %s said %s' % (search_engine_name, search_engine_data)
+
+if __name__ == '__main__':
+    main()
+
+        
