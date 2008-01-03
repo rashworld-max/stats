@@ -42,7 +42,7 @@ class MysqldumpCsvCooker(xml.sax.ContentHandler):
         if name == 'row':
             if self.state == 'row':
                 self.csv.writerow(self.row_collecting)
-            self.current_state = None
+            self.state = None
         if name == 'field':
             if self.state == 'row':
                 assert len(self.row_collecting) == self.current_field
