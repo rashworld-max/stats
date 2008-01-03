@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import sys
 import gzip
 import datetime
 import sqlalchemy
@@ -90,12 +91,12 @@ def already_done(date, table):
 def which_to_process(dates, table, do_this_many = 10):
     do_these = set()
     for date in dates:
-        while len(do_these) < do_this_many / 2:
+        if len(do_these) < do_this_many / 2:
             if not already_done(date, table):
                 do_these.add(date)
 
     for date in reversed(dates):
-        while len(do_these) < do_this_many:
+        if len(do_these) < do_this_many:
             if not already_done(date, table):
                 do_these.add(date)
 
@@ -103,31 +104,32 @@ def which_to_process(dates, table, do_this_many = 10):
 
 def old_main():
     db = SqlSoup(dbconfig.dburl)
-    for table in ('simple', 'complex'):
-        table_cursor = getattr(db, table)
-        all_dates = sqlalchemy.select([table_cursor._table.c.timestamp], distinct=True).execute()
-        all_dates = sorted([thing[0] for thing in all_dates])
-        yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
-        old_enough = [date for date in all_dates if date < yesterday]
-        to_be_processed = which_to_process(old_enough, table)
-        for date in to_be_processed:
-            path = date2path(date)
+    table = sys.argv[1]
+    assert table in ('simple', 'complex')
+    table_cursor = getattr(db, table)
+    all_dates = sqlalchemy.select([table_cursor._table.c.timestamp], distinct=True).execute()
+    all_dates = sorted([thing[0] for thing in all_dates])
+    yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+    old_enough = [date for date in all_dates if date < yesterday]
+    to_be_processed = which_to_process(old_enough, table)
+    for date in to_be_processed:
+        path = date2path(date)
 
-            filename = os.path.join(date2path(path), table + '.gz')
-            if os.path.isdir(path):
-                if os.path.exists(filename):
-                    print "Hmm,", filename, "already exists."
-                    continue
-            else:
-                os.makedirs(path, mode=0755)
-            fd = gzip.open(filename + '.working', 'w')
-            just_my_data = table_cursor.select(table_cursor._table.c.timestamp == date)
-            out_csv = csv.writer(fd)
-            keys = table_cursor._table._columns.keys() # Super ugly syntax.
-            for thing in just_my_data:
-                out_csv.writerow([getattr(thing, k) for k in keys]) # omg, that syntax is horrible.
-            fd.close()
-            os.rename(filename + '.working', filename)
+        filename = os.path.join(path, table + '.gz')
+        if os.path.isdir(path):
+            if os.path.exists(filename):
+                print "Hmm,", filename, "already exists."
+                continue
+        else:
+            os.makedirs(path, mode=0755)
+        fd = gzip.open(filename + '.working', 'w')
+        just_my_data = table_cursor.select(table_cursor._table.c.timestamp == date)
+        out_csv = csv.writer(fd)
+        keys = table_cursor._table._columns.keys() # Super ugly syntax.
+        for thing in just_my_data:
+            out_csv.writerow([getattr(thing, k) for k in keys]) # omg, that syntax is horrible.
+        fd.close()
+        os.rename(filename + '.working', filename)
 
 if __name__ == '__main__':
     old_main()
