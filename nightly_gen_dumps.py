@@ -77,5 +77,22 @@ def main():
     # And we're off to the races.
     parser.parse(p.stdout)
 
+def which_to_process(dates):
+    return dates[-1:]
+
+def old_main():
+    db = SqlSoup(dbconfig.dburl)
+    for table in ('simple', 'complex'):
+        table_cursor = getattr(db, table)
+        all_dates = sorted(sqlalchemy.select([table_cursor._table.c.timestamp], distinct=True))
+        only_before_today = [date[0] for date in all_dates if date[0] < datetime.today()]
+        to_be_processed = which_to_process(only_before_today)
+        for date in to_be_processed:
+            path = date.strftime('%Y-%m-%d/%H:%M:%S')
+            #os.makedirs(path, mode=0755)
+            just_my_data = table_cursor.filter(table_cursor.timestamp == date).all()
+            for thing in just_my_data:
+                print 'rooftop, whoa'
+
 if __name__ == '__main__':
     main()
