@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+import gzip
+import datetime
+import sqlalchemy
+from sqlalchemy.ext.sqlsoup import SqlSoup
 import re
 import dbconfig
 import subprocess
@@ -77,22 +81,54 @@ def main():
     # And we're off to the races.
     parser.parse(p.stdout)
 
-def which_to_process(dates):
-    return dates[-1:]
+def date2path(date):
+    return date.strftime('../csv-dumps/%Y-%m-%d/%H:%M:%S')
+
+def already_done(date, table):
+    return os.path.exists(os.path.join(date2path(date), table + '.gz'))
+
+def which_to_process(dates, table, do_this_many = 10):
+    do_these = set()
+    for date in dates:
+        while len(do_these) < do_this_many / 2:
+            if not already_done(date, table):
+                do_these.add(date)
+
+    for date in reversed(dates):
+        while len(do_these) < do_this_many:
+            if not already_done(date, table):
+                do_these.add(date)
+
+    return do_these
 
 def old_main():
     db = SqlSoup(dbconfig.dburl)
     for table in ('simple', 'complex'):
         table_cursor = getattr(db, table)
-        all_dates = sorted(sqlalchemy.select([table_cursor._table.c.timestamp], distinct=True))
-        only_before_today = [date[0] for date in all_dates if date[0] < datetime.today()]
-        to_be_processed = which_to_process(only_before_today)
+        all_dates = sqlalchemy.select([table_cursor._table.c.timestamp], distinct=True).execute()
+        all_dates = sorted([thing[0] for thing in all_dates])
+        yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+        old_enough = [date for date in all_dates if date < yesterday]
+        to_be_processed = which_to_process(old_enough, table)
         for date in to_be_processed:
-            path = date.strftime('%Y-%m-%d/%H:%M:%S')
-            #os.makedirs(path, mode=0755)
-            just_my_data = table_cursor.filter(table_cursor.timestamp == date).all()
+            path = date2path(date)
+
+            filename = os.path.join(date2path(path), table + '.gz')
+            if os.path.isdir(path):
+                if os.path.exists(filename):
+                    print "Hmm,", filename, "already exists."
+                    continue
+            else:
+                os.makedirs(path, mode=0755)
+            fd = gzip.open(filename + '.working', 'w')
+            just_my_data = table_cursor.select(table_cursor._table.c.timestamp == date)
+            out_csv = csv.writer(fd)
+            keys = table_cursor._table._columns.keys() # Super ugly syntax.
             for thing in just_my_data:
-                print 'rooftop, whoa'
+                out_csv.writerow([getattr(thing, k) for k in keys]) # omg, that syntax is horrible.
+            fd.close()
+            os.rename(filename + '.working', filename)
 
 if __name__ == '__main__':
-    main()
+    old_main()
+
