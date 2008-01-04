@@ -86,7 +86,7 @@ def date2path(date):
     return date.strftime('../csv-dumps/%Y-%m-%d/%H:%M:%S')
 
 def already_done(date, table):
-    return os.path.exists(os.path.join(date2path(date), table + '.gz'))
+    return os.path.exists(os.path.join(date2path(date), table + '.csv'))
 
 def which_to_process(dates, table, do_this_many = 10):
     do_these = set()
@@ -115,7 +115,7 @@ def old_main():
     for date in to_be_processed:
         path = date2path(date)
 
-        filename = os.path.join(path, table + '.gz')
+        filename = os.path.join(path, table + '.csv')
         if os.path.isdir(path):
             if os.path.exists(filename):
                 print "Hmm,", filename, "already exists."
@@ -127,9 +127,14 @@ def old_main():
         out_csv = csv.writer(fd)
         keys = table_cursor._table._columns.keys() # Super ugly syntax.
         for thing in just_my_data:
-            out_csv.writerow([getattr(thing, k) for k in keys]) # omg, that syntax is horrible.
+            out_csv.writerow([clean(getattr(thing, k)) for k in keys]) # omg, that syntax is horrible.
         fd.close()
         os.rename(filename + '.working', filename)
+
+def clean(thing):
+    if hasattr(thing, 'strftime'):
+        return thing.strftime('%Y-%m-%d %H:%M:%S')
+    return thing
 
 if __name__ == '__main__':
     old_main()
