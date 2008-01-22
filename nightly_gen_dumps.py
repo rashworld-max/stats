@@ -12,6 +12,10 @@ import csv
 import os
 import xml.sax
 
+# import license_xsl's convert
+sys.path.append('./licensexsl_tools/licensexsl_tools/')
+import convert
+
 class MysqldumpCsvCooker(xml.sax.ContentHandler):
     def __init__(self, output_directory_base):
         self.output_directory_base = output_directory_base
@@ -131,7 +135,10 @@ def old_main():
         out_csv = csv.writer(fd)
         keys = table_cursor._table._columns.keys() # Super ugly syntax.
         for thing in just_my_data:
-            out_csv.writerow([clean(getattr(thing, k)) for k in keys]) # omg, that syntax is horrible.
+            row = [clean(getattr(thing, k)) for k in keys] # omg, that syntax is horrible.
+            # totally lame hack here - id2countryname
+            row.append(convert.country_id2name(thing.jurisdiction, 'en_US'))
+            out_csv.writerow(row) 
         fd.close()
         os.rename(filename + '.working', filename)
 
