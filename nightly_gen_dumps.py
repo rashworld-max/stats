@@ -123,7 +123,11 @@ def old_main():
         else:
             os.makedirs(path, mode=0755)
         fd = gzip.open(filename + '.working', 'w')
-        just_my_data = table_cursor.select(table_cursor._table.c.timestamp == date)
+        just_my_data = table_cursor.select(table_cursor._table.c.timestamp == date,
+		order_by=[table_cursor._table.c.search_engine,
+			  table_cursor._table.c.jurisdiction,
+			  table_cursor._table.c.license_type,
+	                  table_cursor._table.c.license_version])
         out_csv = csv.writer(fd)
         keys = table_cursor._table._columns.keys() # Super ugly syntax.
         for thing in just_my_data:
