@@ -1,10 +1,10 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 
 BASE_PATH=/home/paulproteus/csv-dumps
 for db in simple complex
 do
     file="$BASE_PATH/$db.csv"
-    find "$BASE_PATH"  -iname simple.csv -print0 | xargs -0 cat >> "$file.work"
+    cat $BASE_PATH/*/*/$db.csv >> "$file.work"
     mv "$file.work" "$file"
 done
 
