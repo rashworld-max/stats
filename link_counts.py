@@ -47,6 +47,13 @@ def parse_fields_from_uri(uri):
             license_version = segments[5]
             if len(segments) > 6:
                 jurisdiction = segments[6]
+
+    # Funtime: If the license_type contains a hyphen,
+    # sort it based on that field.  This turns the freaky-deaky by-nd-nc
+    # to the normal by-nc-nd.
+    if '-' in license_type:
+        license_type = '-'.join(sorted(license_type.split('-')))
+
     return [license_type, license_version, jurisdiction]
 
 class LinkCounter:
