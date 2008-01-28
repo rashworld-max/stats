@@ -127,17 +127,26 @@ def old_main():
         else:
             os.makedirs(path, mode=0755)
         fd = gzip.open(filename + '.working', 'w')
-        just_my_data = table_cursor.select(table_cursor._table.c.timestamp == date,
-		order_by=[table_cursor._table.c.search_engine,
+        if table == 'simple':
+    		order_by=[table_cursor._table.c.search_engine,
 			  table_cursor._table.c.jurisdiction,
               table_cursor._table.c.license_type,
-	                  table_cursor._table.c.license_version])
+	                  table_cursor._table.c.license_version]
+        else:
+            order_by = []
+        query = (table_cursor._table.c.timestamp == date)
+        if table == 'simple':
+            query &= (table_cursor._table.c.license_uri != 'http://creativecommons.org/licenses/publicdomain')
+            query &= (table_cursor._table.c.license_uri != 'http://www.creativecommons.org')
+            query &= (table_cursor._table.c.license_uri != 'http://creativecommons.org')
+        just_my_data = table_cursor.select(query, order_by = order_by)
         out_csv = csv.writer(fd)
         keys = table_cursor._table._columns.keys() # Super ugly syntax.
         for thing in just_my_data:
             row = [clean(getattr(thing, k)) for k in keys] # omg, that syntax is horrible.
-            # totally lame hack here - id2countryname
-            row.append(convert.country_id2name(thing.jurisdiction, 'en_US'))
+            if table == 'simple':
+                # totally lame hack here - id2countryname
+                row.append(convert.country_id2name(thing.jurisdiction, 'en_US'))
             out_csv.writerow(row) 
         fd.close()
         os.rename(filename + '.working', filename)
