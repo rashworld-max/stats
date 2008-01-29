@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import glob
 import sys
 import gzip
 import datetime
@@ -11,6 +12,9 @@ import subprocess
 import csv
 import os
 import xml.sax
+
+table2nicename = {'simple': 'linkbacks',
+                  'complex': 'api_queries'}
 
 # import license_xsl's convert
 sys.path.append('./licensexsl_tools/licensexsl_tools/')
@@ -97,19 +101,24 @@ def date2path(date):
     return date.strftime('../csv-dumps/%Y-%m-%d/%H:%M:%S')
 
 def already_done(date, table):
-    return os.path.exists(os.path.join(date2path(date), table + '.csv'))
+    nicename = table2nicename[table]
+    return bool(glob.glob(
+            os.path.join(date2path(date), '%s-*-*.csv' % nicename)))
 
 def which_to_process(dates, table, do_this_many = 10):
     do_these = set()
     for date in dates:
-        if len(do_these) < do_this_many / 2:
-            if not already_done(date, table):
-                do_these.add(date)
-
-    for date in reversed(dates):
         if len(do_these) < do_this_many:
             if not already_done(date, table):
                 do_these.add(date)
+
+    # It's not safe to process dates in the order of most-recent
+    # first because of the historical CSVs we now generate.
+
+    #for date in reversed(dates):
+    #    if len(do_these) < do_this_many:
+    #        if not already_done(date, table):
+    #            do_these.add(date)
 
     return do_these
 
@@ -126,8 +135,11 @@ def dump_table(db, table):
     yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
     old_enough = [date for date in all_dates if date < yesterday]
     to_be_processed = which_to_process(old_enough, table)
-    for date in to_be_processed:
-        dump_one_date(db, table, table_cursor, date)
+    if to_be_processed:
+        for process_date in to_be_processed:
+            dump_one_date(db, table, table_cursor, process_date)
+        update_all_engines_historical(db, table, process_date)
+
 
 def dump_one_date(db, table, table_cursor, date):
     path = date2path(date)
@@ -139,18 +151,50 @@ def dump_one_date(db, table, table_cursor, date):
 
     for engine in search_engines:
         dump_one_date_engine(db, table, table_cursor, date, path, engine)
-        dump_one_date_engine_historical(date, path, engine)
 
-def dump_one_date_engine_historical(date, path, engine):
-    pass
+def update_all_engines_historical(db, table, date):
+    path = '../csv-dumps/'
+
+    table_cursor = getattr(db, table)
+    # lame copy-pasta from dump_one_date
+
+    # separate by search engines
+    search_engines_query = sqlalchemy.select([table_cursor._table.c.search_engine], distinct = True)
+    search_engines = [thing[0] for thing in search_engines_query.execute()]
+    search_engines.append(None)
+
+    for engine in search_engines:
+        update_one_engine_historical(date, table, path, engine)
+
+def update_one_engine_historical(date, table, path, engine):
+    # Use globbing to find older ones
+    pattern = os.path.join(path,
+                           '*/*',
+                           table_and_engine2basename(table, engine, mode='*') + '*')
+    all_possibly_relevant = sorted(glob.glob(pattern))
+    only_old_enough = [globbee for globbee in all_possibly_relevant if globbee < date2path(date)]
+    
+    filename = os.path.join(path,
+                            table_and_engine2basename(table, engine, 'historical'))
+    out_fd = gzip.open(filename + '.working', 'w')
+    for in_filename in only_old_enough:
+        out_fd.write(gzip.open(in_filename).read())
+        
+    # Plus, in the nick of time, add the data from today
+    old_data = gzip.open(os.path.join(date2path(date), table_and_engine2basename(table, engine) + '.csv')).read()
+    out_fd.write(old_data)
+
+    # That's that...
+    out_fd.close()
+
+    # So rename it and we're done.
+    os.rename(filename + '.working', filename + '.csv')
 
 def table_and_engine2basename(table, engine, mode='daily'):
     ''' Input: table=simple, engine=Google
-    Output: linkbacks-Google'''
+    Output: linkbacks-daily-Google'''
 
-    nicename = {'simple': 'linkbacks',
-                'complex': 'api_queries'}
-    first = nicename[table]
+    first = table2nicename[table]
 
     if engine:
         assert engine != 'ALL'
@@ -166,7 +210,7 @@ def dump_one_date_engine(db, table, table_cursor, date, path, engine):
     if os.path.isdir(path):
         if os.path.exists(filename):
             print "Hmm,", filename, "already exists."
-            return
+            assert 0
     else:
         os.makedirs(path, mode=0755)
     fd = gzip.open(filename + '.working', 'w')
