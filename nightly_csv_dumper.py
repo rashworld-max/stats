@@ -18,12 +18,19 @@ import convert
 
 class MysqldumpCsvCooker(xml.sax.ContentHandler):
     def __init__(self, output_directory_base):
+        xml.sax.ContentHandler.__init__(self)
         self.output_directory_base = output_directory_base
         if not os.path.isdir(output_directory_base):
             os.makedirs(output_directory_base, mode=0755)
         self.csv = None
         self.text_collecting = u''
         self.state = None
+        self.current_table = None
+        self.csv_fd = None
+        self.field2csv_index = None
+        self.row_collecting = None
+        self.current_table = None
+        self.current_field = None
 
     def startElement(self, name, attrs):
         if name == 'table_data':
@@ -72,7 +79,7 @@ def main():
     # output, but for some reason I trust its XML generation.
 
     # Lame hack: Manually parse dburl
-    dbtype, username, password, hostname, dbname = re.split('[:/@]+', dbconfig.dburl)
+    _, username, password, hostname, dbname = re.split('[:/@]+', dbconfig.dburl)
     # Lame hack (but safe, I suppose): Connect to a msyqldump
     command = ['mysqldump', '-u' + username, '-p' + password, '-h', hostname, '--xml', dbname]
     p = subprocess.Popen(command, stdin=subprocess.PIPE,
@@ -110,6 +117,9 @@ def old_main():
     db = SqlSoup(dbconfig.dburl)
     table = sys.argv[1]
     assert table in ('simple', 'complex')
+    dump_table(db, table)
+
+def dump_table(db, table):
     table_cursor = getattr(db, table)
     all_dates = sqlalchemy.select([table_cursor._table.c.timestamp], distinct=True).execute()
     all_dates = sorted([thing[0] for thing in all_dates])
@@ -117,39 +127,76 @@ def old_main():
     old_enough = [date for date in all_dates if date < yesterday]
     to_be_processed = which_to_process(old_enough, table)
     for date in to_be_processed:
-        path = date2path(date)
+        dump_one_date(db, table, table_cursor, date)
 
-        filename = os.path.join(path, table + '.csv')
-        if os.path.isdir(path):
-            if os.path.exists(filename):
-                print "Hmm,", filename, "already exists."
-                continue
-        else:
-            os.makedirs(path, mode=0755)
-        fd = gzip.open(filename + '.working', 'w')
+def dump_one_date(db, table, table_cursor, date):
+    path = date2path(date)
+
+    # separate by search engines
+    search_engines_query = sqlalchemy.select([table_cursor._table.c.search_engine], distinct = True)
+    search_engines = [thing[0] for thing in search_engines_query.execute()]
+    search_engines.append(None)
+
+    for engine in search_engines:
+        dump_one_date_engine(db, table, table_cursor, date, path, engine)
+        dump_one_date_engine_historical(date, path, engine)
+
+def dump_one_date_engine_historical(date, path, engine):
+    pass
+
+def table_and_engine2basename(table, engine, mode='daily'):
+    ''' Input: table=simple, engine=Google
+    Output: linkbacks-Google'''
+
+    nicename = {'simple': 'linkbacks',
+                'complex': 'api_queries'}
+    first = nicename[table]
+
+    if engine:
+        assert engine != 'ALL'
+        last = engine
+    else:
+        last = 'ALL'
+
+    return '-'.join( (first, mode, last) )
+
+def dump_one_date_engine(db, table, table_cursor, date, path, engine):
+    basename = table_and_engine2basename(table, engine)
+    filename = os.path.join(path, basename + '.csv')
+    if os.path.isdir(path):
+        if os.path.exists(filename):
+            print "Hmm,", filename, "already exists."
+            return
+    else:
+        os.makedirs(path, mode=0755)
+    fd = gzip.open(filename + '.working', 'w')
+    if table == 'simple':
+            order_by=[table_cursor._table.c.search_engine,
+                      table_cursor._table.c.jurisdiction,
+          table_cursor._table.c.license_type,
+                      table_cursor._table.c.license_version]
+    else:
+        order_by = []
+    query = (table_cursor._table.c.timestamp == date)
+    if engine:
+        # restrict on engine, too
+        query &= (table_cursor._table.c.search_engine == engine)
+
+    if table == 'simple':
+        query &= (table_cursor._table.c.license_uri != 'http://creativecommons.org/licenses/publicdomain')
+        query &= (table_cursor._table.c.license_uri != 'http://www.creativecommons.org')
+        query &= (table_cursor._table.c.license_uri != 'http://creativecommons.org')
+    just_my_data = table_cursor.select(query, order_by = order_by)
+    out_csv = csv.writer(fd)
+    keys = table_cursor._table._columns.keys() # Super ugly syntax.
+    for thing in just_my_data:
+        row = [clean(getattr(thing, k)) for k in keys] # omg, that syntax is horrible.
         if table == 'simple':
-    		order_by=[table_cursor._table.c.search_engine,
-			  table_cursor._table.c.jurisdiction,
-              table_cursor._table.c.license_type,
-	                  table_cursor._table.c.license_version]
-        else:
-            order_by = []
-        query = (table_cursor._table.c.timestamp == date)
-        if table == 'simple':
-            query &= (table_cursor._table.c.license_uri != 'http://creativecommons.org/licenses/publicdomain')
-            query &= (table_cursor._table.c.license_uri != 'http://www.creativecommons.org')
-            query &= (table_cursor._table.c.license_uri != 'http://creativecommons.org')
-        just_my_data = table_cursor.select(query, order_by = order_by)
-        out_csv = csv.writer(fd)
-        keys = table_cursor._table._columns.keys() # Super ugly syntax.
-        for thing in just_my_data:
-            row = [clean(getattr(thing, k)) for k in keys] # omg, that syntax is horrible.
-            if table == 'simple':
-                # totally lame hack here - id2countryname
-                row.append(convert.country_id2name(thing.jurisdiction, 'en_US'))
-            out_csv.writerow(row) 
-        fd.close()
-        os.rename(filename + '.working', filename)
+            # totally lame hack here - id2countryname
+            row.append(convert.country_id2name(thing.jurisdiction, 'en_US'))
+        out_csv.writerow(row) 
+    fd.close()
+    os.rename(filename + '.working', filename)
 
 def clean(thing):
     if hasattr(thing, 'strftime'):
