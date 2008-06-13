@@ -2,25 +2,43 @@
 
 ## CONFIG:
 FLICKR_DATA_BASE_PATH='/home/paulproteus/stats/flickr/data/'
+OUTPUT_BASE_PATH='/home/paulproteus/public_html/stats/flickr-based-estimate/'
 
 ## CODE
 
 import charts
 import csv
+import datetime
+import os.path
 
 flickr2license = {
-    '/creativecommons/by-nd-2.0/': 'http://creativecommons.org/licenses/by-nd/2.0/',
-    '/creativecommons/by-nc-2.0/': 'http://creativecommons.org/licenses/by-nc/2.0/',
-    '/creativecommons/by-2.0/': 'http://creativecommons.org/licenses/by/2.0/',
-    '/creativecommons/by-nc-nd-2.0/': 'http://creativecommons.org/licenses/by-nc-nd/2.0/',
-    '/creativecommons/by-sa-2.0/': 'http://creativecommons.org/licenses/by-sa/2.0/',
-    '/creativecommons/by-nc-sa-2.0/': 'http://creativecommons.org/licenses/by-nc-sa/2.0/'}
+    '/creativecommons/by-nd-2.0/':
+	'http://creativecommons.org/licenses/by-nd/2.0/',
+    '/creativecommons/by-nc-2.0/':
+	'http://creativecommons.org/licenses/by-nc/2.0/',
+    '/creativecommons/by-2.0/':
+	'http://creativecommons.org/licenses/by/2.0/',
+    '/creativecommons/by-nc-nd-2.0/':
+	'http://creativecommons.org/licenses/by-nc-nd/2.0/',
+    '/creativecommons/by-sa-2.0/':
+	'http://creativecommons.org/licenses/by-sa/2.0/',
+    '/creativecommons/by-nc-sa-2.0/':
+	'http://creativecommons.org/licenses/by-nc-sa/2.0/'}
 
 # charts.search_engines
 # charts.db
 
 def last_flickr_estimate():
-    pass
+    ret = {}
+    flickr_csv_fd = csv.reader(
+        open(os.path.join(FLICKR_DATA_BASE_PATH,
+			  datetime.date.today().isoformat() + '.csv')))
+    for flickr_lic, flickr_num in flickr_csv_fd:
+        ret[flickr2license[flickr_lic]] = int(flickr_num)
+    return ret
+
+def fname(engine):
+    return os.path.join(OUTPUT_BASE_PATH, engine + '.txt')
 
 # in general,
 def generate_estimates():
@@ -37,6 +55,10 @@ def generate_estimate(engine, flickr_data):
 			  flickr2license.values() ]
     license2num = dict(
 	[ (thing.license_uri, thing.count) for thing in all_we_care_about ])
+
+    fd = open(fname(engine), 'w')
+    fd.write('wtf')
+    fd.close()
 
     print license2num
 
