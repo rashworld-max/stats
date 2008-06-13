@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+## CONFIG:
+FLICKR_DATA_BASE_PATH='/home/paulproteus/stats/flickr/data/'
+
+## CODE
+
 import charts
 import csv
 
