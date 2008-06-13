@@ -10,6 +10,9 @@ import charts
 import csv
 import datetime
 import os.path
+import sys
+sys.path.append('../ankit')
+import cc_total_estimate_with_comments
 
 flickr2license = {
     '/creativecommons/by-nd-2.0/':
@@ -39,7 +42,11 @@ def last_flickr_estimate():
 def fname(engine):
     '''Returns a filename for data generated for this project and this
     search engine.'''
-    return os.path.join(OUTPUT_BASE_PATH, engine + '.txt')
+    date_dir = os.path.join(OUTPUT_BASE_PATH,
+			    datetime.date.today().isoformat())
+    if not os.path.isdir(date_dir):
+	os.mkdir(date_dir)
+    return os.path.join(date_dir, engine + '.txt')
 
 # in general,
 def generate_estimates():
@@ -61,11 +68,20 @@ def generate_estimate(engine, flickr_data):
     license2num = dict(
 	[ (thing.license_uri, thing.count) for thing in all_we_care_about ])
 
-    fd = open(fname(engine), 'w')
-    fd.write('wtf')
-    fd.close()
+    sorted_licenses = sorted(flickr2license.values())
+    flickr_list = [ flickr_data[lic] for lic in sorted_licenses ]
+    engine_list = [ license2num[lic] for lic in sorted_licenses ]
 
-    print license2num
+    scaled_list = cc_total_estimate_with_comments.cc_total_estimate(
+	community_list=flickr_list, search_engine_list=engine_list)
+    fd = open(fname(engine), 'w')
+    csv_out = csv.writer(fd)
+    sum = 0
+    for index, lic in enumerate(sorted_licenses):
+	csv_out.writerow([lic, scaled_list[index] ])
+	sum += scaled_list[index]
+    csv_out.writerow(['TOTAL', sum ])
+    fd.close()
 
 if __name__ == '__main__':
     generate_estimates()
