@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 ## CONFIG:
-FLICKR_DATA_BASE_PATH='/home/paulproteus/stats/flickr/data/'
-OUTPUT_BASE_PATH='/home/paulproteus/public_html/stats/flickr-based-estimate/'
+FLICKR_DATA_BASE_PATH = '/home/paulproteus/stats/flickr/data/'
+OUTPUT_BASE_PATH = '/home/paulproteus/public_html/stats/flickr-based-estimate/'
 
 ## CODE
 
@@ -26,6 +26,8 @@ flickr2license = {
 	'http://creativecommons.org/licenses/by-nc-sa/2.0/'}
 
 def last_flickr_estimate():
+    '''Returns a dictionary mapping URLs to counts of photos, based
+    on today's Flickr data on-disk'''
     ret = {}
     flickr_csv_fd = csv.reader(
         open(os.path.join(FLICKR_DATA_BASE_PATH,
@@ -35,15 +37,21 @@ def last_flickr_estimate():
     return ret
 
 def fname(engine):
+    '''Returns a filename for data generated for this project and this
+    search engine.'''
     return os.path.join(OUTPUT_BASE_PATH, engine + '.txt')
 
 # in general,
 def generate_estimates():
+    '''Loop over the search engines and run generate_estimate.'''
     flickr_data = last_flickr_estimate()
     for engine in charts.search_engines:
 	generate_estimate(engine, flickr_data)
 
 def generate_estimate(engine, flickr_data):
+    '''Store an estimate of the total number of works, based on the Ankit
+    implementation of the Giorgos method - combining search engine license
+    distribution information and the Flickr data set'''
     # Flickr only refers to CC 2.0 licenses
     # Therefore, use their distribution
     all = charts.get_all_most_recent(charts.db.simple, engine)
