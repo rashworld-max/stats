@@ -25,9 +25,6 @@ flickr2license = {
     '/creativecommons/by-nc-sa-2.0/':
 	'http://creativecommons.org/licenses/by-nc-sa/2.0/'}
 
-# charts.search_engines
-# charts.db
-
 def last_flickr_estimate():
     ret = {}
     flickr_csv_fd = csv.reader(
