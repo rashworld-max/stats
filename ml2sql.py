@@ -6,6 +6,15 @@ import link_counts
 import datetime
 import dbconfig
 
+def try_to_intify(n):
+    if n in ('!', '<font', ')'):
+        return None
+    try:
+        return int(n)
+    except ValueError:
+#        print n, 'failed'
+        return None
+
 class Importer:
     def __init__(self, fd, db = dbconfig.dburl):
         '''Takes an ML-format fd as input.
@@ -18,5 +27,21 @@ class Importer:
         seen_lengths = set()
         for row in fd:
             things = row.split()
-            set.add(len(things))
-        print set
+            if len(things) in [5,6]:
+                engines = {}
+                date = things.pop(0)
+                time = things.pop(0)
+                url = things.pop(-1)
+                if url == 'SUM':
+                    print 'discarding due to sum:', things
+                engines['yahoo'] = try_to_intify(things.pop(0))
+                engines['google'] = try_to_intify(things.pop(0))
+                if things:
+                    engines['atw'] = try_to_intify(things.pop(0))
+                print engines
+            else:
+                print 'discarding', things
+
+if __name__ == '__main__':
+    import sys
+    Importer(sys.stdin)
