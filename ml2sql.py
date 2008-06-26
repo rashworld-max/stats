@@ -8,11 +8,13 @@ import dbconfig
 
 def try_to_intify(n):
     if n in ('!', '<font', ')'):
+        # just to point out the kind of trash in these columns
+        # there's some ghastly binary trash in the file, too, which gets
+        # caught below.
         return None
     try:
         return int(n)
     except ValueError:
-#        print n, 'failed'
         return None
 
 class Importer:
