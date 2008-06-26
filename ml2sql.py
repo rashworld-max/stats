@@ -36,6 +36,7 @@ class Importer:
                 url = things.pop(-1)
                 if url == 'SUM':
                     print 'discarding due to sum:', things
+                    continue
                 engines['yahoo'] = try_to_intify(things.pop(0))
                 engines['google'] = try_to_intify(things.pop(0))
                 if things:
@@ -43,6 +44,8 @@ class Importer:
                 print engines
             else:
                 print 'discarding', things
+
+            
 
 if __name__ == '__main__':
     import sys
