@@ -237,10 +237,15 @@ def dump_one_date_engine(db, table, table_cursor, date, path, engine):
         row = [clean(getattr(thing, k)) for k in keys] # omg, that syntax is horrible.
         if table == 'simple':
             # totally lame hack here - id2countryname
-            row.append(convert.country_id2name(thing.jurisdiction, 'en_US'))
+            row.append(nice_juri2name(thing.jurisdiction))
         out_csv.writerow(row) 
     fd.close()
     os.rename(filename + '.working', filename)
+
+def nice_juri2name(s):
+    if not s:
+        return 'Unported'
+    return convert.country_id2name(s, 'en_US')
 
 def clean(thing):
     if hasattr(thing, 'strftime'):

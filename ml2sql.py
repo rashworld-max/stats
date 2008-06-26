@@ -41,6 +41,17 @@ class Importer:
                 engines['google'] = try_to_intify(things.pop(0))
                 if things:
                     engines['atw'] = try_to_intify(things.pop(0))
+
+                # Calculate proper datetime value
+                try:
+                    year, month, day =map(int, date.split('-'))
+                    hour, minute, second =map(int, time.split(':'))
+                except ValueError:
+                    continue # screw this "date"
+                nice_datetime = datetime.datetime(year, month, day,
+                                     hour, minute, second)
+                
+
                 print engines
             else:
                 print 'discarding', things

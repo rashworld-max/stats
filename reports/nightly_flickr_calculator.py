@@ -61,7 +61,7 @@ def generate_estimate(engine, flickr_data):
     distribution information and the Flickr data set'''
     # Flickr only refers to CC 2.0 licenses
     # Therefore, use their distribution
-    all = charts.get_all_most_recent(charts.db.simple, engine)
+    all = charts.get_all_most_recent(charts.db.simple, engine, debug = True)
     license2num = {}
     all_we_care_about = [ thing for thing in all if thing.license_uri in
 			  flickr2license.values() ]

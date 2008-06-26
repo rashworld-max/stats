@@ -397,8 +397,10 @@ def license_counts(things):
             ret['total'] = ret.get('total',0) + thing.count
     return ret
 
-def get_all_most_recent(table, engine):
+def get_all_most_recent(table, engine, debug = False):
     recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)], table.c.timestamp < _PROCESSING_MAX_DATE).execute().fetchone()[0]
+    if debug:
+        print recent_stamp
     recent = sqlalchemy.select(table.c.keys(), sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)).execute()
     for datum in recent:
         if JURI:
