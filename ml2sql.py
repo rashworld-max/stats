@@ -6,6 +6,12 @@ import link_counts
 import datetime
 import dbconfig
 
+def license_clean(s):
+    if '://' not in s:
+        s = 'http://' + s
+    # that should be it
+    return s
+
 def try_to_intify(n):
     if n in ('!', '<font', ')'):
         # just to point out the kind of trash in these columns
@@ -34,7 +40,7 @@ class Importer:
                 engines = {}
                 date = things.pop(0)
                 time = things.pop(0)
-                url = things.pop(-1)
+                url = license_clean(things.pop(-1))
                 if url == 'SUM':
                     print 'discarding due to sum:', things
                     continue
@@ -53,7 +59,15 @@ class Importer:
                                      hour, minute, second)
                 
                 if nice_datetime < self.ending_datetime:
-                    print date, url, engines
+                    if '/licenses/' in url:
+                        for engine in engines:
+                            count = engines[engine]
+                            if count is not None:
+                                pass
+                                #self.lc.record(cc_license_uri = url,
+                                #  search_engine=engine, count=count,
+                                #  timestamp = nice_datetime)
+                        print date, url, engines
             else:
                 print 'discarding', things
 
