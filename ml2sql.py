@@ -64,9 +64,9 @@ class Importer:
                             count = engines[engine]
                             if count is not None:
                                 pass
-                                #self.lc.record(cc_license_uri = url,
-                                #  search_engine=engine, count=count,
-                                #  timestamp = nice_datetime)
+                                self.lc.record(cc_license_uri = url,
+                                  search_engine=engine, count=count,
+                                  timestamp = nice_datetime)
                         print date, url, engines
             else:
                 print 'discarding', things
