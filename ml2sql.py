@@ -18,11 +18,12 @@ def try_to_intify(n):
         return None
 
 class Importer:
-    def __init__(self, fd, db = dbconfig.dburl):
+    def __init__(self, fd, ending_date, db = dbconfig.dburl):
         '''Takes an ML-format fd as input.
         Creates some internal state and does some SQL queries as a result.'''
         self.lc = link_counts.LinkCounter(db, 'old/api/licenses.xml')
         self.date = "RIGGED TO EXPLODE"
+        self.ending_datetime = datetime.datetime(*map(int, ending_date.split('-')))
         self.parse(fd)
 
     def parse(self, fd):
@@ -51,8 +52,8 @@ class Importer:
                 nice_datetime = datetime.datetime(year, month, day,
                                      hour, minute, second)
                 
-
-                print engines
+                if nice_datetime < self.ending_datetime:
+                    print date, url, engines
             else:
                 print 'discarding', things
 
@@ -60,4 +61,10 @@ class Importer:
 
 if __name__ == '__main__':
     import sys
-    Importer(sys.stdin)
+    if len(sys.argv) != 2:
+        print 'Usage: python ml2sql.py 2005-06-21 < /tmp/some_file.txt'
+        print ''
+        print 'That will import some_file.txt into the database for all'
+        print 'dates inside it that are less than (not equal to) that date.'
+    else:
+        Importer(sys.stdin, sys.argv[1])
