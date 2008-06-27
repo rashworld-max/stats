@@ -38,10 +38,10 @@ class Importer:
                 if url == 'SUM':
                     print 'discarding due to sum:', things
                     continue
-                engines['yahoo'] = try_to_intify(things.pop(0))
-                engines['google'] = try_to_intify(things.pop(0))
+                engines['Yahoo'] = try_to_intify(things.pop(0))
+                engines['Google'] = try_to_intify(things.pop(0))
                 if things:
-                    engines['atw'] = try_to_intify(things.pop(0))
+                    engines['All The Web'] = try_to_intify(things.pop(0))
 
                 # Calculate proper datetime value
                 try:
