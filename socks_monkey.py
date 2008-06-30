@@ -18,11 +18,13 @@ def enable_tor():
 	socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, TOR_IP, TOR_PORT)
 	socket._real_socket = socket.socket
 	socket.socket = socks.socksocket
+	assert is_tor_enabled()
 
 def disable_tor():
 	socket.torified = 0
 	if hasattr(socket, '_real_socket'):
 		socket.socket = socket._real_socket
+	assert not is_tor_enabled()
 
 
 

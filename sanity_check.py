@@ -23,13 +23,7 @@ def sanity_check():
     lc.db.simple
 
 if __name__ == '__main__':
-    try:
-        sanity_check()
-    except Exception, e:
-        print 'Sadly, your setup is insane.'
-        print 'It all burned down due to', e, '.'
-        sys.exit(1) # false
-
-sys.exit(0) # true
+    sanity_check()
+    sys.exit(0) # true
     
 
