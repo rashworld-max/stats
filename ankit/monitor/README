@@ -1,0 +1,11 @@
+Notes:
+Objective of the script: read the (latest available) stats file and output
+grouped data in one of two possible formats (XML for map application or
+table for direct display in the wiki).
+So far: extract data and group it according to Jurisdictions
+Problem(s) hitherto: Error out of bounds when trying to group using "if
+counter != counter+1" approach. (tried adding additional logic, to no
+avail). This results in the last jurisdiction not being considered in the
+results
+Next Step: Further Group the data by license type
+
