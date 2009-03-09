@@ -41,7 +41,7 @@ def ccLogDataGrouper(filepath):
           logfile = open_even_if_gzipped(filepath)
           for line in logfile:
                compare = accessPattern.match(line) #Match the stats file data to the regex
-               if compare is None:
+               if compare is None: # then the regex failed, and the input data was invalid.
                     print line
                     raise ValueError
                else: # Extract the relevant data
