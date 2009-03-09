@@ -3,11 +3,7 @@ import sys
 import re
 import gzip
 
-count = []
-license = []
-version = []
-juris = []
-juriscode = []
+data_from_logs = []
 
 groupedJuris = []
 groupedJurisCode = []
@@ -45,11 +41,11 @@ def ccLogDataGrouper(filepath):
                     print line
                     raise ValueError
                else: # Extract the relevant data
-                    count.append(compare.groupdict()["count"])
-                    license.append(compare.groupdict()["lic"])
-                    version.append(compare.groupdict()["version"])
-                    juris.append(compare.groupdict()["juris"])
-                    juriscode.append(compare.groupdict()["jurcode"])
+                    this_datum = compare.groupdict()
+                    # fix up count to actually be an integer
+                    this_datum['count'] = int(this_datum['count'])
+                    # slide it onto the end of our growing list
+                    data_from_logs.append(this_datum)
           logfile.close()
 
      counter = 0
