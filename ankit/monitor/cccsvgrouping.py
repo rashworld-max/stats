@@ -1,3 +1,5 @@
+import sys
+
 count = []
 license = []
 version = []
