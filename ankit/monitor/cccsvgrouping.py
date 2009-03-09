@@ -48,22 +48,28 @@ def ccLogDataGrouper(filepath):
                     data_from_logs.append(this_datum)
           logfile.close()
 
-     counter = 0
-     counterIncremented = 1 #To prevent out-of-bounds error, using counterIncremented instead of counter+1
-### FIX ME: Still getting out of bound error, leading to ignoring of the last jurisdiction in the log
-     temp = 0
-     while counter < len(count): # Code to group the info by jurisdiction
-          temp += int(count[counter])
-          if juris[counter] != juris [counterIncremented]:
-               groupedJuris.append(juris[counter])
-               groupedJurisCode.append(juriscode[counter])
-               groupedCount.append(temp)
-               temp=0 
-          counter += 1
-          if counter == len(count):
-               counterIncremented = counter
-          else:
-               counterIncremented = counter+1
+     # reorganize the data from the logs to be grouped by jurisdiction
+     grouped_by_juris = {}
+     # for me, "grouped by" means a dictionary where the key is the juris and the value
+     # is a list of these data dictionaries
+
+     for datum in data_from_logs:
+        # each datum has: count, lic, version, juris, jurcode
+
+        # For each datum we pulled out of the logs,
+        # it in this dictionary whose keys are the "juris" 
+        my_juris = datum['juris']
+
+        if my_juris not in grouped_by_juris:
+            grouped_by_juris[my_juris] = []
+        grouped_by_juris[my_juris].append(datum)
+
+     # Now that they are grouped, we can e.g. generate the sums
+     juris_sums = {}
+     for juris in grouped_by_juris:
+        juris_sums[juris] = sum([datum['count'] for datum in grouped_by_juris[juris]])
+
+     print juris_sums
 
 # ADD ME: Also add logic to sub-group by license-type within jurisdiction grouping.
 # ADD ME: System arguments for search engine and stat file type (linkback or api)
