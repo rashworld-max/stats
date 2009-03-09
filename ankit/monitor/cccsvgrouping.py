@@ -59,6 +59,10 @@ def ccLogDataGrouper(filepath):
 # ADD ME: System arguments for search engine and stat file type (linkback or api)
 
 def main():
+    if len(sys.argv) != 2:
+        print >> sys.stderr, 'You need to pass me exactly one CC CSV file as an argument.'
+        print >> sys.stderr, 'You can find one here: http://labs.creativecommons.org/~paulproteus/stats/flickr/2008-06-23.csv'
+        sys.exit(1)
     ccLogDataGrouper(sys.argv[1])
 
 if __name__ == '__main__':
