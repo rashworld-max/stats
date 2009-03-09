@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys
 
 count = []
@@ -58,7 +59,7 @@ def ccLogDataGrouper(filepath):
 # ADD ME: System arguments for search engine and stat file type (linkback or api)
 
 def main():
-     ccLogDataGrouper(sys.argv[1])
+    ccLogDataGrouper(sys.argv[1])
 
 if __name__ == '__main__':
-     main()
+    main()
