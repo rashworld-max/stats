@@ -127,7 +127,7 @@ def urlParse(url):
         if jurisdiction=='' or jurisdiction=='us' or jurisdiction=='deed-music':
             jurisdiction='generic'
         # attribs: if it's a "normal" CC license, then the list of CC attributes
-        if which in ('GPL', 'LGPL', 'devnations', 'sampling', 'pd'):
+        if which in ('GPL', 'LGPL', 'devnations', 'sampling', 'pd', 'zero'):
             attribs = []
         else:
             if which in ('sampling+', 'nc-sampling+'):
