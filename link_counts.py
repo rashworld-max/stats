@@ -71,6 +71,7 @@ class LinkCounter:
              'http://creativecommons.org/licenses/publicdomain',
              'http://creativecommons.org/licenses/publicdomain/1.0/',
              'http://creativecommons.org/licenses/zero/1.0/',
+             'http://creativecommons.org/publicdomain/zero/1.0/',
              'http://creativecommons.org/licenses/by-nc-nd/2.0/deed-music',
              'http://creativecommons.org/licenses/by-nd-nc/2.0/']) # These were in old but not in the XML
         self.uris = list(set(self.uris))  # eliminate duplicates
