@@ -84,15 +84,18 @@ class Stats(object):
     >>> q = CCQuery()
     >>> q.add_linkbacks((
     ...        ('2316360','http://creativecommons.org/licenses/by/1.0/','Google',
-    ...         '4690','2009-03-24 00:05:23','','by','1.0','Unported'),))
+    ...         '4690','2009-03-24 00:05:23','','by','1.0','Unported'),
+    ...        ('2316245','http://creativecommons.org/licenses/by-nd/3.0/hk/','Google',
+    ...         '84','2009-03-24 00:05:23','hk','by-nd','3.0','Hong Kong')
+    ...        ))
 
     >>> s = Stats(q.license_world())
     >>> s.count('by')
     1
-    >>> s.percent('by')
-    1.0
+    >>> s.percent('by-nd')
+    0.5
     >>> s.freedom_score
-    6.0
+    4.5
 
     """
     # freedom score = 6*%by+4.5*%by-sa+3*%by-nd+4*%by-nc+2.5*%by-nc-sa+1*%by-nc-nd
