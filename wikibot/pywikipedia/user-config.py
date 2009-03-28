@@ -14,6 +14,7 @@ mylang = 'en'
 # have a bot account.
 usernames['ccmonitor']['en'] = u'CCStatsBot'
 
+notify_unflagged_bot = False
 
 ############## LOGFILE SETTINGS ##############
 
