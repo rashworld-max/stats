@@ -1,0 +1,11 @@
+2009-03-29 02:29:16 r6560 Python 2.6.1 login.py
+2009-03-29 02:34:12 r6560 Python 2.6.1 login.py "--help"
+2009-03-29 02:34:40 r6560 Python 2.6.1 login.py "-pass:bhyccstatsbot" "-v" "-v"
+2009-03-29 02:37:48 r6560 Python 2.6.1 login.py "-pass:bhyccstatsbot" "-v" "-v"
+2009-03-29 02:41:20 r6560 Python 2.6.1 login.py "-v" "-v"
+2009-03-29 02:50:12 r6560 Python 2.6.1 login.py "-pass:bhyccstatsbot" "-v" "-v"
+2009-03-29 02:50:23 r6560 Python 2.6.1 test.py
+2009-03-29 02:53:20 r6560 Python 2.6.1 editarticle.py "--help"
+2009-03-29 02:53:35 r6560 Python 2.6.1 editarticle.py "-p" "Sandbox"
+2009-03-29 02:56:45 r6560 Python 2.6.1 test.py
+2009-03-29 02:57:05 r6560 Python 2.6.1 login.py "-pass:bhyccstatsbot"
