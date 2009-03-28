@@ -1,0 +1,6 @@
+﻿{% for item in licenses %}
+{{item}} {{count(item)}} {{percent(item)}}
+{% endfor %}
+
+Total = {{total}}
+Freedom score = {{freedom_score}}
