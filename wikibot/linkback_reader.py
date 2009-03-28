@@ -16,7 +16,7 @@ if CSV_DUMPS_URL[-1] <> '/':
 _ONEDAY = datetime.timedelta(days=1)
 
 #_TODAY = datetime.date.today()
-_TODAY = datetime.date(2009,3,24)
+_TODAY = datetime.date(2009,3,23)
 
 def read_csv(csvfile):
     """

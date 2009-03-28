@@ -2,6 +2,7 @@
 The view to generate pages than can be put onto wiki.
 """
 import jinja2
+import locale
 
 import linkback_reader
 import ccquery
@@ -24,6 +25,16 @@ class PageRender(object):
                 loader=jinja2.FileSystemLoader(TEMPLATE_DIR),
                 trim_blocks=True
                 )
+
+        # Install a thousand spearator filter.
+        def _thousandsep(number):
+            lc = locale.getlocale(locale.LC_ALL)
+            locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+            result = locale.format('%d', number, True)
+            locale.setlocale(locale.LC_ALL, lc)
+            return result
+        self.env.filters['thousandsep'] = _thousandsep
+
         return
 
     def __call__(self, title, template_fn, **kwargs):
