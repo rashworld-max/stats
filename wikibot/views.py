@@ -28,11 +28,9 @@ class PageRender(object):
 
         # Install a thousand spearator filter.
         def _thousandsep(number):
-            lc = locale.getlocale(locale.LC_ALL)
-            locale.setlocale(locale.LC_ALL, 'en_US.utf8')
-            result = locale.format('%d', number, True)
-            locale.setlocale(locale.LC_ALL, lc)
-            return result
+            number = str(number)
+            return number if len(number)<=3 else \
+                    _thousandsep(number[:-3]) + ',' + number[-3:]
         self.env.filters['thousandsep'] = _thousandsep
 
         return

@@ -1,6 +1,8 @@
 ﻿{% for item in licenses %}
+
 {{item}} {{count(item) | thousandsep}} {{ (percent(item)*100) | round(2) }}%
 {% endfor %}
 
 Total = {{total | thousandsep}}
+
 Freedom score = {{freedom_score | round(2)}}
