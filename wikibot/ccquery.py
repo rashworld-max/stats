@@ -5,6 +5,8 @@ Caculate and query CC license data.
 import collections
 import sqlite3
 
+CONTINENT_FILE = 'continents.txt'
+
 class CCQuery(object):
     """
     Database interface of CC license data.
@@ -12,13 +14,25 @@ class CCQuery(object):
     >>> q = CCQuery()
     >>> q.add_linkbacks((
     ...        ('2316360','http://creativecommons.org/licenses/by/1.0/','Google',
-    ...         '4690','2009-03-24 00:05:23','','by','1.0','Unported'),))
+    ...         '4690','2009-03-24 00:05:23','','by','1.0','Unported'),
+    ...        ('2316245','http://creativecommons.org/licenses/by-nd/3.0/hk/','Google',
+    ...         '84','2009-03-24 00:05:23','hk','by-nd','3.0','Hong Kong')
+    ...     ))
 
     >>> [x for x in q.license_world()]
-    [(u'by', 1)]
+    [(u'by', 1), (u'by-nd', 1)]
 
     >>> [x for x in q.license_by_juris(u'')]
     [(u'by', 1)]
+    
+    >>> [x for x in q.license_by_continent('as')]
+    [(u'by-nd', 1)]
+    
+    >>> q.juris_code2name('hk')
+    u'Hong Kong'
+    
+    >>> q.all_juris()
+    [u'', u'hk']
 
     """
     def __init__(self, dbfile=':memory:'):
@@ -42,10 +56,40 @@ class CCQuery(object):
             );
             create table continent(
                 code text,
-                country_code text
+                juris_code text
             );
         """)
+        self._load_continent()
+        
         self.NUM_FIELDS = 9
+        return
+
+    def _load_continent(self, fn = CONTINENT_FILE):
+        c = self.conn.cursor()
+        for line in open(fn):
+            line = line.split('#')[0] # strip comment
+            try:
+                continent, country_code = line.split()
+            except ValueError:
+                continue
+            continent = continent.lower()
+            country_code = country_code.lower()
+            c.execute("insert into continent values(?,?)", (continent, country_code))
+        self.conn.commit()
+        return
+
+    def _warn_no_continent(self):
+        c = self.conn.cursor()
+        c.execute("""
+            select distinct juris_code, juris from linkback 
+                where juris_code <> '' and juris_code not in 
+                    (select juris_code from continent)""")
+        r = list(c)
+        if r:
+            import sys
+            print >>sys.stderr, "Warning: the following jurisdictions have no corresponding continent:"
+            for j in r:
+                print >>sys.stderr, j
         return
 
     def add_linkbacks(self, dataiter):
@@ -54,7 +98,27 @@ class CCQuery(object):
         """
         c = self.conn.cursor()
         c.executemany('insert into linkback values(%s)' % ( ','.join('?' * self.NUM_FIELDS) ), dataiter)
+        self.conn.commit()
+        self._warn_no_continent()
         return
+    
+    def juris_code2name(self, code):
+        """
+        Get juris name from code.
+        """
+        c = self.conn.cursor()
+        c.execute('select distinct juris from linkback where juris_code=?', (code,))
+        result = c.fetchone()[0]
+        return result
+
+    def all_juris(self):
+        """
+        All juris avaiable in the linkback table.
+        """
+        c = self.conn.cursor()
+        c.execute('select distinct juris_code from linkback')
+        result = [t[0] for t in c]
+        return result
 
     def _license_query(self, where_clause, args=()):
         """
@@ -76,6 +140,12 @@ class CCQuery(object):
         Count of each license in a specific juris.
         """
         return self._license_query('where juris_code=?', (juris_code,))
+
+    def license_by_continent(self, continent_code):
+        """
+        Count of each license in a specific continent.
+        """
+        return self._license_query('where juris_code in (select juris_code from continent where code=?)', (continent_code,))
 
 class Stats(object):
     """
