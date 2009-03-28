@@ -8,7 +8,7 @@ import re
 import gzip
 import StringIO
 
-DAILY_CSV_NAME = 'linkbacks-daily-ALL.csv'
+DAILY_CSV_NAME = 'linkbacks-daily-Yahoo.csv'
 CSV_DUMPS_URL = "http://a6.creativecommons.org/~paulproteus/csv-dumps/"
 if CSV_DUMPS_URL[-1] <> '/':
     CSV_DUMPS_URL += '/'

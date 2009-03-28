@@ -139,7 +139,7 @@ class CCQuery(object):
         Cunstruct and execute a select query with the where_clause, to get numbers of items in every license.
         """
         c = self.conn.cursor()
-        q = 'select license, count(*) from linkback %s group by license' % where_clause
+        q = 'select license, sum(count) from linkback %s group by license' % where_clause
         c.execute(q, args)
         return c
 
