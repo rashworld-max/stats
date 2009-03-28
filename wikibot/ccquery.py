@@ -30,6 +30,9 @@ class CCQuery(object):
     
     >>> q.juris_code2name('hk')
     u'Hong Kong'
+
+    >>> q.continent_code2name('as')
+    u'Asia'
     
     >>> q.all_juris()
     [u'', u'hk']
@@ -110,6 +113,17 @@ class CCQuery(object):
         c.execute('select distinct juris from linkback where juris_code=?', (code,))
         result = c.fetchone()[0]
         return result
+    
+    def continent_code2name(self, code):
+        codedict = dict(
+                AF = u'Africa',
+                AS = u'Asia',
+                EU = u'Europe',
+                NA = u'North America',
+                SA = u'South America',
+                OC = u'Oceania',
+                AN = u'Antarctica')
+        return codedict[code.upper()]
 
     def all_juris(self):
         """
@@ -182,6 +196,8 @@ class Stats(object):
                 ('by-nc-sa', 2.5),
                 ('by-nc-nd', 1)
             )
+    # We only count these licenses (ie. exclude GPL, publicdomain, etc.)
+    VALID_LICENSES = [x[0] for x in FREEDOM_SCORE_FACTORS]
 
     def __init__(self, license_data):
         """
@@ -190,8 +206,9 @@ class Stats(object):
         licenses = collections.defaultdict(int)
         total = 0
         for license, count in license_data:
-            licenses[license] += count
-            total += count
+            if license in self.VALID_LICENSES:
+                licenses[license] += count
+                total += count
 
         self.total = total
         self.licenses = licenses
