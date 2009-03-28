@@ -40,6 +40,10 @@ class CCQuery(object):
                 version text,
                 juris text
             );
+            create table continent(
+                code text,
+                country_code text
+            );
         """)
         self.NUM_FIELDS = 9
         return
@@ -120,7 +124,7 @@ class Stats(object):
             total += count
 
         self.total = total
-        self._licenses = licenses
+        self.licenses = licenses
     
         # Calculate freedom score
         score = 0
@@ -130,7 +134,7 @@ class Stats(object):
         return
     
     def count(self, license):
-        return self._licenses[license]
+        return self.licenses[license]
 
     def percent(self, license):
         return float(self.count(license)) / self.total
