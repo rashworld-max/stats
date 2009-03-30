@@ -15,11 +15,12 @@ def run():
     pagegens = itertools.chain(
             view.stats_world(),
             view.stats_juris(),
+            view.list_juris(),
             )
     for page in pagegens:
         print "Updating page: ", page.title
         wikipage = wikipedia.Page(site, page.title)
-        wikipage.put(page.text)
+        wikipage.put(page.text, "Updated by ccbot.py - testing.")
     return
 
 def test():

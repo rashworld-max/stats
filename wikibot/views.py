@@ -9,6 +9,7 @@ import ccquery
 
 TEMPLATE_DIR = 'template/'
 STATS_TEMPLATE = 'simpletable.wiki'
+LINKLIST_TEMPLATE = 'simplelinklist.wiki'
 
 class Page(object):
     def __init__(self, title, text):
@@ -80,6 +81,13 @@ class View(object):
             data = self.query.license_by_juris(code)
             yield self._stats(juris_name, data)
         return
+    
+    def list_juris(self):
+        query = self.query
+        links = [query.juris_code2name(code) for code in query.all_juris()]
+        page = self.render("List of Jurisdictions", LINKLIST_TEMPLATE, links=links)
+        yield page
+        return
         
 
 
@@ -90,6 +98,10 @@ def test():
     for page in view.stats_juris():
         print '='*30
         print page
+    print '='*30
+    page = view.list_juris().next()
+    print page
+
     return
 
 if __name__=='__main__':
