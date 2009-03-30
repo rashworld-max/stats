@@ -1,6 +1,7 @@
 """
 The view to generate pages than can be put onto wiki.
 """
+import itertools
 import jinja2
 import locale
 
@@ -70,6 +71,16 @@ class View(object):
                 )
         return page
 
+    def all_pages(self):
+        all = itertools.chain(
+                self.stats_world(),
+                self.stats_juris(),
+                self.stats_continent(),
+                self.list_juris(),
+                self.list_continents(),
+                )
+        return all
+
     def stats_world(self):
         yield self._stats("World", self.query.license_world())
         return
@@ -78,8 +89,16 @@ class View(object):
         query = self.query
         for code in query.all_juris():
             juris_name = query.juris_code2name(code)
-            data = self.query.license_by_juris(code)
+            data = query.license_by_juris(code)
             yield self._stats(juris_name, data)
+        return
+
+    def stats_continent(self):
+        query = self.query
+        for code in query.all_continents():
+            name = query.continent_code2name(code)
+            data = query.license_by_continent(code)
+            yield self._stats(name, data)
         return
     
     def list_juris(self):
@@ -88,19 +107,22 @@ class View(object):
         page = self.render("List of Jurisdictions", LINKLIST_TEMPLATE, links=links)
         yield page
         return
-        
 
+    def list_continents(self):
+        query = self.query
+        links = [query.continent_code2name(code) for code in query.all_continents()]
+        page = self.render("List of Continents", LINKLIST_TEMPLATE, links=links)
+        yield page
+        return
 
 def test():
     view = View()
-    page = view.stats_world().next()
-    print page
-    for page in view.stats_juris():
-        print '='*30
+    pagegen = view.all_pages()
+    for page in pagegen:
+        print '='*50
+        print
         print page
-    print '='*30
-    page = view.list_juris().next()
-    print page
+        print
 
     return
 

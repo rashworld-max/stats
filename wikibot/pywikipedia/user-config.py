@@ -16,6 +16,10 @@ usernames['ccmonitor']['en'] = u'CCStatsBot'
 
 notify_unflagged_bot = False
 
+maxthrottle = 2
+put_throttle = 2
+
+
 ############## LOGFILE SETTINGS ##############
 
 # Defines for which scripts a logfile should be enabled. Logfiles will be

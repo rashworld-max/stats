@@ -20,13 +20,13 @@ class CCQuery(object):
     ...     ))
 
     >>> [x for x in q.license_world()]
-    [(u'by', 1), (u'by-nd', 1)]
+    [(u'by', 4690), (u'by-nd', 84)]
 
     >>> [x for x in q.license_by_juris(u'')]
-    [(u'by', 1)]
+    [(u'by', 4690)]
     
     >>> [x for x in q.license_by_continent('as')]
-    [(u'by-nd', 1)]
+    [(u'by-nd', 84)]
     
     >>> q.juris_code2name('hk')
     u'Hong Kong'
@@ -36,6 +36,9 @@ class CCQuery(object):
     
     >>> q.all_juris()
     [u'', u'hk']
+
+    >>> q.all_continents()
+    [u'as']
 
     """
     def __init__(self, dbfile=':memory:'):
@@ -125,6 +128,15 @@ class CCQuery(object):
                 AN = u'Antarctica')
         return codedict[code.upper()]
 
+    def all_continents(self):
+        """
+        All continents.
+        """
+        c = self.conn.cursor()
+        c.execute('select distinct code from (continent natural join linkback)')
+        result = [t[0] for t in c]
+        return result
+
     def all_juris(self):
         """
         All juris avaiable in the linkback table.
@@ -172,18 +184,18 @@ class Stats(object):
     >>> q = CCQuery()
     >>> q.add_linkbacks((
     ...        ('2316360','http://creativecommons.org/licenses/by/1.0/','Google',
-    ...         '4690','2009-03-24 00:05:23','','by','1.0','Unported'),
+    ...         '30','2009-03-24 00:05:23','','by','1.0','Unported'),
     ...        ('2316245','http://creativecommons.org/licenses/by-nd/3.0/hk/','Google',
-    ...         '84','2009-03-24 00:05:23','hk','by-nd','3.0','Hong Kong')
+    ...         '10','2009-03-24 00:05:23','hk','by-nd','3.0','Hong Kong')
     ...        ))
 
     >>> s = Stats(q.license_world())
     >>> s.count('by')
-    1
+    30
     >>> s.percent('by-nd')
-    0.5
+    0.25
     >>> s.freedom_score
-    4.5
+    5.25
 
     """
     # freedom score = 6*%by+4.5*%by-sa+3*%by-nd+4*%by-nc+2.5*%by-nc-sa+1*%by-nc-nd

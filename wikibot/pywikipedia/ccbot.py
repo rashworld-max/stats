@@ -12,12 +12,8 @@ import views
 def run():
     site = wikipedia.getSite()
     view = views.View()
-    pagegens = itertools.chain(
-            view.stats_world(),
-            view.stats_juris(),
-            view.list_juris(),
-            )
-    for page in pagegens:
+    pagegen = view.all_pages()
+    for page in pagegen:
         print "Updating page: ", page.title
         wikipage = wikipedia.Page(site, page.title)
         wikipage.put(page.text, "Updated by ccbot.py - testing.")
@@ -25,7 +21,7 @@ def run():
 
 def test():
     site = wikipedia.getSite()
-    page = wikipedia.Page(site, u'Sandbox')
+    page = wikipedia.Page(site, u'Sandbox')    
     page.put(u'Hello, world! This is from ccbot.py')
     return
 
