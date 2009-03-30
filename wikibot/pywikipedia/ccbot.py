@@ -14,9 +14,15 @@ def run():
     view = views.View()
     pagegen = view.all_pages()
     for page in pagegen:
-        print "Updating page: ", page.title
+        print "Updating page: ", page.title, "...",
+        sys.stdout.flush()
         wikipage = wikipedia.Page(site, page.title)
-        wikipage.put(page.text, "Updated by ccbot.py - testing.")
+        oldpage = wikipage.get()
+        if page.text <> oldpage:
+            wikipage.put(page.text, "Updated by ccbot.py - testing.")
+            print "Done."
+        else:
+            print "Same as old page, skipped."
     return
 
 def test():
