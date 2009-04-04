@@ -76,9 +76,9 @@ class View(object):
     The methods in the View class are generators yielding pages.
 
     >>> view = View()
-    >>> page = view.stats_world().next()
+    >>> page = view.list_juris().next()
     >>> page.title
-    'World'
+    'List of Jurisdictions'
     """
     def __init__(self, data=None):
         if data is None:

@@ -8,6 +8,7 @@ import re
 import gzip
 import StringIO
 
+from utils import tries
 DAILY_CSV_NAME = 'linkbacks-daily-Yahoo.csv'
 CSV_DUMPS_URL = "http://a6.creativecommons.org/~paulproteus/csv-dumps/"
 if CSV_DUMPS_URL[-1] <> '/':
@@ -81,25 +82,6 @@ def open_even_if_gzipped(fileobj):
 def urlopen(url, ntries=3):
     #import sys
     #print >>sys.stderr, url
-    return try_thrice(ntries, urllib2.urlopen, url)
+    return tries(ntries, urllib2.urlopen, url)
 
-def try_thrice(ntries, fn, *arglist, **argdict):
-    """
-    Borrowed from Asheesh.
-    """
-    tries = 0
-    while True:
-        try:
-            return fn(*arglist, **argdict)
-        except Exception, e:
-            if isinstance(e, KeyboardInterrupt):
-               raise e
-            print "Huh, while doing %s(%s, %s), %s happened." % (fn, arglist, argdict, e)
-            tries += 1
-            if tries >= ntries:
-                raise
-            sleeptime = 2 ** tries * 10
-            print 'trying again after sleeping for %d' % sleeptime
-            import time
-            time.sleep(sleeptime)
 
