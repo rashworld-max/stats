@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<countrydata>
+
+<!-- Green -->
+<state id="range">
+        <data>0 - 2</data>
+        <color>33FF33</color>
+</state>
+<!-- Yellow -->
+<state id="range">
+        <data>2 - 3</data>
+        <color>FFFF33</color>
+</state>
+<!-- Orange -->
+<state id="range">
+        <data>3 - 4</data>
+        <color>FF9933</color>
+</state>
+<!-- Red -->
+<state id="range">
+        <data>4 - 6</data>
+        <color>FF3333</color>
+</state>
+<state id="default_color">
+        <color>cccccc</color>
+</state>
+<state id="background_color">
+        <color>ddffff</color>
+</state>
+<state id="outline_color">
+        <color>333333</color>
+</state>
+
+{% for id in jurisdictions %}
+<state id="{{ id }}">
+        <name>{{ names[id] }}</name>
+        <data>{{ stats[id].freedom_score }}</data>
+        <hover>Freedom score: {{ stats[id].freedom_score | round(2) }} </hover>
+</state>
+{% endfor %}
+
+</countrydata>
+
