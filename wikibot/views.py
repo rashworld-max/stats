@@ -11,6 +11,9 @@ import ccquery
 TEMPLATE_DIR = 'template/'
 STATS_TEMPLATE = 'simpletable.wiki'
 LINKLIST_TEMPLATE = 'simplelinklist.wiki'
+WORLDMAP_FREEDOM_TEMPLATE = 'worldmap.xml'
+
+COUNTRY_CODE_DATA = 'country_codes_Jan09.txt'
 
 class Page(object):
     def __init__(self, title, text):
@@ -43,21 +46,46 @@ class PageRender(object):
         page = Page(title, text)
         return page
 
+class ToFips(object):
+    """
+    Helper to convert ISO 3166 country code to FIPS country code.
+    
+    >>> to_fips = ToFips()
+    >>> to_fips('cn')
+    'CH'
+    """
+    def __init__(self):
+        codedict = {}
+        for line in open(COUNTRY_CODE_DATA):
+            items = line.split('\t')
+            fips = items[1][1:-1].strip()
+            iso = items[2][1:-1].strip()
+            if not fips or not iso:
+                continue
+
+            codedict[iso] = fips
+        self.codedict = codedict
+        return
+
+    def __call__(self, iso):
+        return self.codedict[iso.upper()]
 
 class View(object):
     """
-    The methods in the view are generators yielding pages.
+    The methods in the View class are generators yielding pages.
 
     >>> view = View()
     >>> page = view.stats_world().next()
     >>> page.title
     'World'
     """
-    def __init__(self):
-        data = linkback_reader.most_recent()
+    def __init__(self, data=None):
+        if data is None:
+            data = linkback_reader.most_recent()
         self.query = ccquery.CCQuery()
         self.query.add_linkbacks(data)
         self.render = PageRender()
+        self.to_fips = ToFips()
         return
 
     def _stats(self, title, data, template = STATS_TEMPLATE):
@@ -78,6 +106,12 @@ class View(object):
                 self.stats_continent(),
                 self.list_juris(),
                 self.list_continents(),
+                )
+        return all
+
+    def all_maps(self):
+        all = itertools.chain(
+                self.map_world(),
                 )
         return all
 
@@ -115,6 +149,39 @@ class View(object):
         yield page
         return
 
+    def map_world(self):
+        """
+        World map view.
+        """
+        query = self.query
+        stats = {}
+        names = {}
+        for code in query.all_juris():
+            try:
+                fips_code = self.to_fips(code)
+            except KeyError:
+                continue
+            data = query.license_by_juris(code)
+            stats[fips_code] = ccquery.Stats(data)
+            names[fips_code] = query.juris_code2name(code)
+        page = self.render("worldmap_freedom.xml", WORLDMAP_FREEDOM_TEMPLATE,
+                            jurisdictions = stats.keys(),
+                            stats = stats,
+                            names = names,
+                            )
+        yield page
+        return
+
+def test_map():
+    MAPDIR = 'worldmap/'
+    data = linkback_reader.read_csv('linkbacks-daily-Yahoo.csv')
+    view = View(data)
+    maps = view.all_maps()
+    for map in maps:
+        fn = MAPDIR + map.title
+        open(fn, 'w').write(map.text)
+    return   
+
 def test():
     view = View()
     pagegen = view.all_pages()
@@ -127,4 +194,5 @@ def test():
     return
 
 if __name__=='__main__':
-    test()
+    test_map()
+    #test()

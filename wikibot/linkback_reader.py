@@ -41,7 +41,7 @@ def most_recent():
 
     >>> most_recent() # doctest: +ELLIPSIS
     <_csv.reader object at ...>
-    """    
+    """
     day = _TODAY
     tries = 0
     while True:

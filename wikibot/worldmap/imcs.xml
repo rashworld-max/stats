@@ -1,0 +1,1725 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- As of November 2003 -->
+<countrydata>
+
+<state id="default_color">
+		<color>000000</color>
+</state>
+<state id="background_color">
+		<color>888888</color>
+</state>
+<state id="outline_color">
+		<color>333333</color>
+</state>
+<state id="default_point">
+		<color>ff0000</color>
+		<size>3</size>
+</state>
+<state id="scale_points">
+		<data>50</data>
+</state>
+
+
+<state id="point">
+	<name>Ambazonia</name>
+	<loc>5.93000,10.17000</loc>
+	<url>http://ambazonia.indymedia.org</url>
+	<hover>http://ambazonia.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Canarias</name>
+	<loc>28,-15.6</loc>
+	<url>http://canarias.indymedia.org</url>
+	<hover>http://canarias.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Lagos</name>
+	<loc>9.20000,7.18000</loc>
+	<url>http://nigeria.indymedia.org</url>
+	<hover>http://nigeria.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Johannesburg</name>
+	<loc>-29.00000,24.00000</loc>
+	<url>http://southafrica.indymedia.org</url>
+	<hover>http://southafrica.indymedia.org</hover>
+</state>
+
+
+<state id="point">
+	<name>Alberta</name>
+	<loc>51.05000,-114.08000</loc>
+	<url>http://alberta.indymedia.org</url>
+	<hover>http://alberta.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Maritimes</name>
+	<loc>44.65000,-65.6000</loc>
+	<url>http://maritimes.indymedia.org</url>
+	<hover>http://maritimes.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Montreal</name>
+	<loc>45.52000,-73.5700</loc>
+	<url>http://montreal.indymedia.org</url>
+	<hover>http://montreal.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Hamilton</name>
+	<loc>43.25000,-79.85000</loc>
+	<url>http://hamilton.indymedia.org</url>
+	<hover>http://hamilton.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Ontario</name>
+	<loc>43.65000,-79.38000</loc>
+	<url>http://ontario.indymedia.org</url>
+	<hover>http://ontario.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Ottawa</name>
+	<loc>45.42000,-75.70000</loc>
+	<url>http://ottawa.indymedia.ca</url>
+	<hover>http://ottawa.indymedia.ca</hover>
+</state>
+<state id="point">
+	<name>Quebec</name>
+	<loc>46.82000,-71.23000</loc>
+	<url>http://quebec.indymedia.org</url>
+	<hover>http://quebec.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Thunder Bay</name>
+	<loc>48.38000,-89.25000</loc>
+	<url>http://thunderbay.indymedia.org</url>
+	<hover>http://thunderbay.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Vancouver</name>
+	<loc>49.27000,-123.1200</loc>
+	<url>http://vancouver.indymedia.org</url>
+	<hover>http://vancouver.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Victoria</name>
+	<loc>48.42000,-123.37000</loc>
+	<url>http://victoria.indymedia.org</url>
+	<hover>http://victoria.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Windsor</name>
+	<loc>42.30000,-83.020</loc>
+	<url>http://windsor.indymedia.org</url>
+	<hover>http://windsor.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Winnipeg</name>
+	<loc>49.54,-97.7</loc>
+	<url>http://winnipeg.indymedia.org</url>
+	<hover>http://winnipeg.indymedia.org</hover>
+</state>
+
+
+<state id="point">
+	<name>Tokyo</name>
+	<loc>36.00000,138.00000</loc>
+	<url>http://japan.indymedia.org</url>
+	<hover>http://japan.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Manila</name>
+	<loc>14.37,121.00</loc>
+	<url>http://manila.indymedia.org</url>
+	<hover>http://manila.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Quezon City</name>
+	<loc>14.3838,121.215</loc>
+	<url>http://qc.indymedia.org</url>
+	<hover>http://qc.indymedia.org</hover>
+</state>
+
+
+
+
+<state id="point">
+	<name>Andorra</name>
+	<loc>42.50000,1.5200</loc>
+	<url>http://andorra.indymedia.org</url>
+	<hover>http://andorra.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Antwerpen</name>
+	<loc>51.13,4,25</loc>
+	<url>http://antwerpen.indymedia.org</url>
+	<hover>http://antwerpen.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Athens</name>
+	<loc>37.97000,23.720</loc>
+	<url>http://athens.indymedia.org</url>
+	<hover>http://athens.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Vienna</name>
+	<loc>48.14,16.20</loc>
+	<url>http://austria.indymedia.org</url>
+	<hover>http://austria.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Barcelona</name>
+	<loc>41.38000,2.18000</loc>
+	<url>http://barcelona.indymedia.org</url>
+	<hover>http://barcelona.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Belgium</name>
+	<loc>50.83000,4.000</loc>
+	<url>http://belgium.indymedia.org</url>
+	<hover>http://belgium.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Belgrade</name>
+	<loc>44.83000,20.50000</loc>
+	<url>http://belgrade.indymedia.org</url>
+	<hover>http://belgrade.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Bristol</name>
+	<loc>51.45000,-2.58000</loc>
+	<url>http://bristol.indymedia.org</url>
+	<hover>http://bristol.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Bulgaria</name>
+	<loc>42.40,23.20</loc>
+	<url>http://bulgaria.indymedia.org</url>
+	<hover>http://bulgaria.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Croatia</name>
+	<loc>45.49,15.58</loc>
+	<url>http://croatia.indymedia.org</url>
+	<hover>http://croatia.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Cyprus</name>
+	<loc>35,33</loc>
+	<url>http://cyprus.indymedia.org</url>
+	<hover>http://cyprus.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Estrecho / Madiaq</name>
+	<loc>36.00000,-4.00000</loc>
+	<url>http://estrecho.indymedia.org</url>
+	<hover>http://estrecho.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Euskal Herria</name>
+	<loc>43.32000,-1.98000</loc>
+	<url>http://euskalherria.indymedia.org</url>
+	<hover>http://euskalherria.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Galiza</name>
+	<loc>43.02000,-7.56000</loc>
+	<url>http://galiza.indymedia.org</url>
+	<hover>http://galiza.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Berlin</name>
+	<loc>52.52,13.38</loc>
+	<url>http://germany.indymedia.org</url>
+	<hover>http://germany.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Grenoble</name>
+	<loc>45.17,5.72</loc>
+	<url>http://grenoble.indymedia.org</url>
+	<hover>http://grenoble.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Budapest</name>
+	<loc>47.30,19.5</loc>
+	<url>http://indymedia.hu</url>
+	<hover>http://indymedia.hu</hover>
+</state>
+<state id="point">
+	<name>Dublin</name>
+	<loc>53.20,-6.15</loc>
+	<url>http://www.indymedia.ie</url>
+	<hover>http://www.indymedia.ie</hover>
+</state>
+<state id="point">
+	<name>Istanbul</name>
+	<loc>41.02000,28.9700</loc>
+	<url>http://istanbul.indymedia.org</url>
+	<hover>http://istanbul.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Bologna</name>
+	<loc>44.47,11.43</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Calabria</name>
+	<loc>38.1,15.65</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Genova</name>
+	<loc>44.4167,8.9500</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Lombardia</name>
+	<loc>41.2500,14.4667</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Napoli</name>
+	<loc>40.8333,14.2500</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Puglia</name>
+	<loc>40.81667,16.41667</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Roma</name>
+	<loc>41.54,12.27</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Sardegna</name>
+	<loc>40.9166667,9.5166667</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Sicilia</name>
+	<loc>38.1166667,13.3666667</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Piemonte</name>
+	<loc>45.05,7.6666667</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Toscana</name>
+	<loc>43.7666667,11.25</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Umbria</name>
+	<loc>43.1333333,12.3666667</loc>
+	<url>http://italy.indymedia.org</url>
+	<hover>http://italy.indymedia.org</hover>
+</state>
+
+<state id="point">
+	<name>Liege</name>
+	<loc>50.63,5.567</loc>
+	<url>http://liege.indymedia.org</url>
+	<hover>http://liege.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Lille</name>
+	<loc>50.63000,3.07000</loc>
+	<url>http://lille.indymedia.org</url>
+	<hover>http://lille.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Madrid</name>
+	<loc>39.47000,-3.53000</loc>
+	<url>http://madrid.indymedia.org</url>
+	<hover>http://madrid.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Marseille</name>
+	<loc>43.30000,5.40000</loc>
+	<url>http://marseille.indymedia.org</url>
+	<hover>http://marseille.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Nantes</name>
+	<loc>47.22000,-1.55000</loc>
+	<url>http://nantes.indymedia.org</url>
+	<hover>http://nantes.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Amsterdam</name>
+	<loc>52.50000,5.7500</loc>
+	<url>http://indymedia.nl</url>
+	<hover>http://indymedia.nl</hover>
+</state>
+<state id="point">
+	<name>Nice</name>
+	<loc>43.70000,7.25000</loc>
+	<url>http://nice.indymedia.org</url>
+	<hover>http://nice.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Oslo</name>
+	<loc>62.00000,10.00000</loc>
+	<url>http://www.indymedia.no</url>
+	<hover>http://www.indymedia.no</hover>
+</state>
+<state id="point">
+	<name>Oost-Vlaanderen</name>
+	<loc>51.8,4.16</loc>
+	<url>http://ovl.indymedia.org</url>
+	<hover>http://ovl.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Paris</name>
+	<loc>48.87000,2.33000</loc>
+	<url>http://paris.indymedia.org</url>
+	<hover>http://paris.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Warsaw</name>
+	<loc>52.14,21.0</loc>
+	<url>http://poland.indymedia.org</url>
+	<hover>http://poland.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Lisbon</name>
+	<loc>39.50000,-8.00000</loc>
+	<url>http://pt.indymedia.org</url>
+	<hover>http://pt.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Bucharest</name>
+	<loc>44.25,26.7</loc>
+	<url>http://romania.indymedia.org</url>
+	<hover>http://romania.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Moscow</name>
+	<loc>55.75000,37.58000</loc>
+	<url>http://russia.indymedia.org</url>
+	<hover>http://russia.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Aberdeen</name>
+	<loc>57.9,-2.9</loc>
+	<url>http://scotland.indymedia.org</url>
+	<hover>http://scotland.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Sverige</name>
+	<loc>62.00000,15.00000</loc>
+	<url>http://sweden.indymedia.org</url>
+	<hover>http://sweden.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Zurich</name>
+	<loc>47.21,8.31</loc>
+	<url>http://switzerland.indymedia.org</url>
+	<hover>http://switzerland.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Thessaloniki</name>
+	<loc>40.63000,22.9300</loc>
+	<url>http://thessaloniki.indymedia.org</url>
+	<hover>http://thessaloniki.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>London</name>
+	<loc>51.32,-0.5</loc>
+	<url>http://www.indymedia.org.uk</url>
+	<hover>http://www.indymedia.org.uk</hover>
+</state>
+<state id="point">
+	<name>West Vlaanderen</name>
+	<loc>51.21000,3.23000</loc>
+	<url>http://wvl.indymedia.org</url>
+	<hover>http://wvl.indymedia.org</hover>
+</state>
+
+
+<state id="point">
+	<name>Buenos Aires</name>
+	<loc>-34.00000,-64.0000</loc>
+	<url>http://argentina.indymedia.org</url>
+	<hover>http://argentina.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>La Paz</name>
+	<loc>-16.27,-68.22</loc>
+	<url>http://bolivia.indymedia.org</url>
+	<hover>http://bolivia.indymedia.org</hover>
+</state>
+
+
+<state id="point">
+	<name>Belo Horizonte</name>
+	<loc>-19.45,-43.54</loc>
+	<url>http://www.midiaindependente.org</url>
+	<hover>http://www.midiaindependente.org</hover>
+</state>
+<state id="point">
+	<name>Fortaleza</name>
+	<loc>-9.75,-65.5</loc>
+	<url>http://www.midiaindependente.org</url>
+	<hover>http://www.midiaindependente.org</hover>
+</state>
+<state id="point">
+	<name>Rio de Janeiro</name>
+	<loc>-22.57,-43.12</loc>
+	<url>http://www.midiaindependente.org</url>
+	<hover>http://www.midiaindependente.org</hover>
+</state>
+<state id="point">
+	<name>Sao Paulo</name>
+	<loc>-23.31,-46.31</loc>
+	<url>http://www.midiaindependente.org</url>
+	<hover>http://www.midiaindependente.org</hover>
+</state>
+
+<state id="point">
+	<name>Chiapas</name>
+	<loc>16.75000,-92.63000</loc>
+	<url>http://chiapas.indymedia.org</url>
+	<hover>http://chiapas.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Chile</name>
+	<loc>-33.28,-70.45</loc>
+	<url>http://chile.indymedia.org</url>
+	<hover>http://chile.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Colombia</name>
+	<loc>4.32,-74.15</loc>
+	<url>http://colombia.indymedia.org</url>
+	<hover>http://colombia.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Ecuador</name>
+	<loc>-2.00000,-77.30000</loc>
+	<url>http://ecuador.indymedia.org</url>
+	<hover>http://ecuador.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Mexico City</name>
+	<loc>23.00000,-102.00000</loc>
+	<url>http://mexico.indymedia.org</url>
+	<hover>http://mexico.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Peru</name>
+	<loc>-12,-77.2</loc>
+	<url>http://peru.indymedia.org</url>
+	<hover>http://peru.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Puerto Rico</name>
+	<loc>18.47000,-66.10000</loc>
+	<url>http://indymediapr.org</url>
+	<hover>http://indymediapr.org</hover>
+</state>
+<state id="point">
+	<name>Qollasuyu</name>
+	<loc>-13.52000,-71.59000</loc>
+	<url>http://qollasuyu.indymedia.org</url>
+	<hover>http://qollasuyu.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Rosario</name>
+	<loc>-32.95000,-60.67000</loc>
+	<url>http://rosario.indymedia.org</url>
+	<hover>http://rosario.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Santiago</name>
+	<loc>-33.28,-70.45</loc>
+	<url>http://santiago.indymedia.org</url>
+	<hover>http://santiago.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Sonora</name>
+	<loc>29.65000,-112.12000</loc>
+	<url>http://sonora.indymedia.org</url>
+	<hover>http://sonora.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Tijuana</name>
+	<loc>32.53000,-117.02000</loc>
+	<url>http://tijuana.indymedia.org</url>
+	<hover>http://tijuana.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Uruguay</name>
+	<loc>-33.00000,-56.00000</loc>
+	<url>http://uruguay.indymedia.org</url>
+	<hover>http://uruguay.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Valparaiso</name>
+	<loc>33.02,71.38</loc>
+	<url>http://valparaiso.indymedia.org</url>
+	<hover>http://valparaiso.indymedia.org</hover>
+</state>
+
+
+<state id="point">
+	<name>Adelaide</name>
+	<loc>-34.92000,138.58</loc>
+	<url>http://adelaide.indymedia.org</url>
+	<hover>http://adelaide.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Aotearoa</name>
+	<loc>-41.00000,174.00000</loc>
+	<url>http://www.indymedia.org.nz</url>
+	<hover>http://www.indymedia.org.nz</hover>
+</state>
+<state id="point">
+	<name>Brisbane</name>
+	<loc>-27.47000,153.0300</loc>
+	<url>http://brisbane.indymedia.org</url>
+	<hover>http://brisbane.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Darwin</name>
+	<loc>-12.28,130.51</loc>
+	<url>http://darwin.indymedia.org</url>
+	<hover>http://darwin.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Jakarta</name>
+	<loc>-6.17000,106.80000</loc>
+	<url>http://jakarta.indymedia.org</url>
+	<hover>http://jakarta.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Manila</name>
+	<loc>14.35,120.57</loc>
+	<url>http://manila.indymedia.org</url>
+	<hover>http://manila.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Melbourne</name>
+	<loc>-37.82000,144.58000</loc>
+	<url>http://melbourne.indymedia.org</url>
+	<hover>http://melbourne.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Perth</name>
+	<loc>-31.95000,115.85000</loc>
+	<url>http://perth.indymedia.org</url>
+	<hover>http://perth.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Sydney</name>
+	<loc>-33.87000,151.220</loc>
+	<url>http://sydney.indymedia.org</url>
+	<hover>http://sydney.indymedia.org</hover>
+</state>
+
+
+<state id="point">
+	<name>Calcutta</name>
+	<loc>20.00000,77.00000</loc>
+	<url>http://india.indymedia.org</url>
+	<hover>http://india.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Mumbai</name>
+	<loc>18.97000,72.83000</loc>
+	<url>http://mumbai.indymedia.org</url>
+	<hover>http://mumbai.indymedia.org</hover>
+</state>
+
+
+<state id="point">
+	<name>Arizona</name>
+	<loc>33.45000,-112.07000</loc>
+	<url>http://arizona.indymedia.org</url>
+	<hover>http://arizona.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Arkansas</name>
+	<loc>34.75000,-92.280</loc>
+	<url>http://arkansas.indymedia.org</url>
+	<hover>http://arkansas.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Atlanta</name>
+	<loc>33.75000,-84.380</loc>
+	<url>http://atlanta.indymedia.org</url>
+	<hover>http://atlanta.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Austin</name>
+	<loc>30.27000,-97.75000</loc>
+	<url>http://austin.indymedia.org</url>
+	<hover>http://austin.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Baltimore</name>
+	<loc>39.32000,-76.61000</loc>
+	<url>http://baltimore.indymedia.org</url>
+	<hover>http://baltimore.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Binghamton</name>
+	<loc>42.10000,-75.90000</loc>
+	<url>http://binghamton.indymedia.org</url>
+	<hover>http://binghamton.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Boston</name>
+	<loc>42.37000,-71.04000</loc>
+	<url>http://boston.indymedia.org</url>
+	<hover>http://boston.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Buffalo</name>
+	<loc>42.88000,-78.88000</loc>
+	<url>http://buffalo.indymedia.org</url>
+	<hover>http://buffalo.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Charlottesville</name>
+	<loc>38.031,-78.481</loc>
+	<url>http://cvilleindymedia.org</url>
+	<hover>http://cvilleindymedia.org</hover>
+</state>
+<state id="point">
+	<name>Chicago</name>
+	<loc>41.85000,-87.65000</loc>
+	<url>http://chicago.indymedia.org</url>
+	<hover>http://chicago.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Cleveland</name>
+	<loc>41.50000,-81.7000</loc>
+	<url>http://cleveland.indymedia.org</url>
+	<hover>http://cleveland.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Colorado</name>
+	<loc>39.73000,-104.98000</loc>
+	<url>http://colorado.indymedia.org</url>
+	<hover>http://colorado.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Danbury, Ct</name>
+	<loc>41.40000,-73.45000</loc>
+	<url>http://www.madhattersimc.org</url>
+	<hover>http://www.madhattersimc.org</hover>
+</state>
+<state id="point">
+	<name>Washington DC</name>
+	<loc>38.90000,-77.03000</loc>
+	<url>http://dc.indymedia.org</url>
+	<hover>http://dc.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Hawaii</name>
+	<loc>21.30000,-157.87000</loc>
+	<url>http://hawaii.indymedia.org</url>
+	<hover>http://hawaii.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Houston</name>
+	<loc>29.80000,-95.40000</loc>
+	<url>http://houston.indymedia.org</url>
+	<hover>http://houston.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Hudson Mohawk</name>
+	<loc>42.65000,-73.75000</loc>
+	<url>http://www.hm.indymedia.org</url>
+	<hover>http://www.hm.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Idaho</name>
+	<loc>43.62000,-116.20000</loc>
+	<url>http://idaho.indymedia.org</url>
+	<hover>http://idaho.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Ithaca</name>
+	<loc>42.43000,-76.50000</loc>
+	<url>http://ithaca.indymedia.org</url>
+	<hover>http://ithaca.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Kansas City</name>
+	<loc>39.036605,-94.587333</loc>
+	<url>http://kcindymedia.org</url>
+	<hover>http://kcindymedia.org</hover>
+</state>
+<state id="point">
+	<name>Los Angeles</name>
+	<loc>34.05000,-118.25000</loc>
+	<url>http://la.indymedia.org</url>
+	<hover>http://la.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Madison</name>
+	<loc>43.07000,-89.00000</loc>
+	<url>http://madison.indymedia.org</url>
+	<hover>http://madison.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Maine</name>
+	<loc>44.32000,-69.78000</loc>
+	<url>http://maine.indymedia.org</url>
+	<hover>http://maine.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Miami</name>
+	<loc>25.790376,-80.131228</loc>
+	<url>http://miami.indymedia.org</url>
+	<hover>http://miami.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Michigan</name>
+	<loc>42.73000,-84.55000</loc>
+	<url>http://www.michiganimc.org</url>
+	<hover>http://www.michiganimc.org</hover>
+</state>
+<state id="point">
+	<name>Milwaukee</name>
+	<loc>43.03000,-87.90000</loc>
+	<url>http://milwaukee.indymedia.org</url>
+	<hover>http://milwaukee.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Minneapolis/St. Paul</name>
+	<loc>44.8833247,-93.2169225</loc>
+	<url>http://twincities.indymedia.org</url>
+	<hover>http://twincities.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>New Hampshire</name>
+	<loc>43.067967,-70.773091</loc>
+	<url>http://nh.indymedia.org</url>
+	<hover>http://nh.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>New Jersey</name>
+	<loc>40.22000,-74.75000</loc>
+	<url>http://newjersey.indymedia.org</url>
+	<hover>http://newjersey.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>New Mexico</name>
+	<loc>35.68000,-105.93000</loc>
+	<url>http://newmexico.indymedia.org</url>
+	<hover>http://newmexico.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>New Orleans</name>
+	<loc>29.95000,-90.08000</loc>
+	<url>http://neworleans.indymedia.org</url>
+	<hover>http://neworleans.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>North Carolina</name>
+	<loc>35.77000,-78.63000</loc>
+	<url>http://chapelhill.indymedia.org</url>
+	<hover>http://chapelhill.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>North Texas</name>
+	<loc>32.78000,-96.80000</loc>
+	<url>http://www.ntimc.org</url>
+	<hover>http://www.ntimc.org</hover>
+</state>
+<state id="point">
+	<name>New York City</name>
+	<loc>40.744806,-73.985283</loc>
+	<url>http://nyc.indymedia.org</url>
+	<hover>http://nyc.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Oklahoma</name>
+	<loc>35.47000,-97.5200</loc>
+	<url>http://www.okimc.org</url>
+	<hover>http://www.okimc.org</hover>
+</state>
+<state id="point">
+	<name>Philadelphia</name>
+	<loc>39.95000,-75.17000</loc>
+	<url>http://www.phillyimc.org</url>
+	<hover>http://www.phillyimc.org</hover>
+</state>
+<state id="point">
+	<name>Pittsburgh</name>
+	<loc>40.46580,-79.9460</loc>
+	<url>http://pittsburgh.indymedia.org</url>
+	<hover>http://pittsburgh.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Portland</name>
+	<loc>45.52000,-122.68000</loc>
+	<url>http://portland.indymedia.org</url>
+	<hover>http://portland.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Richmond</name>
+	<loc>37.55000,-77.47000</loc>
+	<url>http://richmond.indymedia.org</url>
+	<hover>http://richmond.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Rochester</name>
+	<loc>43.15000,-77.62000</loc>
+	<url>http://rochester.indymedia.org</url>
+	<hover>http://rochester.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Rogue Valley</name>
+	<loc>42.43000,-123.17000</loc>
+	<url>http://rogueimc.org</url>
+	<hover>http://rogueimc.org</hover>
+</state>
+<state id="point">
+	<name>San Diego</name>
+	<loc>32.72000,-117.15000</loc>
+	<url>http://sandiego.indymedia.org</url>
+	<hover>http://sandiego.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>San Francisco Bay Area</name>
+	<loc>37.78000,-122.42000</loc>
+	<url>http://www.indybay.org</url>
+	<hover>http://www.indybay.org</hover>
+</state>
+<state id="point">
+	<name>Santa Barbara</name>
+	<loc>34.422620,-119.703368</loc>
+	<url>http://sbindymedia.org</url>
+	<hover>http://sbindymedia.org</hover>
+</state>
+<state id="point">
+	<name>Santa Cruz, Ca</name>
+	<loc>36.97000,-122.03000</loc>
+	<url>http://santacruz.indymedia.org</url>
+	<hover>http://santacruz.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Seattle</name>
+	<loc>47.60000,-122.33000</loc>
+	<url>http://seattle.indymedia.org</url>
+	<hover>http://seattle.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>St Louis</name>
+	<loc>38.63000,-90.20000</loc>
+	<url>http://stlouis.indymedia.org</url>
+	<hover>http://stlouis.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Tallahassee-Red Hills</name>
+	<loc>30.43000,-84.28000</loc>
+	<url>http://tallahassee.indymedia.org</url>
+	<hover>http://tallahassee.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Tennessee</name>
+	<loc>36.17000,-86.78000</loc>
+	<url>http://tnimc.org</url>
+	<hover>http://tnimc.org</hover>
+</state>
+<state id="point">
+	<name>Urbana-Champaign</name>
+	<loc>40.12000,-88.23000</loc>
+	<url>http://urbana.indymedia.org</url>
+	<hover>http://urbana.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Utah</name>
+	<loc>40.77000,-111.88000</loc>
+	<url>http://utah.indymedia.org</url>
+	<hover>http://utah.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Vermont</name>
+	<loc>44.27000,-72.580</loc>
+	<url>http://vermont.indymedia.org</url>
+	<hover>http://vermont.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Western Mass</name>
+	<loc>42.10000,-72.58000</loc>
+	<url>http://wmass.indymedia.org</url>
+	<hover>http://wmass.indymedia.org</hover>
+</state>
+
+
+<state id="point">
+	<name>Israel</name>
+	<loc>31.50000,34.75000</loc>
+	<url>http://israel.indymedia.org</url>
+	<hover>http://israel.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Palestine</name>
+	<loc>32.00000,35.250</loc>
+	<url>http://jerusalem.indymedia.org</url>
+	<hover>http://jerusalem.indymedia.org</hover>
+</state>
+<state id="point">
+	<name>Beirut</name>
+	<loc>33.88000,35.50000</loc>
+	<url>http://beirut.indymedia.org</url>
+	<hover>http://beirut.indymedia.org</hover>
+</state>
+
+
+
+
+
+
+
+
+<state id="AF">
+	<name>Afghanistan</name>
+</state>
+<state id="AL">
+	<name>Albania</name>
+</state>
+<state id="AG">
+	<name>Algeria</name>
+</state>
+<state id="AN">
+	<name>Andorra</name>
+</state>
+<state id="AO">
+	<name>Angola</name>
+</state>
+<state id="AC">
+	<name>Antigua and Barbuda</name>
+</state>
+<state id="AR">
+	<name>Argentina</name>
+</state>
+<state id="AM">
+	<name>Armenia</name>
+</state>
+<state id="AA">
+	<name>Aruba</name>
+</state>
+<state id="AS">
+	<name>Australia</name>
+</state>
+<state id="AU">
+	<name>Austria</name>
+</state>
+<state id="AJ">
+	<name>Azerbaijan</name>
+</state>
+<state id="BF">
+	<name>The Bahamas</name>
+</state>
+<state id="BA">
+	<name>Bahrain</name>
+</state>
+<state id="FQ">
+	<name>Baker Island</name>
+</state>
+<state id="BG">
+	<name>Bangladesh</name>
+</state>
+<state id="BB">
+	<name>Barbados</name>
+</state>
+<state id="BO">
+	<name>Belarus</name>
+</state>
+<state id="BE">
+	<name>Belgium</name>
+</state>
+<state id="BH">
+	<name>Belize</name>
+</state>
+<state id="BN">
+	<name>Benin</name>
+</state>
+<state id="BD">
+	<name>Bermuda</name>
+</state>
+<state id="BT">
+	<name>Bhutan</name>
+</state>
+<state id="BL">
+	<name>Bolivia</name>
+	<data>-17.00000,-65.00000</data>
+</state>
+<state id="BK">
+	<name>Bosnia and Herzegovina</name>
+</state>
+<state id="BC">
+	<name>Botswana</name>
+</state>
+<state id="BV">
+	<name>Bouvet Island</name>
+</state>
+<state id="BR">
+	<name>Brazil</name>
+</state>
+<state id="IO">
+	<name>British Indian Ocean Territory</name>
+</state>
+<state id="VI">
+	<name>British Virgin Islands</name>
+</state>
+<state id="BX">
+	<name>Brunei</name>
+</state>
+<state id="BU">
+	<name>Bulgaria</name>
+</state>
+<state id="UV">
+	<name>Burkina Faso</name>
+</state>
+<state id="BY">
+	<name>Burundi</name>
+</state>
+<state id="CB">
+	<name>Cambodia</name>
+</state>
+<state id="CM">
+	<name>Cameroon</name>
+</state>
+<state id="CA">
+	<name>Canada</name>
+</state>
+<state id="CV">
+	<name>Cape Verde</name>
+</state>
+<state id="CJ">
+	<name>Cayman Islands</name>
+</state>
+<state id="CT">
+	<name>Central African Republic</name>
+</state>
+<state id="CD">
+	<name>Chad</name>
+</state>
+<state id="CI">
+	<name>Chile</name>
+</state>
+<state id="CH">
+	<name>China</name>
+</state>
+<state id="CO">
+	<name>Colombia</name>
+</state>
+<state id="CN">
+	<name>Comoros</name>
+</state>
+<state id="CF">
+	<name>Congo</name>
+</state>
+<state id="CW">
+	<name>Cook Islands</name>
+</state>
+<state id="CS">
+	<name>Costa Rica</name>
+</state>
+<state id="IV">
+	<name>Cote d'Ivoire</name>
+</state>
+<state id="HR">
+	<name>Croatia</name>
+</state>
+<state id="CU">
+	<name>Cuba</name>
+</state>
+<state id="CY">
+	<name>Cyprus</name>
+	<data>35.00000,33.00000</data>
+</state>
+<state id="EZ">
+	<name>Czech Republic</name>
+</state>
+<state id="CG">
+	<name>Democratic Republic of the Congo</name>
+</state>
+<state id="DA">
+	<name>Denmark</name>
+</state>
+<state id="DJ">
+	<name>Djibouti</name>
+</state>
+<state id="DO">
+	<name>Dominica</name>
+</state>
+<state id="DR">
+	<name>Dominican Republic</name>
+</state>
+<state id="EC">
+	<name>Ecuador</name>
+</state>
+<state id="EG">
+	<name>Egypt</name>
+</state>
+<state id="ES">
+	<name>El Salvador</name>
+</state>
+<state id="EK">
+	<name>Equatorial Guinea</name>
+</state>
+<state id="ER">
+	<name>Eritrea</name>
+</state>
+<state id="EN">
+	<name>Estonia</name>
+</state>
+<state id="ET">
+	<name>Ethiopia</name>
+</state>
+<state id="FK">
+	<name>Falkland Islands (Islas Malvinas)</name>
+</state>
+<state id="FO">
+	<name>Faroe Islands</name>
+</state>
+<state id="FM">
+	<name>Federated States of Micronesia</name>
+</state>
+<state id="FJ">
+	<name>Fiji</name>
+</state>
+<state id="FI">
+	<name>Finland</name>
+</state>
+<state id="FR">
+	<name>France</name>
+</state>
+<state id="FG">
+	<name>French Guiana</name>
+</state>
+<state id="FP">
+	<name>French Polynesia</name>
+</state>
+<state id="GB">
+	<name>Gabon</name>
+</state>
+<state id="GA">
+	<name>The Gambia</name>
+</state>
+<state id="GG">
+	<name>Georgia</name>
+</state>
+<state id="GM">
+	<name>Germany</name>
+</state>
+<state id="GH">
+	<name>Ghana</name>
+</state>
+<state id="GI">
+	<name>Gibraltar</name>
+</state>
+<state id="GO">
+	<name>Glorioso Islands</name>
+</state>
+<state id="GR">
+	<name>Greece</name>
+</state>
+<state id="GL">
+	<name>Greenland</name>
+</state>
+<state id="GJ">
+	<name>Grenada</name>
+</state>
+<state id="GP">
+	<name>Guadeloupe</name>
+</state>
+<state id="GQ">
+	<name>Guam</name>
+</state>
+<state id="GT">
+	<name>Guatemala</name>
+</state>
+<state id="GK">
+	<name>Guernsey</name>
+</state>
+<state id="PU">
+	<name>Guinea-Bissau</name>
+</state>
+<state id="GV">
+	<name>Guinea</name>
+</state>
+<state id="GY">
+	<name>Guyana</name>
+</state>
+<state id="HA">
+	<name>Haiti</name>
+</state>
+<state id="HM">
+	<name>Heard Island &amp; McDonald Islands</name>
+</state>
+<state id="HO">
+	<name>Honduras</name>
+</state>
+<state id="HU">
+	<name>Hungary</name>
+</state>
+<state id="IC">
+	<name>Iceland</name>
+</state>
+<state id="IN">
+	<name>India</name>
+</state>
+<state id="IO">
+	<name>British Indian Ocean Territory</name>
+</state>
+<state id="ID">
+	<name>Indonesia</name>
+</state>
+<state id="IR">
+	<name>Iran</name>
+</state>
+<state id="IZ">
+	<name>Iraq</name>
+</state>
+<state id="EI">
+	<name>Ireland</name>
+</state>
+<state id="IM">
+	<name>Isle of Man</name>
+</state>
+<state id="IS">
+	<name>Israel</name>
+</state>
+<state id="GZ">
+	<name>Palestinian Authority</name>
+</state>
+<state id="IT">
+	<name>Italy</name>
+</state>
+<state id="JM">
+	<name>Jamaica</name>
+</state>
+<state id="JN">
+	<name>Jan Mayen</name>
+</state>
+<state id="JA">
+	<name>Japan</name>
+</state>
+<state id="DQ">
+	<name>Jarvis Island</name>
+</state>
+<state id="JE">
+	<name>Jersey</name>
+</state>
+<state id="JQ">
+	<name>Johnston Atoll</name>
+</state>
+<state id="JO">
+	<name>Jordan</name>
+</state>
+<state id="JU">
+	<name>Juan De Nova Island</name>
+</state>
+<state id="KZ">
+	<name>Kazakhstan</name>
+</state>
+<state id="KE">
+	<name>Kenya</name>
+</state>
+<state id="KR">
+	<name>Kiribati</name>
+</state>
+<state id="KS">
+	<name>South Korea</name>
+</state>
+<state id="KU">
+	<name>Kuwait</name>
+</state>
+<state id="KG">
+	<name>Kyrgyzstan</name>
+</state>
+<state id="LA">
+	<name>Laos</name>
+</state>
+<state id="LG">
+	<name>Latvia</name>
+</state>
+<state id="LE">
+	<name>Lebanon</name>
+</state>
+<state id="LT">
+	<name>Lesotho</name>
+</state>
+<state id="LI">
+	<name>Liberia</name>
+</state>
+<state id="LY">
+	<name>Libya</name>
+</state>
+<state id="LS">
+	<name>Liechtenstein</name>
+</state>
+<state id="LH">
+	<name>Lithuania</name>
+</state>
+<state id="LU">
+	<name>Luxembourg</name>
+</state>
+<state id="MC">
+	<name>Macau</name>
+</state>
+<state id="MK">
+	<name>Macedonia</name>
+</state>
+<state id="MA">
+	<name>Madagascar</name>
+</state>
+<state id="MI">
+	<name>Malawi</name>
+</state>
+<state id="MY">
+	<name>Malaysia</name>
+</state>
+<state id="MV">
+	<name>Maldives</name>
+</state>
+<state id="ML">
+	<name>Mali</name>
+</state>
+<state id="MT">
+	<name>Malta</name>
+</state>
+<state id="RM">
+	<name>Marshall Islands</name>
+</state>
+<state id="MB">
+	<name>Martinique</name>
+</state>
+<state id="MR">
+	<name>Mauritania</name>
+</state>
+<state id="MP">
+	<name>Mauritius</name>
+</state>
+<state id="MF">
+	<name>Mayotte</name>
+</state>
+<state id="MX">
+	<name>Mexico</name>
+</state>
+<state id="MQ">
+	<name>Midway Islands</name>
+</state>
+<state id="MD">
+	<name>Moldova</name>
+</state>
+<state id="MN">
+	<name>Monaco</name>
+</state>
+<state id="MG">
+	<name>Mongolia</name>
+</state>
+<state id="MH">
+	<name>Montserrat</name>
+</state>
+<state id="MO">
+	<name>Morocco</name>
+</state>
+<state id="MZ">
+	<name>Mozambique</name>
+</state>
+<state id="BM">
+	<name>Myanmar (Burma)</name>
+</state>
+<state id="WA">
+	<name>Namibia</name>
+</state>
+<state id="NR">
+	<name>Nauru</name>
+</state>
+<state id="NP">
+	<name>Nepal</name>
+</state>
+<state id="NT">
+	<name>Netherlands Antilles</name>
+</state>
+<state id="NL">
+	<name>Netherlands</name>
+</state>
+<state id="NC">
+	<name>New Caledonia</name>
+</state>
+<state id="NZ">
+	<name>New Zealand</name>
+</state>
+<state id="NU">
+	<name>Nicaragua</name>
+</state>
+<state id="NG">
+	<name>Niger</name>
+</state>
+<state id="NI">
+	<name>Nigeria</name>
+</state>
+<state id="NE">
+	<name>Niue</name>
+</state>
+<state id="NF">
+	<name>Norfolk Island</name>
+</state>
+<state id="KN">
+	<name>North Korea</name>
+</state>
+<state id="CQ">
+	<name>Northern Mariana Islands</name>
+</state>
+<state id="NO">
+	<name>Norway</name>
+</state>
+<state id="MU">
+	<name>Oman</name>
+</state>
+<state id="PS">
+	<name>Pacific Islands (Palau)</name>
+</state>
+<state id="PK">
+	<name>Pakistan</name>
+</state>
+<state id="PM">
+	<name>Panama</name>
+</state>
+<state id="PP">
+	<name>Papua New Guinea</name>
+</state>
+<state id="PA">
+	<name>Paraguay</name>
+</state>
+<state id="PE">
+	<name>Peru</name>
+	<data>-10.00000,-76.00000</data>
+</state>
+<state id="RP">
+	<name>Philippines</name>
+</state>
+<state id="PL">
+	<name>Poland</name>
+</state>
+<state id="PO">
+	<name>Portugal</name>
+</state>
+<state id="RQ">
+	<name>Puerto Rico</name>
+</state>
+<state id="QA">
+	<name>Qatar</name>
+</state>
+<state id="RE">
+	<name>Reunion</name>
+</state>
+<state id="RO">
+	<name>Romania</name>
+</state>
+<state id="RS">
+	<name>Russia</name>
+</state>
+<state id="RW">
+	<name>Rwanda</name>
+</state>
+<state id="SM">
+	<name>San Marino</name>
+</state>
+<state id="TP">
+	<name>Sao Tome and Principe</name>
+</state>
+<state id="SA">
+	<name>Saudi Arabia</name>
+</state>
+<state id="SG">
+	<name>Senegal</name>
+</state>
+<state id="KV">
+	<name>Kosovo</name>
+</state>
+<state id="MW">
+	<name>Montenegro</name>
+</state>
+<state id="SR">
+	<name>Serbia</name>
+</state>
+<state id="SE">
+	<name>Seychelles</name>
+</state>
+<state id="SL">
+	<name>Sierra Leone</name>
+</state>
+<state id="SN">
+	<name>Singapore</name>
+</state>
+<state id="LO">
+	<name>Slovakia</name>
+</state>
+<state id="SI">
+	<name>Slovenia</name>
+</state>
+<state id="BP">
+	<name>Solomon Islands</name>
+</state>
+<state id="SO">
+	<name>Somalia</name>
+</state>
+<state id="SF">
+	<name>South Africa</name>
+</state>
+<state id="SX">
+	<name>South Georgia and the South Sandwich Is</name>
+</state>
+<state id="SP">
+	<name>Madrid</name>
+</state>
+<state id="SP">
+	<name>Spain</name>
+</state>
+<state id="PG">
+	<name>Spratly Islands</name>
+</state>
+<state id="CE">
+	<name>Sri Lanka</name>
+</state>
+<state id="SC">
+	<name>St. Kitts and Nevis</name>
+</state>
+<state id="ST">
+	<name>St. Lucia</name>
+</state>
+<state id="SB">
+	<name>St. Pierre and Miquelon</name>
+</state>
+<state id="VC">
+	<name>St. Vincent and the Grenadines</name>
+</state>
+<state id="SU">
+	<name>Sudan</name>
+</state>
+<state id="NS">
+	<name>Suriname</name>
+</state>
+<state id="SV">
+	<name>Svalbard</name>
+</state>
+<state id="WZ">
+	<name>Swaziland</name>
+</state>
+<state id="SW">
+	<name>Sweden</name>
+</state>
+<state id="SZ">
+	<name>Switzerland</name>
+</state>
+<state id="SY">
+	<name>Syria</name>
+</state>
+<state id="TE">
+	<name>East Timor</name>
+</state>
+<state id="TW">
+	<name>Taiwan</name>
+</state>
+<state id="TI">
+	<name>Tajikistan</name>
+</state>
+<state id="TZ">
+	<name>United Republic of Tanzania</name>
+</state>
+<state id="TH">
+	<name>Thailand</name>
+</state>
+<state id="TO">
+	<name>Togo</name>
+</state>
+<state id="TL">
+	<name>Tokelau</name>
+</state>
+<state id="TN">
+	<name>Tonga</name>
+</state>
+<state id="TD">
+	<name>Trinidad and Tobago</name>
+</state>
+<state id="TS">
+	<name>Tunisia</name>
+</state>
+<state id="TU">
+	<name>Turkey</name>
+</state>
+<state id="TX">
+	<name>Turkmenistan</name>
+</state>
+<state id="TK">
+	<name>Turks and Caicos Islands</name>
+</state>
+<state id="TV">
+	<name>Tuvalu</name>
+</state>
+<state id="UG">
+	<name>Uganda</name>
+</state>
+<state id="UP">
+	<name>Ukraine</name>
+</state>
+<state id="TC">
+	<name>United Arab Emirates</name>
+</state>
+<state id="UK">
+	<name>United Kingdom</name>
+</state>
+<state id="US">
+	<name>United States</name>
+</state>
+<state id="UY">
+	<name>Uruguay</name>
+</state>
+<state id="UZ">
+	<name>Uzbekistan</name>
+</state>
+<state id="NH">
+	<name>Vanuatu</name>
+</state>
+<state id="VE">
+	<name>Venezuela</name>
+</state>
+<state id="VM">
+	<name>Vietnam</name>
+</state>
+<state id="WQ">
+	<name>Wake Island</name>
+</state>
+<state id="WI">
+	<name>Western Sahara</name>
+</state>
+<state id="WS">
+	<name>Western Samoa</name>
+</state>
+<state id="YM">
+	<name>Yemen</name>
+</state>
+<state id="ZA">
+	<name>Zambia</name>
+</state>
+<state id="ZI">
+	<name>Zimbabwe</name>
+</state>
+
+</countrydata>
