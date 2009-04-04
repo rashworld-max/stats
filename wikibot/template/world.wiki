@@ -1,0 +1,10 @@
+﻿{% for item in licenses %}
+
+{{item}} {{count(item) | thousandsep}} {{ (percent(item)*100) | round(2) }}%
+{% endfor %}
+
+Total = {{total | thousandsep}}
+
+Freedom score = {{freedom_score | round(2)}}
+
+<flash>file=World.swf|width=640|height=480|flashvars=?data_file={{ freedom_url }}</flash>

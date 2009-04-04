@@ -236,5 +236,8 @@ class Stats(object):
         return self.licenses[license]
 
     def percent(self, license):
-        return float(self.count(license)) / self.total
+        if self.total:
+            return float(self.count(license)) / self.total
+        else:
+            return float('nan')
 

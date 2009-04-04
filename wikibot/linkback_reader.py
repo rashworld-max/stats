@@ -15,8 +15,8 @@ if CSV_DUMPS_URL[-1] <> '/':
 
 _ONEDAY = datetime.timedelta(days=1)
 
-#_TODAY = datetime.date.today()
-_TODAY = datetime.date(2009,3,23)
+_TODAY = datetime.date.today()
+#_TODAY = datetime.date(2009,3,23)
 
 def read_csv(csvfile):
     """
@@ -88,7 +88,7 @@ def try_thrice(ntries, fn, *arglist, **argdict):
     Borrowed from Asheesh.
     """
     tries = 0
-    while tries < ntries:
+    while True:
         try:
             return fn(*arglist, **argdict)
         except Exception, e:
@@ -96,10 +96,10 @@ def try_thrice(ntries, fn, *arglist, **argdict):
                raise e
             print "Huh, while doing %s(%s, %s), %s happened." % (fn, arglist, argdict, e)
             tries += 1
+            if tries >= ntries:
+                raise
             sleeptime = 2 ** tries * 10
             print 'trying again after sleeping for %d' % sleeptime
             import time
             time.sleep(sleeptime)
-            raise e
-
 

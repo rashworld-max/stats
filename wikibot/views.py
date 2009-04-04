@@ -10,6 +10,7 @@ import ccquery
 
 TEMPLATE_DIR = 'template/'
 STATS_TEMPLATE = 'simpletable.wiki'
+STATS_WORLD_TEMPLATE = 'world.wiki'
 LINKLIST_TEMPLATE = 'simplelinklist.wiki'
 WORLDMAP_FREEDOM_TEMPLATE = 'worldmap.xml'
 
@@ -86,9 +87,10 @@ class View(object):
         self.query.add_linkbacks(data)
         self.render = PageRender()
         self.to_fips = ToFips()
+        self._uploaded_url = {}
         return
 
-    def _stats(self, title, data, template = STATS_TEMPLATE):
+    def _stats(self, title, data, template = STATS_TEMPLATE, **extra_params):
         stat = ccquery.Stats(data)
         page = self.render(title, template, 
                 licenses = stat.VALID_LICENSES,
@@ -96,8 +98,13 @@ class View(object):
                 percent = stat.percent,
                 total = stat.total,
                 freedom_score = stat.freedom_score,
+                **extra_params
                 )
         return page
+
+    def set_uploaded_url(self, filename, url):
+        self._uploaded_url[filename] = url
+        return
 
     def all_pages(self):
         all = itertools.chain(
@@ -109,14 +116,16 @@ class View(object):
                 )
         return all
 
-    def all_maps(self):
+    def all_files(self):
         all = itertools.chain(
                 self.map_world(),
                 )
         return all
 
     def stats_world(self):
-        yield self._stats("World", self.query.license_world())
+        yield self._stats("World", self.query.license_world(), STATS_WORLD_TEMPLATE,
+                            freedom_url = self._uploaded_url['worldmap_freedom.xml']
+                    )
         return
 
     def stats_juris(self):
@@ -176,7 +185,7 @@ def test_map():
     MAPDIR = 'worldmap/'
     data = linkback_reader.read_csv('linkbacks-daily-Yahoo.csv')
     view = View(data)
-    maps = view.all_maps()
+    maps = view.all_files()
     for map in maps:
         fn = MAPDIR + map.title
         open(fn, 'w').write(map.text)
