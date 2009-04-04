@@ -1,3 +1,14 @@
+{#
+==List of parameters==
+
+jurisdictions: A list of jurisdiction code which is converted to FIPS country code.
+names[id]: Full name of country 'id'.
+stats[id]: Statstical data of country 'id' represented by class Stats, which has following attributes available:
+    Stats.total: Total number of licensed items.
+    Stats.freedom_score: Freedom score.
+    Stats.licenses: A list of licenses.
+    
+#}
 <?xml version="1.0" encoding="utf-8"?>
 <countrydata>
 

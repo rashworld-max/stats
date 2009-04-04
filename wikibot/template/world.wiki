@@ -1,4 +1,14 @@
-﻿{% for item in licenses %}
+﻿{# 
+==List of parameters==
+ licenses: A list of license code which is available (ie. has count>0)
+ count(x): Count of license x
+ percent(x): Float number, percent of license x in [0,1]
+ total: Total number of licenses.
+ freedom_score: Freedom score.
+ freedom_url: URL of the XML data file with freedom score data.
+ thousandsep: A thousand seperator filter for numbers.
+#}
+{% for item in licenses %}
 
 {{item}} {{count(item) | thousandsep}} {{ (percent(item)*100) | round(2) }}%
 {% endfor %}
