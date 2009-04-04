@@ -1,0 +1,110 @@
+Binary files mwclient_bak/.client.py.swp and mwclient/.client.py.swp differ
+diff -rcN -x .svn mwclient_bak/client.py mwclient/client.py
+*** mwclient_bak/client.py	2009-04-04 20:51:09.000000000 +0800
+--- mwclient/client.py	2009-04-04 20:47:33.000000000 +0800
+***************
+*** 92,97 ****
+--- 92,98 ----
+          self.site = meta['query']['general']
+          self.namespaces = dict(((i['id'], i.get('*', '')) for i in meta['query']['namespaces'].itervalues()))
+          self.writeapi = 'writeapi' in self.site
++         #self.writeapi = False
+              
+          if self.site['generator'].startswith('MediaWiki '):
+              version = self.site['generator'][10:].split('.')
+***************
+*** 348,364 ****
+          data_header.append('')
+          
+          postdata = '\r\n'.join(data_header)
+!         content_length = (len(postdata) + file_size + 
+!                 2 + # \r\n
+!                 (6 + len(boundary)) +
+!                 49 + # wpUpload
+!                 2 + # \r\n 
+!                 1 + # 1
+!                 (4 + len(boundary)) + 
+!                 2)
+          
+          def iterator():
+              yield postdata
+              while True:
+                  chunk = file.read(32768)
+                  if not chunk: break
+--- 349,368 ----
+          data_header.append('')
+          
+          postdata = '\r\n'.join(data_header)
+!         #XXX This way to caculate content_length is SILLY AND WRONG!!
+!         #content_length = (len(postdata) + file_size + 
+!                 #2 + # \r\n
+!                 ##(6 + len(boundary)) +
+!                 #(4 + len(boundary)) +
+!                 #49 + # wpUpload
+!                 #2 + # \r\n 
+!                 #1 + # 1
+!                 #(4 + len(boundary)) + 
+!                 #2)
+          
+          def iterator():
+              yield postdata
++ 
+              while True:
+                  chunk = file.read(32768)
+                  if not chunk: break
+***************
+*** 373,386 ****
+              yield '--%s--' % boundary
+              yield '\r\n'
+          
+          wait_token = self.wait_token()
+!         while True:
+              try:
+                  self.connection.post(self.host,
+                      self.path + 'index.php?title=Special:Upload&maxlag=' + self.max_lag,
+                      headers = {'Content-Type': 'multipart/form-data; boundary=' + boundary,
+                          'Content-Length': str(content_length)},
+!                     stream_iter = iterator()).read()
+              except errors.HTTPStatusError, e:
+                  if e[0] == 503 and e[1].getheader('X-Database-Lag'):
+                      self.wait(wait_token, int(e[1].getheader('Retry-After')))
+--- 377,397 ----
+              yield '--%s--' % boundary
+              yield '\r\n'
+          
++         # Indeed, this will waste memory when uploading big files, 
++         # but however we don't need to load very big file.
++         content_list = [x for x in iterator()]
++         content_length = sum([len(x) for x in content_list])
++ 
+          wait_token = self.wait_token()
+!         while True:        
+              try:
+                  self.connection.post(self.host,
+                      self.path + 'index.php?title=Special:Upload&maxlag=' + self.max_lag,
++                     #self.path + 'Special:Upload',
+                      headers = {'Content-Type': 'multipart/form-data; boundary=' + boundary,
+                          'Content-Length': str(content_length)},
+!                     stream_iter = content_list,
+!                     ).read()
+              except errors.HTTPStatusError, e:
+                  if e[0] == 503 and e[1].getheader('X-Database-Lag'):
+                      self.wait(wait_token, int(e[1].getheader('Retry-After')))
+***************
+*** 388,394 ****
+                      raise
+                  else:
+                      self.wait(wait_token)
+!             except errors.HTTPError:
+                  self.wait(wait_token)
+              else:
+                  return
+--- 399,405 ----
+                      raise
+                  else:
+                      self.wait(wait_token)
+!             except errors.HTTPError, e:
+                  self.wait(wait_token)
+              else:
+                  return
+Binary files mwclient_bak/client.pyc and mwclient/client.pyc differ
