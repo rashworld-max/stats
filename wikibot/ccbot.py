@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 import sys
+import httplib
 import itertools
 import mwclient
 
 import views
+from utils import tries 
 
 WIKI_HOST = 'monitor.creativecommons.org'
 WIKI_PATH = '/'
@@ -23,7 +25,11 @@ class CCBot(object):
         if isinstance(content, unicode):
             content = content.encode('utf8')
         site = self.site
-        site.upload(content, file_name, comment, ignore=True)
+        try:
+            site.upload(content, file_name, comment, ignore=True)
+        except httplib.IncompleteRead:
+            # The upload is success even we got an IncompleteRead
+            pass
         #site.upload(content, file_name, comment, ignore=False)
         try:
             page = site.Pages['Sandbox']
@@ -77,6 +83,9 @@ def test():
     return
 
 if __name__=='__main__':
-    #test()
-    run()
+    import sys
+    if len(sys.argv)>1 and sys.argv[1].lower()=='test':
+        test()
+    else:
+        run()
 

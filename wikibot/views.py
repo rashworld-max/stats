@@ -12,7 +12,8 @@ TEMPLATE_DIR = 'template/'
 STATS_TEMPLATE = 'simpletable.wiki'
 STATS_WORLD_TEMPLATE = 'world.wiki'
 LINKLIST_TEMPLATE = 'simplelinklist.wiki'
-WORLDMAP_FREEDOM_TEMPLATE = 'worldmap.xml'
+WORLDMAP_FREEDOM_TEMPLATE = 'worldmap_freedom.xml'
+WORLDMAP_TOTAL_TEMPLATE = 'worldmap_total.xml'
 
 COUNTRY_CODE_DATA = 'country_codes_Jan09.txt'
 
@@ -117,14 +118,15 @@ class View(object):
         return all
 
     def all_files(self):
-        all = itertools.chain(
+        all = itertools.chain(                
                 self.map_world(),
                 )
         return all
 
     def stats_world(self):
         yield self._stats("World", self.query.license_world(), STATS_WORLD_TEMPLATE,
-                            freedom_url = self._uploaded_url['worldmap_freedom.xml']
+                            freedom_url = self._uploaded_url['worldmap_freedom.xml'],
+                            total_url = self._uploaded_url['worldmap_total.xml'],
                     )
         return
 
@@ -173,12 +175,21 @@ class View(object):
             data = query.license_by_juris(code)
             stats[fips_code] = ccquery.Stats(data)
             names[fips_code] = query.juris_code2name(code)
+
         page = self.render("worldmap_freedom.xml", WORLDMAP_FREEDOM_TEMPLATE,
                             jurisdictions = stats.keys(),
                             stats = stats,
                             names = names,
                             )
         yield page
+        
+        page = self.render("worldmap_total.xml", WORLDMAP_TOTAL_TEMPLATE,
+                            jurisdictions = stats.keys(),
+                            stats = stats,
+                            names = names,
+                            )
+        yield page
+
         return
 
 def test_map():

@@ -1,0 +1,54 @@
+{#
+==List of parameters==
+
+jurisdictions: A list of jurisdiction code which is converted to FIPS country code.
+names[id]: Full name of country 'id'.
+stats[id]: Statstical data of country 'id' represented by class Stats, which has following attributes available:
+    Stats.total: Total number of licensed items.
+    Stats.freedom_score: Freedom score.
+    Stats.licenses: A list of licenses.
+    
+#}
+<?xml version="1.0" encoding="utf-8"?>
+<countrydata>
+
+<!-- Green -->
+<state id="range">
+        <data>0 - 50000</data>
+        <color>33FF33</color>
+</state>
+<!-- Yellow -->
+<state id="range">
+        <data>50000 - 1000000</data>
+        <color>FFFF33</color>
+</state>
+<!-- Orange -->
+<state id="range">
+        <data>1000000 - 5000000</data>
+        <color>FF9933</color>
+</state>
+<!-- Red -->
+<state id="range">
+        <data>5000000 - 1000000000</data>
+        <color>FF3333</color>
+</state>
+<state id="default_color">
+        <color>cccccc</color>
+</state>
+<state id="background_color">
+        <color>ddffff</color>
+</state>
+<state id="outline_color">
+        <color>333333</color>
+</state>
+
+{% for id in jurisdictions %}
+<state id="{{ id }}">
+        <name>{{ names[id] }}</name>
+        <data>{{ stats[id].total }}</data>
+        <hover>Total number: {{ stats[id].total | thousandsep }} </hover>
+</state>
+{% endfor %}
+
+</countrydata>
+

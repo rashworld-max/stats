@@ -16,11 +16,11 @@ def tries(ntries, fn, *arglist, **argdict):
         except Exception, e:
             if isinstance(e, KeyboardInterrupt):
                raise e
-            log("Huh, while doing %s(%s, %s), %s happened." % (fn, arglist, argdict, e))
+            log("Huh, while calling %s, %s happened." % (fn, e))
             tried += 1
             if tried >= ntries:
                 raise
-            sleeptime = 2 ** tried * 10
+            sleeptime = 2 ** tried * 5
             log('trying again after sleeping for %d' % sleeptime)
             time.sleep(sleeptime)
 

@@ -1,11 +1,12 @@
 ﻿{# 
-==List of parameters==
+== List of parameters ==
  licenses: A list of license code which is available (ie. has count>0)
  count(x): Count of license x
  percent(x): Float number, percent of license x in [0,1]
  total: Total number of licenses.
  freedom_score: Freedom score.
  freedom_url: URL of the XML data file with freedom score data.
+ total_url: URL of the XML 
  thousandsep: A thousand seperator filter for numbers.
 #}
 {% for item in licenses %}
@@ -17,4 +18,12 @@ Total = {{total | thousandsep}}
 
 Freedom score = {{freedom_score | round(2)}}
 
-<flash>file=World.swf|width=640|height=480|flashvars=?data_file={{ freedom_url }}</flash>
+== Freedom Score ==
+
+<flash>file=World.swf|width=720|height=480|flashvars=?data_file={{ freedom_url }}</flash>
+
+
+== Total Number ==
+
+<flash>file=World.swf|width=720|height=480|flashvars=?data_file={{ total_url }}</flash>
+
