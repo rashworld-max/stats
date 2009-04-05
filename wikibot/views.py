@@ -111,9 +111,9 @@ class View(object):
         all = itertools.chain(
                 self.stats_world(),
                 self.stats_juris(),
-                self.stats_continent(),
+                self.stats_region(),
                 self.list_juris(),
-                self.list_continents(),
+                self.list_regions(),
                 )
         return all
 
@@ -138,11 +138,11 @@ class View(object):
             yield self._stats(juris_name, data)
         return
 
-    def stats_continent(self):
+    def stats_region(self):
         query = self.query
-        for code in query.all_continents():
-            name = query.continent_code2name(code)
-            data = query.license_by_continent(code)
+        for code in query.all_regions():
+            name = query.region_code2name(code)
+            data = query.license_by_region(code)
             yield self._stats(name, data)
         return
     
@@ -153,10 +153,10 @@ class View(object):
         yield page
         return
 
-    def list_continents(self):
+    def list_regions(self):
         query = self.query
-        links = [query.continent_code2name(code) for code in query.all_continents()]
-        page = self.render("List of Continents", LINKLIST_TEMPLATE, links=links)
+        links = [query.region_code2name(code) for code in query.all_regions()]
+        page = self.render("List of Regions", LINKLIST_TEMPLATE, links=links)
         yield page
         return
 
@@ -204,6 +204,10 @@ def test_map():
 
 def test():
     view = View()
+    maps = view.all_files()
+    for map in maps:
+        view.set_uploaded_url(map.title, 'http://FOO.BAR.org/'+map.title)
+
     pagegen = view.all_pages()
     for page in pagegen:
         print '='*50

@@ -5,7 +5,7 @@ Caculate and query CC license data.
 import collections
 import sqlite3
 
-CONTINENT_FILE = 'continents.txt'
+REGION_FILE = 'continents.txt'
 
 class CCQuery(object):
     """
@@ -25,19 +25,19 @@ class CCQuery(object):
     >>> [x for x in q.license_by_juris(u'')]
     [(u'by', 4690)]
     
-    >>> [x for x in q.license_by_continent('as')]
+    >>> [x for x in q.license_by_region('as')]
     [(u'by-nd', 84)]
     
     >>> q.juris_code2name('hk')
     u'Hong Kong'
 
-    >>> q.continent_code2name('as')
+    >>> q.region_code2name('as')
     u'Asia'
     
     >>> q.all_juris()
     [u'', u'hk']
 
-    >>> q.all_continents()
+    >>> q.all_regions()
     [u'as']
 
     """
@@ -60,40 +60,40 @@ class CCQuery(object):
                 version text,
                 juris text
             );
-            create table continent(
+            create table region(
                 code text,
                 juris_code text
             );
         """)
-        self._load_continent()
+        self._load_region()
         
         self.NUM_FIELDS = 9
         return
 
-    def _load_continent(self, fn = CONTINENT_FILE):
+    def _load_region(self, fn = REGION_FILE):
         c = self.conn.cursor()
         for line in open(fn):
             line = line.split('#')[0] # strip comment
             try:
-                continent, country_code = line.split()
+                region, country_code = line.split()
             except ValueError:
                 continue
-            continent = continent.lower()
+            region = region.lower()
             country_code = country_code.lower()
-            c.execute("insert into continent values(?,?)", (continent, country_code))
+            c.execute("insert into region values(?,?)", (region, country_code))
         self.conn.commit()
         return
 
-    def _warn_no_continent(self):
+    def _warn_no_region(self):
         c = self.conn.cursor()
         c.execute("""
             select distinct juris_code, juris from linkback 
                 where juris_code <> '' and juris_code not in 
-                    (select juris_code from continent)""")
+                    (select juris_code from region)""")
         r = list(c)
         if r:
             import sys
-            print >>sys.stderr, "Warning: the following jurisdictions have no corresponding continent:"
+            print >>sys.stderr, "Warning: the following jurisdictions have no corresponding region:"
             for j in r:
                 print >>sys.stderr, j
         return
@@ -105,7 +105,7 @@ class CCQuery(object):
         c = self.conn.cursor()
         c.executemany('insert into linkback values(%s)' % ( ','.join('?' * self.NUM_FIELDS) ), dataiter)
         self.conn.commit()
-        self._warn_no_continent()
+        self._warn_no_region()
         return
     
     def juris_code2name(self, code):
@@ -117,7 +117,7 @@ class CCQuery(object):
         result = c.fetchone()[0]
         return result
     
-    def continent_code2name(self, code):
+    def region_code2name(self, code):
         codedict = dict(
                 AF = u'Africa',
                 AS = u'Asia',
@@ -128,12 +128,12 @@ class CCQuery(object):
                 AN = u'Antarctica')
         return codedict[code.upper()]
 
-    def all_continents(self):
+    def all_regions(self):
         """
-        All continents.
+        All regions.
         """
         c = self.conn.cursor()
-        c.execute('select distinct code from (continent natural join linkback)')
+        c.execute('select distinct code from (region natural join linkback)')
         result = [t[0] for t in c]
         return result
 
@@ -167,11 +167,11 @@ class CCQuery(object):
         """
         return self._license_query('where juris_code=?', (juris_code,))
 
-    def license_by_continent(self, continent_code):
+    def license_by_region(self, region_code):
         """
-        Count of each license in a specific continent.
+        Count of each license in a specific region.
         """
-        return self._license_query('where juris_code in (select juris_code from continent where code=?)', (continent_code,))
+        return self._license_query('where juris_code in (select juris_code from region where code=?)', (region_code,))
 
 class Stats(object):
     """
