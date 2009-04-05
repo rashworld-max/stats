@@ -11,6 +11,7 @@ import ccquery
 TEMPLATE_DIR = 'template/'
 STATS_TEMPLATE = 'simpletable.wiki'
 STATS_WORLD_TEMPLATE = 'world.wiki'
+STATS_REGION_TEMPLATE = 'region.wiki'
 LINKLIST_TEMPLATE = 'simplelinklist.wiki'
 WORLDMAP_FREEDOM_TEMPLATE = 'worldmap_freedom.xml'
 WORLDMAP_TOTAL_TEMPLATE = 'worldmap_total.xml'
@@ -143,7 +144,12 @@ class View(object):
         for code in query.all_regions():
             name = query.region_code2name(code)
             data = query.license_by_region(code)
-            yield self._stats(name, data)
+            juris_list = [query.juris_code2name(c) for c 
+                            in query.juris_in_region(code)]
+            yield self._stats(name, data,
+                    template=STATS_REGION_TEMPLATE, 
+                    juris_list = juris_list
+                    )
         return
     
     def list_juris(self):

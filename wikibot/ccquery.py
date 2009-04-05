@@ -146,6 +146,16 @@ class CCQuery(object):
         result = [t[0] for t in c]
         return result
 
+    def juris_in_region(self, code):
+        """
+        All juris avaiable in a region specified by code.
+        """
+        c = self.conn.cursor()
+        c.execute("""select distinct juris_code from (region natural join linkback)
+                             where code=?""", (code,))
+        result = [t[0] for t in c]
+        return result
+
     def _license_query(self, where_clause, args=()):
         """
         Cunstruct and execute a select query with the where_clause, to get numbers of items in every license.

@@ -1,4 +1,4 @@
-﻿{% for link in links %}
+﻿{% for link in links|sort %}
 
 [[{{ link }}]]
 {% endfor %}
