@@ -10,6 +10,7 @@ Just run:
 
 $ python ccbot.py
 
+The robot will find the newest data automatically and update the wiki.
 
 Adjust wiki pages
 -----------------
