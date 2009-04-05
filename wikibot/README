@@ -1,0 +1,40 @@
+
+=====
+Howto
+=====
+
+Fetch data and commit to wiki
+-----------------------------
+
+Just run:
+
+$ python ccbot.py
+
+
+Adjust wiki pages
+-----------------
+
+Just edit the template pages in template/ directory. Then run:
+
+$ python ccbot.py
+
+to update the wiki pages.
+
+
+Adjust maps
+-----------
+
+Edit the template map XML files in template/ directory. Then run:
+
+$ python view.py test
+
+The map data XML will be generated in the worldmap/ directory. You can preview it in
+your browser, for example:
+
+$ cd worldmap
+$ firefox world.swf?data_file=worldmap_total.xml
+
+Then update the wiki site if everything is ok:
+
+$ python ccbot.py
+
