@@ -1,16 +1,18 @@
-﻿{|
+﻿{| class="wikitable" style="text-align:center" border="1"
 |+ Statistic data
+! License
 ! {{licenses | join(' !! ')}}
 |-
 ! Count
 {% for item in licenses %}
-| {{count(item)}}
-
-|}
-{% for item in licenses %}
-
-{{item}} {{count(item) | thousandsep}} {{ (percent(item)*100) | round(2) }}%
+| {{count(item) | thousandsep }}
 {% endfor %}
+|-
+! Percent(%)
+{% for item in licenses %}
+| {{(percent(item)*100) | round(2)}}
+{% endfor %}
+|}
 
 Total = {{total | thousandsep}}
 

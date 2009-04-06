@@ -45,6 +45,15 @@ class WikiBot(object):
         page = self.site.Pages[title]
         return page
 
+    def update_pages(self, pages):
+        for page in pages:
+            print "Updating page: ", page.title, "...",
+            sys.stdout.flush()
+            self.put_page(page.title, page.text)
+            print "Done."
+        return
+
+
 def update_wiki(query=None):
     if query is None:
         query = ccquery.CCQuery(DB_FILE)
@@ -60,11 +69,20 @@ def update_wiki(query=None):
         view.set_uploaded_url(file.title, url)
 
     pagegen = view.all_pages()
-    for page in pagegen:
-        print "Updating page: ", page.title, "...",
-        sys.stdout.flush()
-        bot.put_page(page.title, page.text)
-        print "Done."
+    bot.update_pages(pagegen)
+    return
+
+def update_wikiuserpages(query=None):
+    if query is None:
+        query = ccquery.CCQuery(DB_FILE)
+    view = views.View(query)
+    bot = WikiBot()
+    print "WARNING: This operation is dangerous because it will overwite all existing user content. Please input 'YES I KNOW' to continue."
+    #know = raw_input()
+    #if know != 'YES I KNOW':
+        #return
+    pagegen = view.all_userpages()
+    bot.update_pages(pagegen)
     return
 
 def update_db(filter_filename=None):
@@ -113,7 +131,12 @@ def usage():
             one per line. Only the jurisdictions listed in this file will be updated.
             If this file is not given, the entire database will be updated.
 
-        wiki: update the wiki from DB data.
+        wiki: update the wiki pages from DB data. Only the pages which is used for
+            robot produced contents will be updated. User produced contents will be
+            untouched.
+
+        wikiuserpages: initialize all the user content pages. Warning: This will clean
+            all the existing user contents.
         
         test: test the connection to wiki site.
     """
@@ -125,6 +148,8 @@ def main(*args):
         update_db()
     elif args[0]=='wiki':
         update_wiki()
+    elif args[0]=='wikiuserpages':
+        update_wikiuserpages()
     elif args[0]=='test':
         test()
     else:

@@ -4,19 +4,37 @@ The view to generate pages than can be put onto wiki.
 import itertools
 import jinja2
 import locale
+import codecs
 
 import linkback_reader
 import ccquery
 
 TEMPLATE_DIR = 'template/'
-STATS_TEMPLATE = 'simpletable.wiki'
+STATS_TEMPLATE = 'stats.wiki'
 STATS_WORLD_TEMPLATE = 'world.wiki'
 STATS_REGION_TEMPLATE = 'region.wiki'
 LINKLIST_TEMPLATE = 'simplelinklist.wiki'
-WORLDMAP_FREEDOM_TEMPLATE = 'worldmap_freedom.xml'
-WORLDMAP_TOTAL_TEMPLATE = 'worldmap_total.xml'
+XML_WORLDMAP_FREEDOM = 'worldmap_freedom.xml'
+XML_WORLDMAP_TOTAL = 'worldmap_total.xml'
+
+TEMPLATE_USER_WORLD = 'user_world.wiki'
+TEMPLATE_USER_REGION = 'user_region.wiki'
+TEMPLATE_USER_LIST = 'user_list.wiki'
+TEMPLATE_USER_JURIS = 'user_juris.wiki'
+
+TITLE_LIST_JURIS = 'List of Jurisdictions'
+TITLE_LIST_REGIONS = 'List of Regions'
+
+BOTPAGE_PREFIX = 'Robot/'
+BOTPAGE_STATS = 'Statistics'
+BOTPAGE_MAP_FREEDOM = 'Freedom Score Map'
+BOTPAGE_MAP_TOTAL = 'Total Number Map'
+BOTPAGE_LIST_JURIS = 'List of Jurisdictions'
+BOTPAGE_LIST_REGIONS = 'List of Regions'
+
 
 COUNTRY_CODE_DATA = 'country_codes_Jan09.txt'
+
 
 class Page(object):
     def __init__(self, title, text):
@@ -39,13 +57,21 @@ class PageRender(object):
             number = str(number)
             return number if len(number)<=3 else \
                     _thousandsep(number[:-3]) + ',' + number[-3:]
-        self.env.filters['thousandsep'] = _thousandsep
 
+        def _botpage(title):
+            return '{{%s%s}}'%(BOTPAGE_PREFIX, title)
+
+        self.env.filters['thousandsep'] = _thousandsep
+        self.env.filters['botpage'] = _botpage
         return
 
     def __call__(self, title, template_fn, **kwargs):
         template = self.env.get_template(template_fn)
         text = template.render(**kwargs)
+        text = text.encode('utf-8')
+        # Jinja did nothing with DOM, so we remove it manually
+        if text.startswith(codecs.BOM_UTF8):
+            text = text[len(codecs.BOM_UTF8):]
         page = Page(title, text)
         return page
 
@@ -103,9 +129,10 @@ class View(object):
         view = cls.from_data(data)
         return view
 
-    def _stats(self, title, data, template = STATS_TEMPLATE, **extra_params):
+    def _stats(self, name, data, template = STATS_TEMPLATE, **extra_params):
         stat = ccquery.Stats(data)
-        page = self.render(title, template, 
+        title = self._botns(name, BOTPAGE_STATS)
+        page = self.render(title, template,
                 licenses = stat.VALID_LICENSES,
                 count = stat.count,
                 percent = stat.percent,
@@ -114,6 +141,16 @@ class View(object):
                 **extra_params
                 )
         return page
+
+    def _user(self, name, template, **botpages):
+        for key in botpages:
+            botpages[key] = name + '/' + botpages[key]
+        page = self.render(name, template, **botpages)
+        return page
+
+    def _botns(self, *names):
+        name = '/'.join(names)
+        return 'Template:%s%s'%(BOTPAGE_PREFIX, name)
 
     def set_uploaded_url(self, filename, url):
         self._uploaded_url[filename] = url
@@ -135,11 +172,58 @@ class View(object):
                 )
         return all
 
+    def all_userpages(self):
+        """
+        These pages produces an initial value of user content pages.
+        """
+        all = itertools.chain(
+                self.user_world(),
+                self.user_region(),
+                self.user_juris(),
+                self.user_lists(),
+                )
+        return all
+
+    def user_world(self):
+        page = self._user('World', TEMPLATE_USER_WORLD,
+                        stats = BOTPAGE_STATS,
+                        map_freedom = BOTPAGE_MAP_FREEDOM,
+                        map_total = BOTPAGE_MAP_TOTAL
+                        )
+        yield page
+        return
+
+    def user_region(self):
+        query = self.query
+        for code in query.all_regions():
+            name = query.region_code2name(code)
+            page = self._user(name, TEMPLATE_USER_REGION,
+                                stats = BOTPAGE_STATS,
+                                list = BOTPAGE_LIST_JURIS
+                                )
+            yield page
+        return
+
+    def user_juris(self):
+        query = self.query
+        for code in query.all_juris():
+            name = query.juris_code2name(code)
+            page = self._user(name, TEMPLATE_USER_JURIS,
+                                stats = BOTPAGE_STATS)
+            yield page
+        return
+
+    def user_lists(self):
+        yield self._user(TITLE_LIST_JURIS, TEMPLATE_USER_LIST, list=BOTPAGE_LIST_JURIS)
+        yield self._user(TITLE_LIST_REGIONS, TEMPLATE_USER_LIST, list=BOTPAGE_LIST_REGIONS)
+        return
+
     def stats_world(self):
-        yield self._stats("World", self.query.license_world(), STATS_WORLD_TEMPLATE,
-                            freedom_url = self._uploaded_url['worldmap_freedom.xml'],
-                            total_url = self._uploaded_url['worldmap_total.xml'],
-                    )
+        yield self._stats("World", self.query.license_world())
+        yield self.render(self._botns('World', BOTPAGE_MAP_FREEDOM),
+                'map.wiki', map_url = self._uploaded_url[XML_WORLDMAP_FREEDOM])
+        yield self.render(self._botns('World', BOTPAGE_MAP_TOTAL),
+                'map.wiki', map_url = self._uploaded_url[XML_WORLDMAP_TOTAL])
         return
 
     def stats_juris(self):
@@ -157,23 +241,24 @@ class View(object):
             data = query.license_by_region(code)
             juris_list = [query.juris_code2name(c) for c 
                             in query.juris_in_region(code)]
-            yield self._stats(name, data,
-                    template=STATS_REGION_TEMPLATE, 
-                    juris_list = juris_list
-                    )
+            yield self._stats(name, data)
+            yield self.render(self._botns(name, BOTPAGE_LIST_JURIS), 
+                                LINKLIST_TEMPLATE, links = juris_list)
         return
     
     def list_juris(self):
         query = self.query
         links = [query.juris_code2name(code) for code in query.all_juris()]
-        page = self.render("List of Jurisdictions", LINKLIST_TEMPLATE, links=links)
+        page = self.render(self._botns(BOTPAGE_LIST_JURIS),
+                                LINKLIST_TEMPLATE, links=links)
         yield page
         return
 
     def list_regions(self):
         query = self.query
         links = [query.region_code2name(code) for code in query.all_regions()]
-        page = self.render("List of Regions", LINKLIST_TEMPLATE, links=links)
+        page = self.render(self._botns(BOTPAGE_LIST_REGIONS),
+                                LINKLIST_TEMPLATE, links=links)
         yield page
         return
 
@@ -199,14 +284,14 @@ class View(object):
         stats['UK'] = ccquery.Stats(ukdata)
         names['UK'] = 'United Kingdom'
 
-        page = self.render("worldmap_freedom.xml", WORLDMAP_FREEDOM_TEMPLATE,
+        page = self.render(XML_WORLDMAP_FREEDOM, XML_WORLDMAP_FREEDOM,
                             jurisdictions = stats.keys(),
                             stats = stats,
                             names = names,
                             )
         yield page
         
-        page = self.render("worldmap_total.xml", WORLDMAP_TOTAL_TEMPLATE,
+        page = self.render(XML_WORLDMAP_TOTAL, XML_WORLDMAP_TOTAL,
                             jurisdictions = stats.keys(),
                             stats = stats,
                             names = names,
@@ -232,7 +317,7 @@ def test():
     for map in maps:
         view.set_uploaded_url(map.title, 'http://FOO.BAR.org/'+map.title)
 
-    pagegen = view.all_pages()
+    pagegen = itertools.chain(view.all_pages(), view.all_userpages())
     for page in pagegen:
         print '='*50
         print
@@ -242,5 +327,5 @@ def test():
     return
 
 if __name__=='__main__':
-    test_map()
-    #test()
+    #test_map()
+    test()
