@@ -20,7 +20,6 @@ DB_FILE = 'ccdata.sqlite'
 class WikiBot(object):
     def __init__(self):
         site = mwclient.Site(WIKI_HOST, WIKI_PATH)
-        site.writeapi = False # XXX do this because api.php rewrite rule maybe problematic
         site.login(BOT_NAME, BOT_PASS)
         self.site = site
         return
@@ -33,13 +32,6 @@ class WikiBot(object):
             site.upload(content, file_name, comment, ignore=True)
         except httplib.IncompleteRead:
             # The upload is success even we got an IncompleteRead
-            pass
-        #site.upload(content, file_name, comment, ignore=False)
-        try:
-            page = site.Pages['Sandbox']
-        except:
-            #XXX Strange... Seems this query will always be failed!
-            # But we need to put it here so other queries will not failed.
             pass
         uploaded = site.Images[file_name]
         return uploaded
@@ -75,10 +67,17 @@ def update_wiki(query=None):
         print "Done."
     return
 
-def update_db():
+def update_db(filter_filename=None):
     data = linkback_reader.most_recent()
     query = ccquery.CCQuery(DB_FILE)
-    query.del_all_linkbacks()
+
+    if filter_filename is not None:
+        juris_filter = set(line.strip().lower() for line in open(filter_filename))
+        data = itertools.ifilter(lambda x: x[5] in juris_filter, data)
+        for juris in juris_filter:
+            query.del_linkbacks(juris)
+    else:
+        query.del_all_linkbacks()
     query.add_linkbacks(data)
     return query
 
@@ -92,9 +91,9 @@ def test():
     bot.put_page('Sandbox', 'HIHIHIHIHI')
 
     TEST_XML = """<?xml version="1.0" encoding="utf-8"?>
-<test33>
-</test33>"""
-    uploaded = bot.upload('test5.xml', TEST_XML, 'testing upload.. again.')
+#<test33>
+#</test33>"""
+    uploaded = bot.upload('test88.xml', TEST_XML, 'testing upload.. again.')
     print "Info of uploaded test file:", uploaded.imageinfo
 
     print "Test OK!"
@@ -109,7 +108,10 @@ def usage():
 
     The followling command is available:
 
-        db: fetch the most recently data and update the DB.
+        db: fetch the most recently data and update the DB. An optional jurisdiction
+            filter filename can be provided. The filter is a list of jurisdictions
+            one per line. Only the jurisdictions listed in this file will be updated.
+            If this file is not given, the entire database will be updated.
 
         wiki: update the wiki from DB data.
         
