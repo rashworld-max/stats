@@ -1,0 +1,10 @@
+﻿{{ stats | botpage }}
+
+== Freedom Score ==
+
+{{ map_freedom | botpage }}
+
+== Total Number ==
+
+{{ map_total | botpage }}
+
