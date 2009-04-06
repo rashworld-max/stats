@@ -95,14 +95,41 @@ def test():
 <test33>
 </test33>"""
     uploaded = bot.upload('test5.xml', TEST_XML, 'testing upload.. again.')
-    print "info of uploaded:", uploaded.imageinfo
+    print "Info of uploaded test file:", uploaded.imageinfo
+
+    print "Test OK!"
 
     return
 
-if __name__=='__main__':
-    import sys
-    if len(sys.argv)>1 and sys.argv[1].lower()=='test':
+def usage():
+    print """
+    ccbot.py [command] [args...]
+
+    With no command, it will fetch most recently data and update both the DB and wiki.
+
+    The followling command is available:
+
+        db: fetch the most recently data and update the DB.
+
+        wiki: update the wiki from DB data.
+        
+        test: test the connection to wiki site.
+    """
+
+def main(*args):
+    if len(args)==0:
+        update_all()
+    elif args[0]=='db':
+        update_db()
+    elif args[0]=='wiki':
+        update_wiki()
+    elif args[0]=='test':
         test()
     else:
-        update_all()
+        usage()
+    return
+    
 
+if __name__=='__main__':
+    import sys
+    main(*sys.argv[1:])
