@@ -77,20 +77,31 @@ class View(object):
     """
     The methods in the View class are generators yielding pages.
 
-    >>> view = View()
+    >>> data = linkback_reader.read_csv('linkbacks-daily-Yahoo.csv')
+    >>> view = View.from_data(data)
     >>> page = view.list_juris().next()
     >>> page.title
     'List of Jurisdictions'
     """
-    def __init__(self, data=None):
-        if data is None:
-            data = linkback_reader.most_recent()
-        self.query = ccquery.CCQuery()
-        self.query.add_linkbacks(data)
+    def __init__(self, query):
+        self.query = query
         self.render = PageRender()
         self.to_fips = ToFips()
         self._uploaded_url = {}
         return
+    
+    @classmethod
+    def from_data(cls, data):
+        query = ccquery.CCQuery()
+        query.add_linkbacks(data)
+        view = cls(query)
+        return view
+
+    @classmethod
+    def from_most_recent(cls):
+        data = linkback_reader.most_recent()
+        view = cls.from_data(data)
+        return view
 
     def _stats(self, title, data, template = STATS_TEMPLATE, **extra_params):
         stat = ccquery.Stats(data)
@@ -182,6 +193,12 @@ class View(object):
             stats[fips_code] = ccquery.Stats(data)
             names[fips_code] = query.juris_code2name(code)
 
+        #fix for United Kingdom
+        ukdata = itertools.chain(query.license_by_juris('scotland'),
+                                 query.license_by_juris('uk'))
+        stats['UK'] = ccquery.Stats(ukdata)
+        names['UK'] = 'United Kingdom'
+
         page = self.render("worldmap_freedom.xml", WORLDMAP_FREEDOM_TEMPLATE,
                             jurisdictions = stats.keys(),
                             stats = stats,
@@ -201,7 +218,7 @@ class View(object):
 def test_map():
     MAPDIR = 'worldmap/'
     data = linkback_reader.read_csv('linkbacks-daily-Yahoo.csv')
-    view = View(data)
+    view = View.from_data(data)
     maps = view.all_files()
     for map in maps:
         fn = MAPDIR + map.title
@@ -209,7 +226,8 @@ def test_map():
     return   
 
 def test():
-    view = View()
+    data = linkback_reader.read_csv('linkbacks-daily-Yahoo.csv')
+    view = View.from_data(data)
     maps = view.all_files()
     for map in maps:
         view.set_uploaded_url(map.title, 'http://FOO.BAR.org/'+map.title)

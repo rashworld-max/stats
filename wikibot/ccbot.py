@@ -5,6 +5,8 @@ import itertools
 import mwclient
 
 import views
+import linkback_reader
+import ccquery
 from utils import tries 
 
 WIKI_HOST = 'monitor.creativecommons.org'
@@ -12,8 +14,10 @@ WIKI_PATH = '/'
 BOT_NAME = 'CCStatsBot'
 BOT_PASS = 'bhyccstatsbot'
 
+DB_FILE = 'ccdata.sqlite'
 
-class CCBot(object):
+
+class WikiBot(object):
     def __init__(self):
         site = mwclient.Site(WIKI_HOST, WIKI_PATH)
         site.writeapi = False # XXX do this because api.php rewrite rule maybe problematic
@@ -49,9 +53,11 @@ class CCBot(object):
         page = self.site.Pages[title]
         return page
 
-def run():
-    bot = CCBot()
-    view = views.View()
+def update_wiki(query=None):
+    if query is None:
+        query = ccquery.CCQuery(DB_FILE)
+    bot = WikiBot()
+    view = views.View(query)
     filegen = view.all_files()
     for file in filegen:
         print "Uploading file: ", file.title, "...",
@@ -69,9 +75,20 @@ def run():
         print "Done."
     return
 
+def update_db():
+    data = linkback_reader.most_recent()
+    query = ccquery.CCQuery(DB_FILE)
+    query.del_all_linkbacks()
+    query.add_linkbacks(data)
+    return query
+
+def update_all():
+    query = update_db()
+    update_wiki(query)
+    return
 
 def test():
-    bot = CCBot()
+    bot = WikiBot()
     bot.put_page('Sandbox', 'HIHIHIHIHI')
 
     TEST_XML = """<?xml version="1.0" encoding="utf-8"?>
@@ -87,5 +104,5 @@ if __name__=='__main__':
     if len(sys.argv)>1 and sys.argv[1].lower()=='test':
         test()
     else:
-        run()
+        update_all()
 

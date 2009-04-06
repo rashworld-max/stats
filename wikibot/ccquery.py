@@ -11,7 +11,7 @@ class CCQuery(object):
     """
     Database interface of CC license data.
 
-    >>> q = CCQuery()
+    >>> q = CCQuery(':memory:')
     >>> q.add_linkbacks((
     ...        ('2316360','http://creativecommons.org/licenses/by/1.0/','Google',
     ...         '4690','2009-03-24 00:05:23','','by','1.0','Unported'),
@@ -40,11 +40,35 @@ class CCQuery(object):
     >>> q.all_regions()
     [u'as']
 
+    >>> q.del_all_linkbacks()
+    >>> q.all_regions()
+    []
+
     """
     def __init__(self, dbfile=':memory:'):
         self.conn = sqlite3.connect(dbfile)
-        self.init_db()
+        if not self._inited():
+            self.init_db()
         return
+
+    def __del__(self):
+        self.conn.commit()
+        return
+
+    def commit(self):
+        self.conn.commit()
+        return
+
+    def _inited(self):
+        c = self.conn.execute('select name from sqlite_master where type = "table"')
+        tables = [x[0] for x in c]
+        if u'linkback' in tables:
+            return True
+        else:
+            return False
+
+    # Number of fields in linkback table, should update this once the table updated.
+    NUM_FIELDS = 9
 
     def init_db(self):
         c = self.conn.cursor()
@@ -66,8 +90,8 @@ class CCQuery(object):
             );
         """)
         self._load_region()
+        self.conn.commit()
         
-        self.NUM_FIELDS = 9
         return
 
     def _load_region(self, fn = REGION_FILE):
@@ -81,10 +105,9 @@ class CCQuery(object):
             region = region.lower()
             country_code = country_code.lower()
             c.execute("insert into region values(?,?)", (region, country_code))
-        self.conn.commit()
         return
 
-    def _warn_no_region(self):
+    def _fix_no_region(self):
         c = self.conn.cursor()
         c.execute("""
             select distinct juris_code, juris from linkback 
@@ -93,9 +116,13 @@ class CCQuery(object):
         r = list(c)
         if r:
             import sys
-            print >>sys.stderr, "Warning: the following jurisdictions have no corresponding region:"
+            print >>sys.stderr, "Warning: the following jurisdictions have no corresponding region and will be deleted:"
             for j in r:
                 print >>sys.stderr, j
+            c.execute("""
+                delete from linkback
+                    where juris_code <> '' and juris_code not in 
+                        (select juris_code from region)""")
         return
 
     def add_linkbacks(self, dataiter):
@@ -104,9 +131,24 @@ class CCQuery(object):
         """
         c = self.conn.cursor()
         c.executemany('insert into linkback values(%s)' % ( ','.join('?' * self.NUM_FIELDS) ), dataiter)
+        self._fix_no_region()
         self.conn.commit()
-        self._warn_no_region()
         return
+
+    def _del_linkbacks(self, where_clause, args=()):
+        q = 'delete from linkback %s' % where_clause
+        self.conn.execute(q, args)
+        self.conn.commit()
+        return
+
+    def del_all_linkbacks(self):
+        self._del_linkbacks('')
+        return
+
+    def del_juris(self, code):
+        self._del_linkbacks('where juris_code=?', (code,))
+        return
+
     
     def juris_code2name(self, code):
         """
@@ -191,7 +233,7 @@ class Stats(object):
     2. % numbers of the above
     3. freedom score
 
-    >>> q = CCQuery()
+    >>> q = CCQuery(':memory:')
     >>> q.add_linkbacks((
     ...        ('2316360','http://creativecommons.org/licenses/by/1.0/','Google',
     ...         '30','2009-03-24 00:05:23','','by','1.0','Unported'),
