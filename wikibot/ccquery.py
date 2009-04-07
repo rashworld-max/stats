@@ -7,6 +7,16 @@ import sqlite3
 
 REGION_FILE = 'continents.txt'
 
+REGION_DICT = dict(
+                AF = u'Africa',
+                AS = u'Asia',
+                ME = u'Middle East',
+                EU = u'Europe',
+                NA = u'North America',
+                SA = u'Latin America',
+                OC = u'Oceania',
+                AN = u'Antarctica')
+
 class CCQuery(object):
     """
     Database interface of CC license data.
@@ -160,15 +170,7 @@ class CCQuery(object):
         return result
     
     def region_code2name(self, code):
-        codedict = dict(
-                AF = u'Africa',
-                AS = u'Asia',
-                EU = u'Europe',
-                NA = u'North America',
-                SA = u'South America',
-                OC = u'Oceania',
-                AN = u'Antarctica')
-        return codedict[code.upper()]
+        return REGION_DICT[code.upper()]
 
     def all_regions(self):
         """

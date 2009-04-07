@@ -141,6 +141,9 @@ class View(object):
         return page
 
     def _user(self, name, template, **botpages):
+        """
+        Render user pages and automatically put page arguments into proper namespace.
+        """
         for key in botpages:
             botpages[key] = name + '/' + botpages[key]
         page = self.render(name, template, **botpages)
@@ -212,8 +215,8 @@ class View(object):
         return
 
     def user_lists(self):
-        yield self._user(TITLE_LIST_JURIS, TEMPLATE_USER_LIST, list=BOTPAGE_LIST_JURIS)
-        yield self._user(TITLE_LIST_REGIONS, TEMPLATE_USER_LIST, list=BOTPAGE_LIST_REGIONS)
+        yield self.render(TITLE_LIST_JURIS, TEMPLATE_USER_LIST, list=BOTPAGE_LIST_JURIS)
+        yield self.render(TITLE_LIST_REGIONS, TEMPLATE_USER_LIST, list=BOTPAGE_LIST_REGIONS)
         return
 
     def stats_world(self):
