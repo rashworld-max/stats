@@ -11,8 +11,6 @@ import ccquery
 
 TEMPLATE_DIR = 'template/'
 STATS_TEMPLATE = 'stats.wiki'
-STATS_WORLD_TEMPLATE = 'world.wiki'
-STATS_REGION_TEMPLATE = 'region.wiki'
 LINKLIST_TEMPLATE = 'simplelinklist.wiki'
 XML_WORLDMAP_FREEDOM = 'worldmap_freedom.xml'
 XML_WORLDMAP_TOTAL = 'worldmap_total.xml'

@@ -1,4 +1,13 @@
-﻿{| class="wikitable" style="text-align:center" border="1"
+﻿{# 
+== List of parameters ==
+ licenses: A list of license code which is available (ie. has count>0)
+ count(x): Count of license x
+ percent(x): Float number, percent of license x in [0,1]
+ total: Total number of licenses.
+ freedom_score: Freedom score.
+ thousandsep: A thousand seperator filter for numbers.
+#}
+{| class="wikitable" style="text-align:center" border="1"
 |+ Statistic data
 ! License
 ! {{licenses | join(' !! ')}}
