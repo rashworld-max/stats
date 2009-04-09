@@ -2,9 +2,9 @@
 The view to generate pages than can be put onto wiki.
 """
 import itertools
-import jinja2
-import locale
+import datetime
 import codecs
+import jinja2
 
 import linkback_reader
 import ccquery
@@ -130,12 +130,14 @@ class View(object):
     def _stats(self, name, data, template = STATS_TEMPLATE, **extra_params):
         stat = ccquery.Stats(data)
         title = self._botns(name, BOTPAGE_STATS)
+        date = datetime.date.today().strftime("%Y-%m-%d")
         page = self.render(title, template,
                 licenses = stat.VALID_LICENSES,
                 count = stat.count,
                 percent = stat.percent,
                 total = stat.total,
                 freedom_score = stat.freedom_score,
+                date = date,
                 **extra_params
                 )
         return page

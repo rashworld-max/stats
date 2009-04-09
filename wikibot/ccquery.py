@@ -7,10 +7,13 @@ import sqlite3
 
 REGION_FILE = 'continents.txt'
 
+# XXX by Giorgos' request we have changed 
+# "Middle East" to "Middle East and North Africa" and "Africa" to "Sub-Saharan Africa",
+# but wait, how about the corresponding countries?
 REGION_DICT = dict(
-                AF = u'Africa',
+                AF = u'Sub-Saharan Africa',
                 AS = u'Asia',
-                ME = u'Middle East',
+                ME = u'Middle East and North Africa',
                 EU = u'Europe',
                 NA = u'North America',
                 SA = u'Latin America',

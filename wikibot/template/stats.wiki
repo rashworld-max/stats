@@ -5,24 +5,35 @@
  percent(x): Float number, percent of license x in [0,1]
  total: Total number of licenses.
  freedom_score: Freedom score.
+ date: current date.
  thousandsep: A thousand seperator filter for numbers.
 #}
 {| class="wikitable" style="text-align:center" border="1"
-|+ Statistic data
+|+ CC License Adoption - Search Results
 ! License
 ! {{licenses | join(' !! ')}}
+! Total
 |-
 ! Count
 {% for item in licenses %}
 | {{count(item) | thousandsep }}
 {% endfor %}
+| {{total | thousandsep}}
 |-
-! Percent(%)
+! Percent
 {% for item in licenses %}
 | {{(percent(item)*100) | round(2)}}
 {% endfor %}
+| 100
 |}
 
-Total = {{total | thousandsep}}
 
-Freedom score = {{freedom_score | round(2)}}
+{| class="wikitable" style="text-align:center" border="1"
+! Freedom score 
+|-
+| {{freedom_score | round(2)}}
+|}
+
+
+'''Source:''' Yahoo!  {{ '{{pad|3em}}' }}  '''Date:''' {{ date }} {{ '{{pad|3em}}' }}  [[Help]]
+
