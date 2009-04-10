@@ -7,7 +7,9 @@ stats[id]: Statstical data of country 'id' represented by class Stats, which has
     Stats.total: Total number of licensed items.
     Stats.freedom_score: Freedom score.
     Stats.licenses: A list of licenses.
-    
+
+world: an Stats instance to reprensent the data of whole world.
+
 #}
 <?xml version="1.0" encoding="utf-8"?>
 <countrydata>

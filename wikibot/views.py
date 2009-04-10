@@ -287,10 +287,13 @@ class View(object):
         stats['UK'] = ccquery.Stats(ukdata)
         names['UK'] = 'United Kingdom'
 
+        world = ccquery.Stats(query.license_world())
+
         page = self.render(XML_WORLDMAP_FREEDOM, XML_WORLDMAP_FREEDOM,
                             jurisdictions = stats.keys(),
                             stats = stats,
                             names = names,
+                            world = world,
                             )
         yield page
         
@@ -298,6 +301,7 @@ class View(object):
                             jurisdictions = stats.keys(),
                             stats = stats,
                             names = names,
+                            world = world,
                             )
         yield page
 
