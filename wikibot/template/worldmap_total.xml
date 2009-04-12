@@ -20,7 +20,7 @@ world: an Stats instance to reprensent the data of whole world.
 
 <!-- Lightest Blue -->
 <state id="range">
-        <data>0 - {{ breakpoints[0] }}</data>
+        <data>1 - {{ breakpoints[0] }}</data>
         <color>97FFFF</color>
 </state>
 <!-- Light Blue -->
