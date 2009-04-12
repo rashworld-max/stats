@@ -12,26 +12,38 @@ stats[id]: Statstical data of country 'id' represented by class Stats, which has
 <?xml version="1.0" encoding="utf-8"?>
 <countrydata>
 
-<!-- Green -->
+<!-- Adding info flash file to jurisdictions with data -->
+<state id="state_info_icon">
+		<src>./info.swf</src>
+</state>
+
+
+<!-- Lightest Blue -->
 <state id="range">
         <data>0 - 2</data>
-        <color>33FF33</color>
+        <color>97FFFF</color>
 </state>
-<!-- Yellow -->
+<!-- Light Blue -->
 <state id="range">
         <data>2 - 3</data>
-        <color>FFFF33</color>
+        <color>00EEEE</color>
 </state>
-<!-- Orange -->
+<!-- Blue -->
 <state id="range">
         <data>3 - 4</data>
-        <color>FF9933</color>
+        <color>00B2EE</color>
 </state>
-<!-- Red -->
+<!-- Dark Blue -->
 <state id="range">
-        <data>4 - 6</data>
-        <color>FF3333</color>
+        <data>4 - 5</data>
+        <color>0000FF</color>
 </state>
+<!-- Darkest Blue -->
+<state id="range">
+        <data>5 - 6</data>
+        <color>000080</color>
+</state>
+
 <state id="default_color">
         <color>cccccc</color>
 </state>

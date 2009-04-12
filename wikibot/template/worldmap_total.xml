@@ -9,31 +9,42 @@ stats[id]: Statstical data of country 'id' represented by class Stats, which has
     Stats.licenses: A list of licenses.
 
 world: an Stats instance to reprensent the data of whole world.
-
+	world.total the total number of CC licensed content in the world.
 #}
 <?xml version="1.0" encoding="utf-8"?>
 <countrydata>
+<!-- Adding info flash file to jurisdictions with data -->
+<state id="state_info_icon">
+		<src>./info.swf</src>
+</state>
 
-<!-- Green -->
+<!-- Lightest Blue -->
 <state id="range">
-        <data>0 - 50000</data>
-        <color>33FF33</color>
+        <data>0 - {{ breakpoints[0] }}</data>
+        <color>97FFFF</color>
 </state>
-<!-- Yellow -->
+<!-- Light Blue -->
 <state id="range">
-        <data>50000 - 1000000</data>
-        <color>FFFF33</color>
+        <data>{{ breakpoints[0] }} - {{ breakpoints[1] }}</data>
+        <color>00EEEE</color>
 </state>
-<!-- Orange -->
+<!-- Blue -->
 <state id="range">
-        <data>1000000 - 5000000</data>
-        <color>FF9933</color>
+        <data>{{ breakpoints[1] }} - {{ breakpoints[2] }}</data>
+        <color>00B2EE</color>
 </state>
-<!-- Red -->
+<!-- Dark Blue -->
 <state id="range">
-        <data>5000000 - 1000000000</data>
-        <color>FF3333</color>
+        <data>{{ breakpoints[2] }} - {{ breakpoints[3] }}</data>
+        <color>0000FF</color>
 </state>
+<!-- Darkest Blue -->
+<state id="range">
+        <data>{{ breakpoints[3] }} - 99999999999999999999999</data>
+        <color>000080</color>
+</state>
+
+<!--Default grayed out-->
 <state id="default_color">
         <color>cccccc</color>
 </state>
@@ -49,6 +60,8 @@ world: an Stats instance to reprensent the data of whole world.
         <name>{{ names[id] }}</name>
         <data>{{ stats[id].total }}</data>
         <hover>Total number: {{ stats[id].total | thousandsep }} </hover>
+       	<url>http://monitor.creativecommons.org/{{ names[id] }}</url>
+		<target>_new</target>
 </state>
 {% endfor %}
 

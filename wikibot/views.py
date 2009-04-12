@@ -289,11 +289,16 @@ class View(object):
 
         world = ccquery.Stats(query.license_world())
 
+        juris_totals = [x.total for x in stats.values()]
+        juris_totals.sort()
+        interval=int(len(juris_totals)/5)
+        breakpoints = [juris_totals[interval*(i+1)] for i in range(5)]
         page = self.render(XML_WORLDMAP_FREEDOM, XML_WORLDMAP_FREEDOM,
                             jurisdictions = stats.keys(),
                             stats = stats,
                             names = names,
                             world = world,
+                            breakpoints = breakpoints,
                             )
         yield page
         
@@ -302,6 +307,7 @@ class View(object):
                             stats = stats,
                             names = names,
                             world = world,
+                            breakpoints = breakpoints,
                             )
         yield page
 
@@ -334,5 +340,5 @@ def test():
     return
 
 if __name__=='__main__':
-    #test_map()
+    test_map()
     test()
