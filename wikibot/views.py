@@ -293,6 +293,7 @@ class View(object):
         juris_totals.sort()
         interval=int(len(juris_totals)/5)
         breakpoints = [juris_totals[interval*(i+1)] for i in range(5)]
+
         page = self.render(XML_WORLDMAP_FREEDOM, XML_WORLDMAP_FREEDOM,
                             jurisdictions = stats.keys(),
                             stats = stats,

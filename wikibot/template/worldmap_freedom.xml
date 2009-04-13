@@ -14,7 +14,7 @@ stats[id]: Statstical data of country 'id' represented by class Stats, which has
 
 <!-- Adding info flash file to jurisdictions with data -->
 <state id="state_info_icon">
-		<src>./info.swf</src>
+		<src>http://monitor.creativecommons.org/images/b/b8/Info.swf</src>
 </state>
 
 
@@ -59,6 +59,8 @@ stats[id]: Statstical data of country 'id' represented by class Stats, which has
         <name>{{ names[id] }}</name>
         <data>{{ stats[id].freedom_score }}</data>
         <hover>Freedom score: {{ stats[id].freedom_score | round(2) }} </hover>
+       	<url>http://monitor.creativecommons.org/{{ names[id] }}</url>
+		<target>_new</target>
 </state>
 {% endfor %}
 
