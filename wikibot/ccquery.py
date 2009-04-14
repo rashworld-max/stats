@@ -5,26 +5,40 @@ Caculate and query CC license data.
 import collections
 import sqlite3
 
-REGION_FILE = 'continents.txt'
+SCHEME_SQL = """
+        create table linkback(
+            id text,
+            url text,
+            searchengine text,
+            count integer,
+            query_time text,
+            juris_code text,
+            license text,
+            version text,
+            juris text
+        );
 
-# XXX by Giorgos' request we have changed 
-# "Middle East" to "Middle East and North Africa" and "Africa" to "Sub-Saharan Africa",
-# but wait, how about the corresponding countries?
-REGION_DICT = dict(
-                AF = u'Sub-Saharan Africa',
-                AS = u'Asia',
-                ME = u'Middle East and North Africa',
-                EU = u'Europe',
-                NA = u'North America',
-                SA = u'Latin America',
-                OC = u'Oceania',
-                AN = u'Antarctica')
+        create table region(
+            name text,
+            code text
+        );
+
+        create table juris(
+            name text,
+            code text,
+            fips text,
+            region_code text,
+            is_ported integer
+        );
+"""
 
 class CCQuery(object):
     """
     Database interface of CC license data.
 
+    >>> import bootstrap_db
     >>> q = CCQuery(':memory:')
+    >>> bootstrap_db.bootstrap(q)
     >>> q.add_linkbacks((
     ...        ('2316360','http://creativecommons.org/licenses/by/1.0/','Google',
     ...         '4690','2009-03-24 00:05:23','','by','1.0','Unported'),
@@ -61,7 +75,7 @@ class CCQuery(object):
     def __init__(self, dbfile=':memory:'):
         self.conn = sqlite3.connect(dbfile)
         if not self._inited():
-            self.init_db()
+            self.init_scheme()
         return
 
     def __del__(self):
@@ -83,41 +97,18 @@ class CCQuery(object):
     # Number of fields in linkback table, should update this once the table updated.
     NUM_FIELDS = 9
 
-    def init_db(self):
-        c = self.conn.cursor()
-        c.executescript("""
-            create table linkback(
-                id text,
-                url text,
-                searchengine text,
-                count integer,
-                query_time text,
-                juris_code text,
-                license text,
-                version text,
-                juris text
-            );
-            create table region(
-                code text,
-                juris_code text
-            );
-        """)
-        self._load_region()
-        self.conn.commit()
-        
+    def init_scheme(self):
+        self.conn.executescript(SCHEME_SQL)
+        self.conn.commit()        
         return
 
-    def _load_region(self, fn = REGION_FILE):
-        c = self.conn.cursor()
-        for line in open(fn):
-            line = line.split('#')[0] # strip comment
-            try:
-                region, country_code = line.split()
-            except ValueError:
-                continue
-            region = region.lower()
-            country_code = country_code.lower()
-            c.execute("insert into region values(?,?)", (region, country_code))
+    def add_region(self, name, code):
+        self.conn.execute('insert into region values(?,?)', (name, code))
+        return
+
+    def add_juris(self, name, code, fips, region_code, is_ported):
+        self.conn.execute('insert into juris values(?,?,?,?,?)', 
+                (name, code, fips, region_code, is_ported))
         return
 
     def _fix_no_region(self):
@@ -143,7 +134,7 @@ class CCQuery(object):
         dataiter: An iterator of linkback datas as tuple, to be added into the database.
         """
         c = self.conn.cursor()
-        c.executemany('insert into linkback values(%s)' % ( ','.join('?' * self.NUM_FIELDS) ), dataiter)
+        c.executemany('insert into linkback values(?, ?, ?, ?, ?, upper(?), ?, ?, ?)', dataiter)
         self._fix_no_region()
         self.conn.commit()
         return

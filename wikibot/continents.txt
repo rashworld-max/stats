@@ -156,7 +156,7 @@ SA MS
 AF MA 
 AF MZ 
 AS MM 
-AF SA 
+AF NA 
 OC NR 
 AS NP 
 SA AN 

@@ -4,6 +4,7 @@ import httplib
 import itertools
 import mwclient
 
+import config
 import views
 import linkback_reader
 import ccquery
@@ -15,7 +16,7 @@ WIKI_PATH = '/'
 BOT_NAME = 'CCStatsBot'
 BOT_PASS = 'bhyccstatsbot'
 
-DB_FILE = 'ccdata.sqlite'
+DB_FILE = config.DB_FILE
 
 
 class WikiBot(object):
