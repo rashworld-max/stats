@@ -11,6 +11,7 @@ from utils import tries
 
 WIKI_HOST = 'monitor.creativecommons.org'
 WIKI_PATH = '/'
+
 BOT_NAME = 'CCStatsBot'
 BOT_PASS = 'bhyccstatsbot'
 
@@ -33,7 +34,13 @@ class WikiBot(object):
         except httplib.IncompleteRead:
             # The upload is success even we got an IncompleteRead
             pass
+        try:
+            uploaded = site.Images[file_name]
+        except:
+            # This will be failed... don't know why.
+            pass
         uploaded = site.Images[file_name]
+
         return uploaded
 
     def put_page(self, title, content):
@@ -106,12 +113,12 @@ def update_all():
 
 def test():
     bot = WikiBot()
-    bot.put_page('Sandbox', 'HIHIHIHIHI')
+    bot.put_page('Sandbox', 'Testing Sandbox.. by ccbot.py')
 
     TEST_XML = """<?xml version="1.0" encoding="utf-8"?>
-#<test33>
-#</test33>"""
-    uploaded = bot.upload('test88.xml', TEST_XML, 'testing upload.. again.')
+<test123>
+</test123>"""
+    uploaded = bot.upload('test999.xml', TEST_XML, 'testing upload.. again and agina.')
     print "Info of uploaded test file:", uploaded.imageinfo
 
     print "Test OK!"
