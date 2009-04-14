@@ -1,2 +1,4 @@
-﻿{{ stats | botpage }}
+﻿{{ flag | botpage }}
+
+{{ stats | botpage }}
 

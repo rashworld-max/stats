@@ -19,10 +19,13 @@ DB_FILE = 'ccdata.sqlite'
 
 
 class WikiBot(object):
-    def __init__(self):
+    def __init__(self, filter = None):
         site = mwclient.Site(WIKI_HOST, WIKI_PATH)
         site.login(BOT_NAME, BOT_PASS)
         self.site = site
+        if filter is None:
+            filter = lambda x: True
+        self.filter = filter
         return
 
     def upload(self, file_name, content, comment=''):
@@ -54,26 +57,42 @@ class WikiBot(object):
 
     def update_pages(self, pages):
         for page in pages:
+            if not page.text:
+                # Do nothing if the page content is empty
+                continue
+            if not self.filter(page):
+                continue
             print "Updating page: ", page.title, "...",
             sys.stdout.flush()
             self.put_page(page.title, page.text)
             print "Done."
         return
 
+    def upload_files(self, files, seturl_callback):
+        for file in files:
+            if self.filter(file):
+                print "Uploading file: ", file.title, "...",
+                sys.stdout.flush()
+                uploaded = self.upload(file.title, file.text)
+                print "Done. URL: ", url
+            else:
+                uploaded = self.site.Images[file.title]
+            url = uploaded.imageinfo[u'url']
+            seturl_callback(file.title, url)
+        return
+
+
 
 def update_wiki(query=None):
     if query is None:
         query = ccquery.CCQuery(DB_FILE)
-    bot = WikiBot()
+    
+    filter = lambda x: '.xml' not in x.title
+    bot = WikiBot(filter=filter)
+
     view = views.View(query)
     filegen = view.all_files()
-    for file in filegen:
-        print "Uploading file: ", file.title, "...",
-        sys.stdout.flush()
-        uploaded = bot.upload(file.title, file.text)
-        url = uploaded.imageinfo[u'url']
-        print "Done. URL: ", url
-        view.set_uploaded_url(file.title, url)
+    bot.upload_files(filegen, view.set_uploaded_url)
 
     pagegen = view.all_pages()
     bot.update_pages(pagegen)

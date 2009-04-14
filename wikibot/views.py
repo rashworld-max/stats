@@ -14,6 +14,7 @@ STATS_TEMPLATE = 'stats.wiki'
 LINKLIST_TEMPLATE = 'simplelinklist.wiki'
 XML_WORLDMAP_FREEDOM = 'worldmap_freedom.xml'
 XML_WORLDMAP_TOTAL = 'worldmap_total.xml'
+TEMPLATE_FLAG = 'flag.wiki'
 
 TEMPLATE_USER_WORLD = 'user_world.wiki'
 TEMPLATE_USER_REGION = 'user_region.wiki'
@@ -25,6 +26,7 @@ TITLE_LIST_REGIONS = 'List of Regions'
 
 BOTPAGE_PREFIX = 'Robot/'
 BOTPAGE_STATS = 'Statistics'
+BOTPAGE_FLAG = 'Flag'
 BOTPAGE_MAP_FREEDOM = 'Freedom Score Map'
 BOTPAGE_MAP_TOTAL = 'Total Number Map'
 BOTPAGE_LIST_JURIS = 'List of Jurisdictions'
@@ -163,6 +165,7 @@ class View(object):
         all = itertools.chain(
                 self.stats_world(),
                 self.stats_juris(),
+                self.flags(),
                 self.stats_region(),
                 self.list_juris(),
                 self.list_regions(),
@@ -212,7 +215,9 @@ class View(object):
         for code in query.all_juris():
             name = query.juris_code2name(code)
             page = self._user(name, TEMPLATE_USER_JURIS,
-                                stats = BOTPAGE_STATS)
+                                stats = BOTPAGE_STATS,
+                                flag = BOTPAGE_FLAG)
+
             yield page
         return
 
@@ -235,6 +240,14 @@ class View(object):
             juris_name = query.juris_code2name(code)
             data = query.license_by_juris(code)
             yield self._stats(juris_name, data)
+        return
+
+    def flags(self):
+        query = self.query
+        for code in query.all_juris():
+            juris_name = query.juris_code2name(code)
+            yield self.render(self._botns(juris_name, BOTPAGE_FLAG),
+                            TEMPLATE_FLAG, code = code)
         return
 
     def stats_region(self):
@@ -341,5 +354,5 @@ def test():
     return
 
 if __name__=='__main__':
-    test_map()
+    #test_map()
     test()
