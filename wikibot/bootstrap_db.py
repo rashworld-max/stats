@@ -36,9 +36,10 @@ def bootstrap(q=None):
 
     # Fill the region table
     for code, name in REGION_DICT.items():
-        q.add_region(code, name)
+        q.add_region(name, code)
     
     juris = {}
+    juris[''] = Juris()
     # Load juris - region map
     for line in open(REGION_FILE):
         line = line.split('#')[0] # strip comment
@@ -73,7 +74,7 @@ def bootstrap(q=None):
         if count==0:
             continue
         code = data[5]
-        if not code or code=='deed-music':
+        if code=='deed-music':
             continue
         name = data[8]
         code = code.upper()

@@ -75,7 +75,7 @@ class WikiBot(object):
                 print "Uploading file: ", file.title, "...",
                 sys.stdout.flush()
                 uploaded = self.upload(file.title, file.text)
-                print "Done. URL: ", url
+                print "Done."
             else:
                 uploaded = self.site.Images[file.title]
             url = uploaded.imageinfo[u'url']
@@ -88,7 +88,8 @@ def update_wiki(query=None):
     if query is None:
         query = ccquery.CCQuery(DB_FILE)
     
-    filter = lambda x: '.xml' not in x.title
+    #filter = lambda x: '.xml' not in x.title
+    filter = lambda x: True
     bot = WikiBot(filter=filter)
 
     view = views.View(query)
@@ -97,6 +98,18 @@ def update_wiki(query=None):
 
     pagegen = view.all_pages()
     bot.update_pages(pagegen)
+    
+    def new_userpages():
+        pagegen = view.all_userpages()
+        for page in pagegen:
+            wikipage = bot.get_page(page.title)
+            if not wikipage.exists:
+                yield page
+            else:
+                wikipage.purge()
+        return
+
+    bot.update_pages(new_userpages())
     return
 
 def update_wikiuserpages(query=None):
@@ -105,9 +118,9 @@ def update_wikiuserpages(query=None):
     view = views.View(query)
     bot = WikiBot()
     print "WARNING: This operation is dangerous because it will overwite all existing user content. Please input 'YES I KNOW' to continue."
-    #know = raw_input()
-    #if know != 'YES I KNOW':
-        #return
+    know = raw_input()
+    if know != 'YES I KNOW':
+        return
     pagegen = view.all_userpages()
     bot.update_pages(pagegen)
     return

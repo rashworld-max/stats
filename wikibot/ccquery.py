@@ -5,6 +5,8 @@ Caculate and query CC license data.
 import collections
 import sqlite3
 
+import bootstrap_db
+
 SCHEME_SQL = """
         create table linkback(
             id text,
@@ -36,9 +38,9 @@ class CCQuery(object):
     """
     Database interface of CC license data.
 
-    >>> import bootstrap_db
     >>> q = CCQuery(':memory:')
-    >>> bootstrap_db.bootstrap(q)
+    >>> import bootstrap_db
+    >>> q = bootstrap_db.bootstrap(q)
     >>> q.add_linkbacks((
     ...        ('2316360','http://creativecommons.org/licenses/by/1.0/','Google',
     ...         '4690','2009-03-24 00:05:23','','by','1.0','Unported'),
@@ -60,15 +62,12 @@ class CCQuery(object):
 
     >>> q.region_code2name('as')
     u'Asia'
-    
-    >>> q.all_juris()
-    [u'', u'hk']
 
     >>> q.all_regions()
-    [u'as']
+    [u'AF', u'AS', u'EU', u'ME', u'NA', u'OC', u'SA']
 
     >>> q.del_all_linkbacks()
-    >>> q.all_regions()
+    >>> [x for x in q.license_world()] 
     []
 
     """
@@ -102,40 +101,57 @@ class CCQuery(object):
         self.conn.commit()        
         return
 
+    def bootstrap(self):
+        return bootstrap_db.bootstrap(self)
+
+
     def add_region(self, name, code):
+        code = code.upper()
         self.conn.execute('insert into region values(?,?)', (name, code))
         return
 
     def add_juris(self, name, code, fips, region_code, is_ported):
+        code = code.upper()
         self.conn.execute('insert into juris values(?,?,?,?,?)', 
                 (name, code, fips, region_code, is_ported))
         return
 
-    def _fix_no_region(self):
+    def _check_juris(self):
+        """
+        Check for nonexistent juris and new juris.
+        """
+        # Remove linkback data which has no entry in juris table
         c = self.conn.cursor()
         c.execute("""
             select distinct juris_code, juris from linkback 
                 where juris_code <> '' and juris_code not in 
-                    (select juris_code from region)""")
+                    (select code from juris)""")
         r = list(c)
         if r:
             import sys
-            print >>sys.stderr, "Warning: the following jurisdictions have no corresponding region and will be deleted:"
+            print >>sys.stderr, "Warning: We have no information about the following " \
+                    "jurisdictions in our database, thus its' linkback data will be ignored:"
             for j in r:
                 print >>sys.stderr, j
             c.execute("""
                 delete from linkback
                     where juris_code <> '' and juris_code not in 
-                        (select juris_code from region)""")
+                        (select code from juris)""")
+
+        # Set is_ported for new coming juris
+        self.conn.execute("""
+            update juris set is_ported=1
+                where is_ported=0 and code in (select juris_code from linkback)""")
         return
 
     def add_linkbacks(self, dataiter):
         """
         dataiter: An iterator of linkback datas as tuple, to be added into the database.
         """
+        dataiter = ( x for x in dataiter if int(x[3])>0 ) # filter out entries with count=0
         c = self.conn.cursor()
         c.executemany('insert into linkback values(?, ?, ?, ?, ?, upper(?), ?, ?, ?)', dataiter)
-        self._fix_no_region()
+        self._check_juris()
         self.conn.commit()
         return
 
@@ -150,37 +166,58 @@ class CCQuery(object):
         return
 
     def del_juris(self, code):
+        code = code.upper()
         self._del_linkbacks('where juris_code=?', (code,))
         return
 
+
+    def _juris_code2x(self, x, code):
+        """
+        Get something from code.
+        """
+        code = code.upper()
+        c = self.conn.cursor()
+        c.execute('select %s from juris where code=?'%x, (code,))
+        result = c.fetchone()[0]
+        return result
     
     def juris_code2name(self, code):
         """
         Get juris name from code.
         """
+        return self._juris_code2x('name', code)
+   
+    def juris_code2fips(self, code):
+        """
+        Get juris name from code.
+        """
+        return self._juris_code2x('fips', code)
+
+    def region_code2name(self, code):
+        """
+        Get region name from code.
+        """
+        code = code.upper()
         c = self.conn.cursor()
-        c.execute('select distinct juris from linkback where juris_code=?', (code,))
+        c.execute('select name from region where code=?',(code,))
         result = c.fetchone()[0]
         return result
-    
-    def region_code2name(self, code):
-        return REGION_DICT[code.upper()]
 
     def all_regions(self):
         """
         All regions.
         """
         c = self.conn.cursor()
-        c.execute('select distinct code from (region natural join linkback)')
+        c.execute('select distinct region_code from juris where code<>"" and is_ported<>0')
         result = [t[0] for t in c]
         return result
 
     def all_juris(self):
         """
-        All juris avaiable in the linkback table.
+        All juris avaiable with ported license.
         """
         c = self.conn.cursor()
-        c.execute('select distinct juris_code from linkback')
+        c.execute('select distinct code from juris where is_ported<>0')
         result = [t[0] for t in c]
         return result
 
@@ -188,9 +225,10 @@ class CCQuery(object):
         """
         All juris avaiable in a region specified by code.
         """
+        code = code.upper()
         c = self.conn.cursor()
-        c.execute("""select distinct juris_code from (region natural join linkback)
-                             where code=?""", (code,))
+        c.execute("""select distinct code from juris where is_ported<>0 and
+                             region_code=?""", (code,))
         result = [t[0] for t in c]
         return result
 
@@ -213,13 +251,15 @@ class CCQuery(object):
         """
         Count of each license in a specific juris.
         """
+        juris_code = juris_code.upper()
         return self._license_query('where juris_code=?', (juris_code,))
 
     def license_by_region(self, region_code):
         """
         Count of each license in a specific region.
         """
-        return self._license_query('where juris_code in (select juris_code from region where code=?)', (region_code,))
+        region_code = region_code.upper()
+        return self._license_query('where juris_code in (select code from juris where region_code=?)', (region_code,))
 
 class Stats(object):
     """
@@ -230,6 +270,8 @@ class Stats(object):
     3. freedom score
 
     >>> q = CCQuery(':memory:')
+    >>> import bootstrap_db
+    >>> q = bootstrap_db.bootstrap(q)
     >>> q.add_linkbacks((
     ...        ('2316360','http://creativecommons.org/licenses/by/1.0/','Google',
     ...         '30','2009-03-24 00:05:23','','by','1.0','Unported'),
@@ -269,7 +311,10 @@ class Stats(object):
             if license in self.VALID_LICENSES:
                 licenses[license] += count
                 total += count
-
+        
+        if total==0:
+            raise ValueError("Linkback data is empty.")
+        
         self.total = total
         self.licenses = licenses
     
@@ -284,8 +329,5 @@ class Stats(object):
         return self.licenses[license]
 
     def percent(self, license):
-        if self.total:
-            return float(self.count(license)) / self.total
-        else:
-            return float('nan')
+        return float(self.count(license)) / self.total
 

@@ -32,10 +32,6 @@ BOTPAGE_MAP_TOTAL = 'Total Number Map'
 BOTPAGE_LIST_JURIS = 'List of Jurisdictions'
 BOTPAGE_LIST_REGIONS = 'List of Regions'
 
-
-COUNTRY_CODE_DATA = 'country_codes_Jan09.txt'
-
-
 class Page(object):
     def __init__(self, title, text):
         self.title = title
@@ -75,30 +71,6 @@ class PageRender(object):
         page = Page(title, text)
         return page
 
-class ToFips(object):
-    """
-    Helper to convert ISO 3166 country code to FIPS country code.
-    
-    >>> to_fips = ToFips()
-    >>> to_fips('cn')
-    'CH'
-    """
-    def __init__(self):
-        codedict = {}
-        for line in open(COUNTRY_CODE_DATA):
-            items = line.split('\t')
-            fips = items[1][1:-1].strip()
-            iso = items[2][1:-1].strip()
-            if not fips or not iso:
-                continue
-
-            codedict[iso] = fips
-        self.codedict = codedict
-        return
-
-    def __call__(self, iso):
-        return self.codedict[iso.upper()]
-
 class View(object):
     """
     The methods in the View class are generators yielding pages.
@@ -112,13 +84,13 @@ class View(object):
     def __init__(self, query):
         self.query = query
         self.render = PageRender()
-        self.to_fips = ToFips()
         self._uploaded_url = {}
         return
     
     @classmethod
     def from_data(cls, data):
         query = ccquery.CCQuery()
+        query.bootstrap()
         query.add_linkbacks(data)
         view = cls(query)
         return view
@@ -239,7 +211,11 @@ class View(object):
         for code in query.all_juris():
             juris_name = query.juris_code2name(code)
             data = query.license_by_juris(code)
-            yield self._stats(juris_name, data)
+            try:
+                yield self._stats(juris_name, data)
+            except ValueError:
+                # Linkback data is empty
+                pass
         return
 
     def flags(self):
@@ -286,12 +262,13 @@ class View(object):
         stats = {}
         names = {}
         for code in query.all_juris():
-            try:
-                fips_code = self.to_fips(code)
-            except KeyError:
-                continue
+            fips_code = query.juris_code2fips(code)
             data = query.license_by_juris(code)
-            stats[fips_code] = ccquery.Stats(data)
+            try:
+                stats[fips_code] = ccquery.Stats(data)
+            except ValueError:
+                # Linkback data is empty
+                continue
             names[fips_code] = query.juris_code2name(code)
 
         #fix for United Kingdom
@@ -304,7 +281,7 @@ class View(object):
 
         juris_totals = [x.total for x in stats.values()]
         juris_totals.sort()
-        interval=int(len(juris_totals)/5)
+        interval=int((len(juris_totals)-1)/5)
         breakpoints = [juris_totals[interval*(i+1)] for i in range(5)]
 
         page = self.render(XML_WORLDMAP_FREEDOM, XML_WORLDMAP_FREEDOM,
@@ -326,6 +303,7 @@ class View(object):
         yield page
 
         return
+
 
 def test_map():
     MAPDIR = 'worldmap/'
