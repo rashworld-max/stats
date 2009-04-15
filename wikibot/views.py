@@ -184,7 +184,7 @@ class View(object):
 
     def user_juris(self):
         query = self.query
-        for code in query.all_juris():
+        for code in query.all_juris() + [u'GB']:
             name = query.juris_code2name(code)
             page = self._user(name, TEMPLATE_USER_JURIS,
                                 stats = BOTPAGE_STATS,
@@ -206,6 +206,12 @@ class View(object):
                 'map.wiki', map_url = self._uploaded_url[XML_WORLDMAP_TOTAL])
         return
 
+    def _gb_data(self):
+        query = self.query
+        data = itertools.chain(query.license_by_juris('scotland'),
+                                 query.license_by_juris('uk'))
+        return data
+
     def stats_juris(self):
         query = self.query
         for code in query.all_juris():
@@ -216,11 +222,13 @@ class View(object):
             except ValueError:
                 # Linkback data is empty
                 pass
+        # Fix for UK
+        yield self._stats(query.juris_code2name('GB'), self._gb_data())
         return
 
     def flags(self):
         query = self.query
-        for code in query.all_juris():
+        for code in query.all_juris() + [u'GB']:
             juris_name = query.juris_code2name(code)
             yield self.render(self._botns(juris_name, BOTPAGE_FLAG),
                             TEMPLATE_FLAG, code = code)
@@ -240,7 +248,14 @@ class View(object):
     
     def list_juris(self):
         query = self.query
-        links = [query.juris_code2name(code) for code in query.all_juris()]
+        juris = query.all_juris()
+
+        # fix for UK
+        juris.remove(u'SCOTLAND')
+        juris.remove(u'UK')
+        juris.append(u'GB')
+
+        links = [query.juris_code2name(code) for code in juris]
         page = self.render(self._botns(BOTPAGE_LIST_JURIS),
                                 LINKLIST_TEMPLATE, links=links)
         yield page
@@ -272,10 +287,9 @@ class View(object):
             names[fips_code] = query.juris_code2name(code)
 
         #fix for United Kingdom
-        ukdata = itertools.chain(query.license_by_juris('scotland'),
-                                 query.license_by_juris('uk'))
+        ukdata = self._gb_data()
         stats['UK'] = ccquery.Stats(ukdata)
-        names['UK'] = 'United Kingdom'
+        names['UK'] = query.juris_code2name('GB')
 
         world = ccquery.Stats(query.license_world())
 

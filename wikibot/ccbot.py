@@ -89,6 +89,7 @@ def update_wiki(query=None):
         query = ccquery.CCQuery(DB_FILE)
     
     #filter = lambda x: '.xml' not in x.title
+    #filter = lambda x: '.xml' in x.title
     filter = lambda x: True
     bot = WikiBot(filter=filter)
 
