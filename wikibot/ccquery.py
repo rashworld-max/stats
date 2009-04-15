@@ -4,6 +4,7 @@ Caculate and query CC license data.
 """
 import collections
 import sqlite3
+import csv
 
 import bootstrap_db
 
@@ -93,9 +94,6 @@ class CCQuery(object):
         else:
             return False
 
-    # Number of fields in linkback table, should update this once the table updated.
-    NUM_FIELDS = 9
-
     def init_scheme(self):
         self.conn.executescript(SCHEME_SQL)
         self.conn.commit()        
@@ -104,6 +102,29 @@ class CCQuery(object):
     def bootstrap(self):
         return bootstrap_db.bootstrap(self)
 
+    def export_table(self, table, file):
+        c = self.conn.cursor()
+        c.execute('select * from %s'%table)
+        csvfile = csv.writer(file)
+        csvfile.writerows(c)
+        return
+
+    def import_table(self, table, file):
+        self.clear_table(table)
+        csvfile = csv.reader(file)
+        rowlen = self.len_table(table)
+        self.conn.executemany('insert into %s values(%s)'%(table, ','.join('?'*rowlen)), csvfile)
+        return
+
+    def len_table(self, table):
+        c = self.conn.cursor()
+        c.execute('pragma table_info(%s)'%(table))
+        rowlen = len(c.fetchall())
+        return rowlen
+
+    def clear_table(self, table):
+        self.conn.execute('delete from %s'%table)
+        return
 
     def add_region(self, name, code):
         code = code.upper()

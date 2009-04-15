@@ -144,6 +144,25 @@ def update_all():
     update_wiki(query)
     return
 
+def _get_table_file(name):
+    if name[-4:].lower()=='.csv':
+        name = name[:-4]
+    return name, name+'.csv'
+
+def export_db(table, file=None):
+    if file is None:
+        table, file = _get_table_file(table)
+    q = ccquery.CCQuery(DB_FILE)
+    q.export_table(table, open(file,'w'))
+    return
+
+def import_db(table, file=None):
+    if file is None:
+        table, file = _get_table_file(table)
+    q = ccquery.CCQuery(DB_FILE)
+    q.import_table(table, open(file))
+    return
+
 def test():
     bot = WikiBot()
     bot.put_page('Sandbox', 'Testing Sandbox.. by ccbot.py')
@@ -178,6 +197,10 @@ def usage():
         wikiuserpages: initialize all the user content pages. Warning: This will clean
             all the existing user contents.
         
+        import <table> [filename]: import DB table from CSV file.
+
+        export <table> [filename]: export DB table from CSV file.
+        
         test: test the connection to wiki site.
     """
 
@@ -185,11 +208,15 @@ def main(*args):
     if len(args)==0:
         update_all()
     elif args[0]=='db':
-        update_db()
+        update_db(*args[1:])
     elif args[0]=='wiki':
         update_wiki()
     elif args[0]=='wikiuserpages':
         update_wikiuserpages()
+    elif args[0]=='import':
+        import_db(*args[1:])
+    elif args[0]=='export':
+        export_db(*args[1:])
     elif args[0]=='test':
         test()
     else:
