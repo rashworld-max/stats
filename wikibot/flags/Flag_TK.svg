@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="1200"
+   height="600"
+   viewBox="-15 -7.5 30 15"
+   id="Flag_of_New_Zealand">
+  <defs
+     id="defs3">
+    <clipPath
+       id="border">
+      <rect
+         width="30"
+         height="15"
+         x="-15"
+         y="-7.5"
+         id="rect6" />
+    </clipPath>
+  </defs>
+  <rect
+     width="30"
+     height="15"
+     x="-15"
+     y="-7.5"
+     style="fill:#020266;fill-opacity:1"
+     id="rect8" />
+  <comment
+     id="comment10">The above line is the ensign field color: #CF142B red and #00247D blue</comment>
+  <g
+     transform="matrix(0.7082335,0,0,0.7082335,-15.952202,-2.4349284)"
+     id="g3240">
+    <path
+       d="M 6.3655002,-4.8686952 L 7.2322578,-4.8686952 L 7.5000002,-5.6930056 L 7.7677418,-4.8686952 L 8.6345002,-4.8686952 L 7.9333794,-4.359316 L 8.201121,-3.5350056 L 7.5000002,-4.0443856 L 6.7988794,-3.5350056 L 7.066621,-4.359316 L 6.3655002,-4.8686952 z "
+       style="fill:#ffffff"
+       id="path11001" />
+    <path
+       d="M 2.8995002,-1.3816942 L 3.7662578,-1.3816942 L 4.0340002,-2.2060046 L 4.3017418,-1.3816942 L 5.1685002,-1.3816942 L 4.4673794,-0.872315 L 4.735121,-0.0480046 L 4.0340002,-0.5573846 L 3.3328794,-0.0480046 L 3.600621,-0.872315 L 2.8995002,-1.3816942 z "
+       style="fill:#ffffff"
+       id="path2185" />
+    <path
+       d="M 9.4619979,-2.246605 L 10.233255,-2.246605 L 10.471498,-2.9800047 L 10.709739,-2.246605 L 11.480997,-2.246605 L 10.857127,-1.7934037 L 11.095368,-1.060004 L 10.471498,-1.513206 L 9.8476269,-1.060004 L 10.085868,-1.7934037 L 9.4619979,-2.246605 z "
+       style="fill:#ffffff"
+       id="path2191" />
+    <path
+       d="M 6.2410005,4.0917423 L 7.2032583,4.0917423 L 7.5005009,3.1749929 L 7.7977425,4.0917423 L 8.7600012,4.0917423 L 7.9816302,4.6582438 L 8.2788719,5.5749932 L 7.5005009,5.0084908 L 6.7221299,5.5749932 L 7.0193715,4.6582438 L 6.2410005,4.0917423 z "
+       style="fill:#ffffff"
+       id="path2197" />
+  </g>
+  <path
+     d="M -15,7.5 C -5.3700461,2.6967347 -1.3386154,-3.2543654 9.0277772,-7.5 L 9.0277772,-7.5 C 6.213984,-3.93968 6.7949867,4.1169188 15,7.4525317 L -15,7.5 z "
+     style="fill:#ffcc01;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     id="path3248" />
+  <rect
+     width="30"
+     height="0.75"
+     x="-15"
+     y="6"
+     style="opacity:1;fill:#020266;fill-opacity:1;stroke:none;stroke-opacity:1"
+     id="rect5209" />
+</svg>
