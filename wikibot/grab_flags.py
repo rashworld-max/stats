@@ -22,9 +22,10 @@ def country_pages():
 
     # Find patterns like: 
     # | id="RO" | <tt>RO</tt> || [[Romania]] || 1974 ||
-    rows = re.finditer(r'\| <tt>(\w*)</tt> \|\| \[\[(\w*)\]\] \|\|', text)
+    rows = re.finditer(r'\| <tt>(\w*)</tt> \|\| \[\[(.*)\]\] \|\|', text)
     for row in rows:
-        code, page = row.groups()
+        code, page = row.group(1,2)
+        page = page.split('|')[0]
         yield (code, page)
     yield ('UK', 'United Kingdom')
     yield ('SCOTLAND', 'Scotland')
@@ -56,6 +57,7 @@ def grab():
     return
 
 if __name__=='__main__':
+    #country_pages()
     grab()
 
 
