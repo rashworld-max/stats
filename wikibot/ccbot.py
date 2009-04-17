@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import sys
+import os
 import httplib
 import itertools
 import mwclient
@@ -10,7 +11,7 @@ import linkback_reader
 import ccquery
 from utils import tries 
 
-WIKI_HOST = 'monitor.creativecommons.org'
+WIKI_HOST = 'monitor.creativecommons.org:8080'
 WIKI_PATH = '/'
 
 BOT_NAME = 'CCStatsBot'
@@ -30,11 +31,15 @@ class WikiBot(object):
         return
 
     def upload(self, file_name, content, comment=''):
+        
+        print "Uploading file: ", file_name, "...",
+        sys.stdout.flush()
+
         if isinstance(content, unicode):
             content = content.encode('utf8')
         site = self.site
         try:
-            site.upload(content, file_name, comment, ignore=True)
+            tries( 3, lambda: site.upload(content, file_name, comment, ignore=True) )
         except httplib.IncompleteRead:
             # The upload is success even we got an IncompleteRead
             pass
@@ -44,6 +49,8 @@ class WikiBot(object):
             # This will be failed... don't know why.
             pass
         uploaded = site.Images[file_name]
+
+        print 'Done.'
 
         return uploaded
 
@@ -72,10 +79,7 @@ class WikiBot(object):
     def upload_files(self, files, seturl_callback):
         for file in files:
             if self.filter(file):
-                print "Uploading file: ", file.title, "...",
-                sys.stdout.flush()
                 uploaded = self.upload(file.title, file.text)
-                print "Done."
             else:
                 uploaded = self.site.Images[file.title]
             url = uploaded.imageinfo[u'url']
@@ -150,6 +154,15 @@ def _get_table_file(name):
         name = name[:-4]
     return name, name+'.csv'
 
+def upload(*files):
+    bot = WikiBot()
+    for file in files:
+        content = open(file, 'rb').read()
+        upload_name = os.path.basename(file)
+
+        bot.upload(upload_name, content)
+    return
+
 def export_db(table, file=None):
     if file is None:
         table, file = _get_table_file(table)
@@ -195,6 +208,8 @@ def usage():
             robot produced contents will be updated. User produced contents will be
             untouched.
 
+        upload: upload files to wiki.
+
         wikiuserpages: initialize all the user content pages. Warning: This will clean
             all the existing user contents.
         
@@ -212,6 +227,8 @@ def main(*args):
         update_db(*args[1:])
     elif args[0]=='wiki':
         update_wiki()
+    elif args[0]=='upload':
+        upload(*args[1:])
     elif args[0]=='wikiuserpages':
         update_wikiuserpages()
     elif args[0]=='import':
