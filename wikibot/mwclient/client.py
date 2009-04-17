@@ -380,7 +380,9 @@ class Site(object):
         # Indeed, this will waste memory when uploading big files, 
         # but however we don't need to load very big file.
         content_list = [x for x in iterator()]
-        content_length = sum([len(x) for x in content_list])
+        # XXX We need to do '- 3' here to make it work properly with monitor.(cc).org site,
+        # don't know why. Otherwise it may hang on some uploading...
+        content_length = sum([len(x) for x in content_list]) - 3
 
         wait_token = self.wait_token()
         while True:        
