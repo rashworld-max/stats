@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import os
+import traceback
 import httplib
 import itertools
 import mwclient
@@ -11,7 +12,7 @@ import linkback_reader
 import ccquery
 from utils import tries 
 
-WIKI_HOST = 'monitor.creativecommons.org:8080'
+WIKI_HOST = 'monitor.creativecommons.org'
 WIKI_PATH = '/'
 
 BOT_NAME = 'CCStatsBot'
@@ -23,11 +24,15 @@ DB_FILE = config.DB_FILE
 class WikiBot(object):
     def __init__(self, filter = None):
         site = mwclient.Site(WIKI_HOST, WIKI_PATH)
-        site.login(BOT_NAME, BOT_PASS)
         self.site = site
+        self.login()
         if filter is None:
             filter = lambda x: True
         self.filter = filter
+        return
+
+    def login(self):
+        self.site.login(BOT_NAME, BOT_PASS)
         return
 
     def upload(self, file_name, content, comment=''):
@@ -72,8 +77,18 @@ class WikiBot(object):
                 continue
             print "Updating page: ", page.title, "...",
             sys.stdout.flush()
-            self.put_page(page.title, page.text)
-            print "Done."
+            try:
+                self.put_page(page.title, page.text)
+                print "Done."
+            #except mwclient.MwClientError:
+            except:
+                print "Error when updating page:"
+                print '-'*60
+                traceback.print_exc()
+                print '-'*60
+                # reset connection pool and continue to next task
+                del self.site.connection[:]
+                self.login()
         return
 
     def upload_files(self, files, seturl_callback):
@@ -88,14 +103,29 @@ class WikiBot(object):
 
 
 
-def update_wiki(query=None):
+def update_wiki(args = (), query=None):
     if query is None:
         query = ccquery.CCQuery(DB_FILE)
+
+    # setup filter
+    if args:
+        if args[0]=='-x':
+            exclude = True
+            args = args[1:]
+        else:
+            exclude = False
+        args = [a.lower() for a in args]
+        def _filter(x):
+            title = x.title.lower()
+            for a in args:
+                if a in title:
+                    # return True if '-x' not set, otherwise False
+                    return not exclude
+            return exclude
+    else:
+        _filter = lambda x: True
     
-    #filter = lambda x: '.xml' not in x.title
-    #filter = lambda x: '.xml' in x.title
-    filter = lambda x: True
-    bot = WikiBot(filter=filter)
+    bot = WikiBot(filter=_filter)
 
     view = views.View(query)
     filegen = view.all_files()
@@ -146,7 +176,7 @@ def update_db(filter_filename=None):
 
 def update_all():
     query = update_db()
-    update_wiki(query)
+    update_wiki(query = query)
     return
 
 def _get_table_file(name):
@@ -226,7 +256,7 @@ def main(*args):
     elif args[0]=='db':
         update_db(*args[1:])
     elif args[0]=='wiki':
-        update_wiki()
+        update_wiki(args[1:])
     elif args[0]=='upload':
         upload(*args[1:])
     elif args[0]=='wikiuserpages':
