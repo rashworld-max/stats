@@ -1,6 +1,6 @@
 ﻿{% if code %}{# for Unported we just leave the flag empty #}
-{| class="Infobox" style="float: right; border: none;"
+{| class="Infobox" style="float: right; border: 1px solid #CCCCCC;"
 |-
-| http://creativecommons.org/images/international/{{ code | lower }}.png
+| [[File:Flag_{{code | upper}}.svg|border|80px]]
 |}
 {% endif %}
