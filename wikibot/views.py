@@ -88,6 +88,12 @@ class View(object):
         return
     
     @classmethod
+    def from_db(cls, db_file):
+        query = ccquery.CCQuery(db_file)
+        view = cls(query)
+        return view        
+    
+    @classmethod
     def from_data(cls, data):
         query = ccquery.CCQuery()
         query.bootstrap()
@@ -319,19 +325,29 @@ class View(object):
         return
 
 
+TEST_DB = 'test.sqlite'
+
 def test_map():
     MAPDIR = 'worldmap/'
-    data = linkback_reader.read_csv('linkbacks-daily-Yahoo.csv')
-    view = View.from_data(data)
+    view = View.from_db(TEST_DB)
     maps = view.all_files()
     for map in maps:
         fn = MAPDIR + map.title
         open(fn, 'w').write(map.text)
     return   
 
+def test_userpages():
+    view = View.from_db(TEST_DB)
+    userpages = view.all_userpages()
+    for page in userpages:
+        print '==', page.title, '=='
+        text = page.text.replace('==', '===')
+        print text
+        print
+    return
+
 def test():
-    data = linkback_reader.read_csv('linkbacks-daily-Yahoo.csv')
-    view = View.from_data(data)
+    view = View.from_db(TEST_DB)
     maps = view.all_files()
     for map in maps:
         view.set_uploaded_url(map.title, 'http://FOO.BAR.org/'+map.title)
@@ -347,4 +363,5 @@ def test():
 
 if __name__=='__main__':
     #test_map()
+    #test_userpages()
     test()
