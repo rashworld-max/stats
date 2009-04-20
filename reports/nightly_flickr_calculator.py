@@ -39,7 +39,7 @@ def last_flickr_estimate():
         ret[flickr2license[flickr_lic]] = int(flickr_num)
     return ret
 
-def fname(engine):
+def fname(engine, OUTPUT_BASE_PATH=OUTPUT_BASE_PATH):
     '''Returns a filename for data generated for this project and this
     search engine.'''
     date_dir = os.path.join(OUTPUT_BASE_PATH,
@@ -61,7 +61,7 @@ def generate_estimate(engine, flickr_data):
     distribution information and the Flickr data set'''
     # Flickr only refers to CC 2.0 licenses
     # Therefore, use their distribution
-    all = charts.get_all_most_recent(charts.db.simple, engine, debug = True)
+    all = charts.get_all_most_recent(charts.db.simple, engine, debug = False)
     license2num = {}
     all_we_care_about = [ thing for thing in all if thing.license_uri in
 			  flickr2license.values() ]
