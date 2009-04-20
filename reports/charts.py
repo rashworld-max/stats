@@ -3,7 +3,6 @@ _BASEDIR='/home/paulproteus/public_html/tmp/charts/'
 DB = 'mysql://stats:ioP1gae8@localhost/stats'
 
 ## CODE 
-from __future__ import generators # YOW!
 from sets import Set as set
 import pdb
 try:
@@ -17,6 +16,7 @@ from matplotlib.dates import MONDAY, SATURDAY
 import datetime
 from sqlalchemy.ext.sqlsoup import SqlSoup
 import sqlalchemy
+assert sqlalchemy.__version__.startswith('0.3')
 import os
 import matplotlib
 import HTMLgen
