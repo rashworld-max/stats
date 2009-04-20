@@ -28,13 +28,15 @@ flickr2license = {
     '/creativecommons/by-nc-sa-2.0/':
 	'http://creativecommons.org/licenses/by-nc-sa/2.0/'}
 
-def last_flickr_estimate():
+def last_flickr_estimate(as_of = None):
     '''Returns a dictionary mapping URLs to counts of photos, based
     on today's Flickr data on-disk'''
+    if as_of is None:
+        as_of = datetime.date.today()
     ret = {}
     flickr_csv_fd = csv.reader(
         open(os.path.join(FLICKR_DATA_BASE_PATH,
-			  datetime.date.today().isoformat() + '.csv')))
+			  as_of.isoformat() + '.csv')))
     for flickr_lic, flickr_num in flickr_csv_fd:
         ret[flickr2license[flickr_lic]] = int(flickr_num)
     return ret

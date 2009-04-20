@@ -14,11 +14,11 @@ sys.path.append('..')
 import minimum_estimate
 
 # in general,
-def generate_estimates():
+def generate_estimates(date):
     '''Loop over the search engines and run generate_estimate.'''
     flickr_data = nightly_flickr_calculator.last_flickr_estimate()
     for engine in charts.search_engines:
-	generate_estimate(engine, flickr_data)
+	generate_estimate(engine, flickr_data, date)
 
 def cleanup_dup_keys(uri2value):
     '''returns a copy of uri2value that doesn't have "duplicate" keys'''
@@ -53,7 +53,7 @@ def write_data_to_csv_for_engine(engine, uri2value):
     csv_out.writerow( ['TOTAL', sum ])
     fd.close()
 
-def generate_estimate(engine, flickr_data):
+def generate_estimate(engine, flickr_data, date):
     '''Store an estimate of the total number of works, based on the Ankit
     implementation of the Giorgos method - combining search engine license
     distribution information and the Flickr data set'''
@@ -66,5 +66,7 @@ def generate_estimate(engine, flickr_data):
     write_data_to_csv_for_engine(engine, merged_dicts)
 
 if __name__ == '__main__':
-    generate_estimates()
+    import datetime
+    yesterday = datetime.date.today() - datetime.timedelta(days=1)
+    generate_estimates(yesterday)
 
