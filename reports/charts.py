@@ -21,6 +21,7 @@ import os
 import matplotlib
 import HTMLgen
 import sys
+from collections import defaultdict
 # Jurisdictions
 # for search_engine in 'Yahoo', 'Google', 'All The Web':
 # select from simple where search_engine=search_engine
@@ -385,6 +386,22 @@ def property_counts(things):
             # Only bump total if there were really properties
     return ret
 
+def most_common_entry(iterable):
+    '''Input: Iterable of things
+    Output: Most frequent one, breaking ties randomly (!)
+    >>> most_common_entry([1,2,2,3])
+    2
+    >>> most_common_entry([])
+    None
+    '''
+    entry2count = defaultdict(int)
+    for entry in iterable:
+        entry2count[entry] += 1
+    if not entry2count:
+        return None
+    count, winner = max(entry2count.items())
+    return winner
+
 def license_counts(things):
     ''' Input: A subset of everything.
     Output: A hash of e.g. "by-sa" -> count, plus an extra "total" -> total'''
@@ -397,8 +414,35 @@ def license_counts(things):
             ret['total'] = ret.get('total',0) + thing.count
     return ret
 
-def get_all_most_recent(table, engine, debug = False):
-    recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)], table.c.timestamp < _PROCESSING_MAX_DATE).execute().fetchone()[0]
+def get_all_most_recent(table, engine, debug = False, recent_stamp = None):
+    '''Input: a table object, a search engine, and a debug boolean that decides if
+    to print tracing information about this process. If recent_stamp is provided
+    and not None, then we search for a crawl that took place *on that date*,
+    returning the empty list if we don't find one.
+    Output: A list (?) of SQL objects.'''
+    if recent_stamp is None:
+        # if recent_stamp is None, just grab the most recent one:
+        recent_stamp = sqlalchemy.select([sqlalchemy.func.max(table.c.timestamp)], table.c.timestamp < _PROCESSING_MAX_DATE).execute().fetchone()[0]
+    else:
+        # look for a timestamp that share day, month, year with recent_stamp
+        # if there is more than one, break the tie by FIXME
+        start_of_day = datetime.datetime(year=recent_stamp.year,
+                                         month=recent_stamp.month,
+                                         day=recent_stamp.day,
+                                         hour=0, minute=0, second=0)
+        end_of_day = datetime.datetime(year=recent_stamp.year,
+                                       month=recent_stamp.month,
+                                       day=recent_stamp.day,
+                                       hour=23, minute=59, second=59)
+        possible_recent_stamps_q = sqlalchemy.select([table.c.timestamp], sqlalchemy.and_(
+                table.c.timestamp < end_of_day, table.c.timestamp > start_of_day))
+        possible_recent_stamps = list(possible_recent_stamps_q.execute())
+        # If there are none, just bail out.
+        if not possible_recent_stamps:
+            raise StopIteration
+        else:
+            # pick the winner: the one with the most entries...
+            recent_stamp = most_common_entry(possible_recent_stamps)
     if debug:
         print recent_stamp
     recent = sqlalchemy.select(table.c.keys(), sqlalchemy.and_(table.c.timestamp == recent_stamp, table.c.search_engine == engine)).execute()
