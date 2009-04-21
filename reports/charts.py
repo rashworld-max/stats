@@ -389,17 +389,18 @@ def property_counts(things):
 def most_common_entry(iterable):
     '''Input: Iterable of things
     Output: Most frequent one, breaking ties randomly (!)
+
     >>> most_common_entry([1,2,2,3])
     2
     >>> most_common_entry([])
-    None
+    >>>
     '''
     entry2count = defaultdict(int)
     for entry in iterable:
         entry2count[entry] += 1
     if not entry2count:
         return None
-    count, winner = max(entry2count.items())
+    count, winner = max([ (entry2count[item], item) for item in entry2count])
     return winner
 
 def license_counts(things):
