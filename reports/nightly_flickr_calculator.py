@@ -34,9 +34,14 @@ def last_flickr_estimate(as_of = None):
     if as_of is None:
         as_of = datetime.date.today()
     ret = {}
-    flickr_csv_fd = csv.reader(
-        open(os.path.join(FLICKR_DATA_BASE_PATH,
-			  as_of.isoformat() + '.csv')))
+    try:
+        flickr_csv_fd = csv.reader(
+            open(os.path.join(FLICKR_DATA_BASE_PATH,
+                              as_of.isoformat() + '.csv')))
+    except IOError, e:
+        if e.errno == 2: # file not found
+            return None
+        raise # what the heck IO Error was that?
     for flickr_lic, flickr_num in flickr_csv_fd:
         ret[flickr2license[flickr_lic]] = int(flickr_num)
     return ret
