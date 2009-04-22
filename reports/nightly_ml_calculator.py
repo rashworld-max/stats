@@ -89,11 +89,22 @@ def generate_estimate(engine, flickr_data, date):
 
 if __name__ == '__main__':
     import sys
-    if len(sys.argv) == 1:
-        # then operate on yesterday
-        yesterday = datetime.date.today() - datetime.timedelta(days=1)
+    import argparse
+    parser = argparse.ArgumentParser(description='Calculate Flickr+Linkback stats and save them in CSV files')
+    parser.add_argument('--just', nargs=1, help='If you want me to calculate stats for just one date, give it to me.')
+    parser.add_argument('--since', nargs=1, help='If you want me to calculate stats since one date, give it to me.')
+    args = parser.parse_args(sys.argv[1:])
+    assert (bool(args.just) ^ bool(args.since)), "I insist to get just or since argument." # xor    
+    if args.just:
+        as_of = datetime.date(*map(int, args.just[0].split('-')))
+        generate_estimates(as_of)
     else:
-        yesterday = datetime.date(*map(int, sys.argv[1].split('-')))
-    # always generate estimates
-    generate_estimates(yesterday)
+        assert args.since
+        # operate up until yesterday
+        yesterday = datetime.date.today() - datetime.timedelta(days=1)
+        as_of = datetime.date(*map(int, args.since[0].split('-')))
+        while as_of < yesterday:
+            print 'Generating estimate for:', as_of
+            generate_estimates(as_of)
+            as_of += datetime.timedelta(days=1)
 
