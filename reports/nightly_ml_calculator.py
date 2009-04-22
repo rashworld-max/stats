@@ -82,9 +82,10 @@ def generate_estimate(engine, flickr_data, date):
     if flickr_data:
         methods.append('Flickr')
     good_data_sets = [k for k in (data_from_engine, flickr_data) if k is not None]
-    cleaned_data_from_engine = cleanup_dup_keys(data_from_engine)
-    merged_dicts = minimum_estimate.merge_dicts_max_keys(*good_data_sets)
-    write_data_to_csv_for_engine(engine, date, merged_dicts, methods=','.join(methods))
+    if good_data_sets: # only do this work if we actually have any data worth using
+        cleaned_data_from_engine = cleanup_dup_keys(data_from_engine)
+        merged_dicts = minimum_estimate.merge_dicts_max_keys(*good_data_sets)
+        write_data_to_csv_for_engine(engine, date, merged_dicts, methods=','.join(methods))
 
 if __name__ == '__main__':
     import sys
