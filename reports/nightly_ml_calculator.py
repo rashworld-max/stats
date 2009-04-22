@@ -79,6 +79,8 @@ def generate_estimate(engine, flickr_data, date):
     data_from_engine = dict( [ (data['license_uri'], data['count']) for data in all_as_generator ] )
     if data_from_engine:
         methods.append('Linkback')
+    else:
+        return # if the search engine has no data, there is no point
     if flickr_data:
         methods.append('Flickr')
     good_data_sets = [k for k in (data_from_engine, flickr_data) if k] # empty list or None, still useless
