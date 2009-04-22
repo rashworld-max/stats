@@ -40,7 +40,7 @@ def cleanup_dup_keys(uri2value):
         useful_bunch = tuple([uri for uri in bunch if uri in uri2value])
         if bunch != useful_bunch:
             equivalent_uris[i] = useful_bunch
-            print 'turned', bunch, 'into', useful_bunch
+            #print 'turned', bunch, 'into', useful_bunch
 
     for uri_bunch in equivalent_uris:
         if not uri_bunch: 
