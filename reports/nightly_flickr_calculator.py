@@ -54,7 +54,7 @@ def fname(engine, OUTPUT_BASE_PATH=OUTPUT_BASE_PATH, date = None):
     date_dir = os.path.join(OUTPUT_BASE_PATH,
 			    date.isoformat())
     if not os.path.isdir(date_dir):
-	os.mkdir(date_dir)
+	os.makedirs(date_dir, mode=0755)
     return os.path.join(date_dir, engine + '.txt')
 
 # in general,
