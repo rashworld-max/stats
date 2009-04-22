@@ -437,7 +437,7 @@ def get_all_most_recent(table, engine, debug = False, recent_stamp = None):
                                        hour=23, minute=59, second=59)
         possible_recent_stamps_q = sqlalchemy.select([table.c.timestamp], sqlalchemy.and_(
                 table.c.timestamp < end_of_day, table.c.timestamp > start_of_day))
-        possible_recent_stamps = list(possible_recent_stamps_q.execute())
+        possible_recent_stamps = [k[0] for k in possible_recent_stamps_q.execute()]
         # If there are none, just bail out.
         if not possible_recent_stamps:
             raise StopIteration
