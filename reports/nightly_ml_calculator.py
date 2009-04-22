@@ -16,6 +16,7 @@ import minimum_estimate
 # in general,
 def generate_estimates(date):
     '''Loop over the search engines and run generate_estimate.'''
+    # MAJOR FIXME: Grab  Flickr content for date
     flickr_data = nightly_flickr_calculator.last_flickr_estimate()
     for engine in charts.search_engines:
 	generate_estimate(engine, flickr_data, date)
@@ -63,7 +64,7 @@ def write_data_to_csv_for_engine(engine, date, uri2value, methods):
         val = uri2value[uri]
         csv_out.writerow( [iso_date, uri, val, methods] )
         sum += val
-    csv_out.writerow( ['TOTAL', sum ])
+    csv_out.writerow( [iso_date, 'TOTAL', sum, methods ])
     fd.close()
 
 def generate_estimate(engine, flickr_data, date):
@@ -72,12 +73,17 @@ def generate_estimate(engine, flickr_data, date):
     distribution information and the Flickr data set'''
     # Flickr only refers to CC 2.0 licenses
     # Therefore, use their distribution
+    methods = []
     all_as_generator = charts.get_all_most_recent(charts.db.simple, engine, debug = False,
                                                   recent_stamp = date)
     data_from_engine = dict( [ (data['license_uri'], data['count']) for data in all_as_generator ] )
+    if data_from_engine:
+        methods.append('Linkback')
+    if flickr_data:
+        methods.append('Flickr')
     cleaned_data_from_engine = cleanup_dup_keys(data_from_engine)
     merged_dicts = minimum_estimate.merge_dicts_max_keys(cleaned_data_from_engine, flickr_data)
-    write_data_to_csv_for_engine(engine, merged_dicts)
+    write_data_to_csv_for_engine(engine, date, merged_dicts, methods=','.join(methods))
 
 if __name__ == '__main__':
     import sys
