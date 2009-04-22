@@ -17,7 +17,7 @@ import minimum_estimate
 def generate_estimates(date):
     '''Loop over the search engines and run generate_estimate.'''
     # MAJOR FIXME: Grab  Flickr content for date
-    flickr_data = nightly_flickr_calculator.last_flickr_estimate()
+    flickr_data = nightly_flickr_calculator.last_flickr_estimate(date)
     for engine in charts.search_engines:
 	generate_estimate(engine, flickr_data, date)
 
@@ -53,7 +53,7 @@ def cleanup_dup_keys(uri2value):
     return uri2value
 
 def write_data_to_csv_for_engine(engine, date, uri2value, methods):
-    filename = nightly_flickr_calculator.fname(engine, OUTPUT_BASE_PATH)
+    filename = nightly_flickr_calculator.fname(engine, OUTPUT_BASE_PATH, date)
     fd = open(filename, 'w')
     csv_out = csv.writer(fd)
     sum = 0
@@ -81,8 +81,9 @@ def generate_estimate(engine, flickr_data, date):
         methods.append('Linkback')
     if flickr_data:
         methods.append('Flickr')
+    good_data_sets = [k for k in (data_from_engine, flickr_data) if k is not None]
     cleaned_data_from_engine = cleanup_dup_keys(data_from_engine)
-    merged_dicts = minimum_estimate.merge_dicts_max_keys(cleaned_data_from_engine, flickr_data)
+    merged_dicts = minimum_estimate.merge_dicts_max_keys(*good_data_sets)
     write_data_to_csv_for_engine(engine, date, merged_dicts, methods=','.join(methods))
 
 if __name__ == '__main__':
