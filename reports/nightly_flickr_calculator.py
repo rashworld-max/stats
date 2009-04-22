@@ -46,11 +46,13 @@ def last_flickr_estimate(as_of = None):
         ret[flickr2license[flickr_lic]] = int(flickr_num)
     return ret
 
-def fname(engine, OUTPUT_BASE_PATH=OUTPUT_BASE_PATH):
+def fname(engine, OUTPUT_BASE_PATH=OUTPUT_BASE_PATH, date = None):
+    if date is None:
+        date = datetime.date.today()
     '''Returns a filename for data generated for this project and this
     search engine.'''
     date_dir = os.path.join(OUTPUT_BASE_PATH,
-			    datetime.date.today().isoformat())
+			    date.isoformat())
     if not os.path.isdir(date_dir):
 	os.mkdir(date_dir)
     return os.path.join(date_dir, engine + '.txt')
