@@ -90,21 +90,33 @@ def generate_estimate(engine, flickr_data, date):
         write_data_to_csv_for_engine(engine, date, merged_dicts, methods=','.join(methods))
 
 if __name__ == '__main__':
+    # BTW, what was the date yesterday?
+    yesterday = datetime.date.today() - datetime.timedelta(days=1)
+
     import sys
     import argparse
+
     parser = argparse.ArgumentParser(description='Calculate Flickr+Linkback stats and save them in CSV files')
-    parser.add_argument('--just', nargs=1, help='If you want me to calculate stats for just one date, give it to me.')
-    parser.add_argument('--since', nargs=1, help='If you want me to calculate stats since one date, give it to me.')
+    parser.add_argument('--mode', choices=('one', 'all'), help='Calculate (and write) stats for just one date. or all since some date?')
+    parser.add_argument('--date', nargs=1, help='If you want me to calculate stats since or for one date, give it to me.')
     args = parser.parse_args(sys.argv[1:])
-    assert (bool(args.just) ^ bool(args.since)), "I insist to get just or since argument." # xor    
-    if args.just:
-        as_of = datetime.date(*map(int, args.just[0].split('-')))
+
+    # Validation
+    if args.mode =='all':
+        assert args.date
+
+    if args.mode == 'one':
+        if args.date:
+            as_of = datetime.date(*map(int, args.date[0].split('-')))
+        else:
+            as_of = yesterday
+
         generate_estimates(as_of)
     else:
-        assert args.since
+        assert args.mode == 'all'
         # operate up until yesterday
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
-        as_of = datetime.date(*map(int, args.since[0].split('-')))
+        as_of = datetime.date(*map(int, args.date[0].split('-')))
         while as_of < yesterday:
             print 'Generating estimate for:', as_of
             generate_estimates(as_of)
