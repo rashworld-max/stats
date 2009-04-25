@@ -20,7 +20,6 @@ BOT_PASS = 'bhyccstatsbot'
 
 DB_FILE = config.DB_FILE
 
-
 class WikiBot(object):
     def __init__(self, filter = None):
         site = mwclient.Site(WIKI_HOST, WIKI_PATH)
@@ -141,6 +140,7 @@ def update_wiki(args = (), query=None):
             if not wikipage.exists:
                 yield page
             else:
+                print "Purging ", page.title
                 wikipage.purge()
         return
 
