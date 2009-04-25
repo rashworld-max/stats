@@ -206,10 +206,12 @@ class View(object):
 
     def stats_world(self):
         yield self._stats("World", self.query.license_world())
+        
+        date = datetime.date.today().strftime("%Y-%m-%d")
         yield self.render(self._botns('World', BOTPAGE_MAP_FREEDOM),
-                'map.wiki', map_url = self._uploaded_url[XML_WORLDMAP_FREEDOM])
+                'map.wiki', map_url = self._uploaded_url[XML_WORLDMAP_FREEDOM], date=date)
         yield self.render(self._botns('World', BOTPAGE_MAP_TOTAL),
-                'map.wiki', map_url = self._uploaded_url[XML_WORLDMAP_TOTAL])
+                'map.wiki', map_url = self._uploaded_url[XML_WORLDMAP_TOTAL], date=date)
         return
 
     def _gb_data(self):

@@ -1,2 +1,4 @@
 ﻿<flash>file=World.swf|width=720|height=480|flashvars=?data_file={{ map_url }}</flash>
 
+<br/>
+'''Source:''' Yahoo!  {{ '{{pad|3em}}' }}  '''Date:''' {{ date }} {{ '{{pad|3em}}' }}  [[Help]]
