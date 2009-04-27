@@ -27,6 +27,9 @@
 | 100
 |}
 
+<div style="width:520px">
+'''''Note:''' These are estimates compiled from search engine results and therefore indicative only. See the [[help]] page for more information.''
+</div>
 
 {| class="wikitable" style="text-align:center" border="1"
 ! Freedom score 
