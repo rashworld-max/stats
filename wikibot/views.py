@@ -12,6 +12,7 @@ import ccquery
 TEMPLATE_DIR = 'template/'
 STATS_TEMPLATE = 'stats.wiki'
 LINKLIST_TEMPLATE = 'simplelinklist.wiki'
+TEMPLATE_SIDEBARLIST = 'sidebarlist.wiki'
 XML_WORLDMAP_FREEDOM = 'worldmap_freedom.xml'
 XML_WORLDMAP_TOTAL = 'worldmap_total.xml'
 TEMPLATE_FLAG = 'flag.wiki'
@@ -31,6 +32,7 @@ BOTPAGE_MAP_FREEDOM = 'Freedom Score Map'
 BOTPAGE_MAP_TOTAL = 'Total Number Map'
 BOTPAGE_LIST_JURIS = 'List of Jurisdictions'
 BOTPAGE_LIST_REGIONS = 'List of Regions'
+BOTPAGE_SIDEBAR = 'Sidebar'
 
 class Page(object):
     def __init__(self, title, text):
@@ -272,16 +274,24 @@ class View(object):
         juris = self._jurislist_ukfix(juris)
 
         links = [query.juris_code2name(code) for code in juris]
+
         page = self.render(self._botns(BOTPAGE_LIST_JURIS),
                                 LINKLIST_TEMPLATE, links=links)
+        yield page
+        page = self.render(self._botns(BOTPAGE_SIDEBAR, BOTPAGE_LIST_JURIS),
+                                TEMPLATE_SIDEBARLIST, links=links)
         yield page
         return
 
     def list_regions(self):
         query = self.query
         links = [query.region_code2name(code) for code in query.all_regions()]
+        
         page = self.render(self._botns(BOTPAGE_LIST_REGIONS),
                                 LINKLIST_TEMPLATE, links=links)
+        yield page
+        page = self.render(self._botns(BOTPAGE_SIDEBAR, BOTPAGE_LIST_REGIONS),
+                                TEMPLATE_SIDEBARLIST, links=links)
         yield page
         return
 
