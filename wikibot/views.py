@@ -242,13 +242,25 @@ class View(object):
                             TEMPLATE_FLAG, code = code)
         return
 
+    def _jurislist_ukfix(self, juris):
+        """
+        Fix the juris code list for UK.
+        """
+        if u'SCOTLAND' in juris and u'UK' in juris:
+            # fix for UK
+            juris.remove(u'SCOTLAND')
+            juris.remove(u'UK')
+            juris.append(u'GB')
+        return juris
+
     def stats_region(self):
         query = self.query
         for code in query.all_regions():
             name = query.region_code2name(code)
             data = query.license_by_region(code)
             juris_list = [query.juris_code2name(c) for c 
-                            in query.juris_in_region(code)]
+                            in self._jurislist_ukfix(query.juris_in_region(code))]
+
             yield self._stats(name, data)
             yield self.render(self._botns(name, BOTPAGE_LIST_JURIS), 
                                 LINKLIST_TEMPLATE, links = juris_list)
@@ -257,11 +269,7 @@ class View(object):
     def list_juris(self):
         query = self.query
         juris = query.all_juris()
-
-        # fix for UK
-        juris.remove(u'SCOTLAND')
-        juris.remove(u'UK')
-        juris.append(u'GB')
+        juris = self._jurislist_ukfix(juris)
 
         links = [query.juris_code2name(code) for code in juris]
         page = self.render(self._botns(BOTPAGE_LIST_JURIS),
