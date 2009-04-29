@@ -21,3 +21,13 @@ create table complex (
 
 create index simple_timestamp_index on simple (timestamp);
 create index complex_timestamp_index on complex (timestamp);
+
+create table site_specific (
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        license_uri VARCHAR(255)  NOT NULL,
+        site VARCHAR(255) NOT NULL,
+        count INT NOT NULL,
+        utc_time_stamp DATETIME NOT NULL);
+
+create index site_specific_timestamp_index on site_specific (utc_time_stamp);
+
