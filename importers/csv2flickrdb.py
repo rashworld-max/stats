@@ -21,6 +21,8 @@ def main():
     # Strategy: for each date from 2004-04-01 through tomorrow, see if we have a Flickr CSV
     # if so, import it
     # if that worked, rename the file on disk to .csv.bak
+    # For the utc_time_stamp, we either (a) use the mtime of the file, if it is within
+    # one day of the claimed date, or (b) assume that the snapshot took place at noon UTC,
     pass
 
 if __name__ == '__main__':
