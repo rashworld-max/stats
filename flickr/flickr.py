@@ -6,6 +6,7 @@ import sys
 sys.path.append('..')
 import argparse
 import dbconfig
+import datetime
 
 flickr2license = {
     '/creativecommons/by-nd-2.0/':
@@ -22,7 +23,6 @@ flickr2license = {
         'http://creativecommons.org/licenses/by-nc-sa/2.0/'}
 
 def parse(infd):
-    now = datetime.datetime.utcfrom
     soup = BeautifulSoup.BeautifulSoup(infd.read())
     license2count = {}
     for morecc in soup('p', {'class': 'MoreCC'}):
@@ -34,7 +34,7 @@ def parse(infd):
 
     return license2count
 
-def main(infd, unix_time):
+def main(infd, unix_time, dry_run = False):
     # Connect to the DB; if we can't, this will fail anyway.
     db = SqlSoup(dbconfig.dburl)
     # Scrape the results we just wgetted
@@ -42,8 +42,15 @@ def main(infd, unix_time):
     # Prepare any remaining DB columns...
     utc_time_stamp = datetime.datetime.utcfromtimestamp(unix_time)
     site = 'http://www.flickr.com/'
-    db.site_specific.insert(**importable)
-    db.flush()
+    importable = {'utc_time_stamp': utc_time_stamp,
+                  'site': site,
+                  }
+    importable.update(license2count)
+    if dry_run:
+        print importable
+    else:
+        db.site_specific.insert(**importable)
+        db.flush()
 
 if __name__ == '__main__':
     import sys
@@ -56,6 +63,5 @@ if __name__ == '__main__':
 
     # parse ...
     args = parser.parse_args()
-    print args
 
-    #main(sys.stdin, sys.argv[1])
+    main(sys.stdin, args.unix_time, dry_run=bool(args.dry_run))
