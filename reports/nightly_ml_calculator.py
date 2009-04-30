@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 ## CONFIG:
-FLICKR_DATA_BASE_PATH = '/home/paulproteus/stats/flickr/data/'
 OUTPUT_BASE_PATH = '/home/paulproteus/public_html/stats/ml-minimum-estimate/'
 
 ## CODE
@@ -12,12 +11,12 @@ import charts
 import sys
 sys.path.append('..')
 import minimum_estimate
+import flickr.data
 
 # in general,
 def generate_estimates(date):
     '''Loop over the search engines and run generate_estimate.'''
-    # MAJOR FIXME: Grab  Flickr content for date
-    flickr_data = nightly_flickr_calculator.last_flickr_estimate(date)
+    flickr_data = flickr.data.last_flickr_estimate(date)
     for engine in charts.search_engines:
 	generate_estimate(engine, flickr_data, date)
 
