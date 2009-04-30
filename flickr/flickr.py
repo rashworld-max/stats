@@ -26,7 +26,7 @@ def parse(infd):
     soup = BeautifulSoup.BeautifulSoup(infd.read())
     license2count = {}
     for morecc in soup('p', {'class': 'MoreCC'}):
-        number =a morecc('b')[0].string.replace(',', '')
+        number = morecc('b')[0].string.replace(',', '')
         license = morecc('a')[0]['href'] # in Flickr form, not CC form!
         assert 'by' in license # really a CC license, right?
 
@@ -52,7 +52,7 @@ if __name__ == '__main__':
         'the CC stats database.')
     parser.add_argument('--unix-time', type=int,
                         help='The UNIX time that indicates when the page was pulled from Flickr.')
-    parser.add_option('--dry-run', type=bool, help='Pass this if you are just testing and do not want to change the database.')
+    parser.add_argument('--dry-run', type=bool, help='Pass this if you are just testing and do not want to change the database.')
 
     # parse ...
     args = parser.parse_args()
