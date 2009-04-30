@@ -4,6 +4,7 @@ import BeautifulSoup
 from sqlalchemy.ext.sqlsoup import SqlSoup
 import sys
 sys.path.append('..')
+import argparse
 import dbconfig
 
 flickr2license = {
@@ -46,4 +47,15 @@ def main(infd, unix_time):
 
 if __name__ == '__main__':
     import sys
-    main(sys.stdin, sys.argv[1])
+    parser = argparse.ArgumentParser(
+        description='Take a Flickr page as stdin and store its information' +
+        'the CC stats database.')
+    parser.add_argument('--unix-time', type=int,
+                        help='The UNIX time that indicates when the page was pulled from Flickr.')
+    parser.add_option('--dry-run', type=bool, help='Pass this if you are just testing and do not want to change the database.')
+
+    # parse ...
+    args = parser.parse_args()
+    print args
+
+    #main(sys.stdin, sys.argv[1])
