@@ -3,6 +3,10 @@ import datetime
 import os
 import glob
 import csv
+from sqlalchemy.ext.sqlsoup import SqlSoup
+import sys
+sys.path.append('..')
+import dbconfig
 
 # for now, copy-pasta from the reports
 # later this will be reorganized, but this is pretty one-off import code
@@ -82,14 +86,20 @@ def csv_row2dict(row, utc_time_stamp):
     return ret
 
 def main():
+    db = SqlSoup(dbconfig.dburl)
     for filename in sorted(glob.glob(FLICKR_DATA_BASE_PATH + '/*.csv')):
         if 'cumulative' in filename:
             continue
         utc_date_time = filename2utc_datetime(filename)
         csv_fd = csv.reader(open(filename))
+        print 'Importing', filename,
         for row in csv_fd:
             importable = csv_row2dict(row, utc_date_time)
-            print importable
+            db.site_specific.insert(**importable)
+            db.flush()
+        # since that worked, rename the filename
+        os.rename(filename, filename + '.imported')
+        print '...done.'
 
 if __name__ == '__main__':
     main()
