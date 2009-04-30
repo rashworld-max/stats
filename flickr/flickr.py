@@ -1,21 +1,49 @@
 #!/usr/bin/python
 
-import csv
 import BeautifulSoup
+from sqlalchemy.ext.sqlsoup import SqlSoup
+import sys
+sys.path.append('..')
+import dbconfig
 
-def main(infd, outfd):
+flickr2license = {
+    '/creativecommons/by-nd-2.0/':
+        'http://creativecommons.org/licenses/by-nd/2.0/',
+    '/creativecommons/by-nc-2.0/':
+        'http://creativecommons.org/licenses/by-nc/2.0/',
+    '/creativecommons/by-2.0/':
+        'http://creativecommons.org/licenses/by/2.0/',
+    '/creativecommons/by-nc-nd-2.0/':
+        'http://creativecommons.org/licenses/by-nc-nd/2.0/',
+    '/creativecommons/by-sa-2.0/':
+        'http://creativecommons.org/licenses/by-sa/2.0/',
+    '/creativecommons/by-nc-sa-2.0/':
+        'http://creativecommons.org/licenses/by-nc-sa/2.0/'}
+
+def parse(infd):
+    now = datetime.datetime.utcfrom
     soup = BeautifulSoup.BeautifulSoup(infd.read())
     license2count = {}
     for morecc in soup('p', {'class': 'MoreCC'}):
-        number = morecc('b')[0].string.replace(',', '')
+        number =a morecc('b')[0].string.replace(',', '')
         license = morecc('a')[0]['href'] # in Flickr form, not CC form!
         assert 'by' in license # really a CC license, right?
 
-        license2count[license] = number
+        license2count[flickr2license[license]] = int(number)
 
-    csv_writer = csv.writer(outfd)
-    csv_writer.writerows([(lic, license2count[lic]) for lic in license2count])
+    return license2count
+
+def main(infd, unix_time):
+    # Connect to the DB; if we can't, this will fail anyway.
+    db = SqlSoup(dbconfig.dburl)
+    # Scrape the results we just wgetted
+    license2count = parse(infd)
+    # Prepare any remaining DB columns...
+    utc_time_stamp = datetime.datetime.utcfromtimestamp(unix_time)
+    site = 'http://www.flickr.com/'
+    db.site_specific.insert(**importable)
+    db.flush()
 
 if __name__ == '__main__':
     import sys
-    main(sys.stdin, sys.stdout)
+    main(sys.stdin, sys.argv[1])
