@@ -28,6 +28,8 @@ create table site_specific (
         site VARCHAR(255) NOT NULL,
         count INT NOT NULL,
         utc_time_stamp DATETIME NOT NULL);
+alter table site_specific
+      add UNIQUE (license_uri, site, utc_time_stamp);
 
 create index site_specific_timestamp_index on site_specific (utc_time_stamp);
 
