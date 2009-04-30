@@ -40,17 +40,22 @@ def main(infd, unix_time, dry_run = False):
     # Scrape the results we just wgetted
     license2count = parse(infd)
     # Prepare any remaining DB columns...
-    utc_time_stamp = datetime.datetime.utcfromtimestamp(unix_time)
-    site = 'http://www.flickr.com/'
-    importable = {'utc_time_stamp': utc_time_stamp,
-                  'site': site,
-                  }
-    importable.update(license2count)
+    extra_data = {
+        'utc_time_stamp': datetime.datetime.utcfromtimestamp(unix_time),
+        'site': 'http://www.flickr.com/'}
+    importable = []
+    for key in license2count:
+        row = {}
+        row.update(extra_data)
+        row['count'] = license2count[key]
+        row['license_uri'] = key
+        importable.append(row)
     if dry_run:
         print importable
     else:
-        db.site_specific.insert(**importable)
-        db.flush()
+        for row in importable:
+            db.site_specific.insert(**row)
+            db.flush()
 
 if __name__ == '__main__':
     import sys
