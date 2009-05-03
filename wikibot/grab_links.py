@@ -212,14 +212,14 @@ class LinksGrabber(object):
             links = self.code_dict[code]
             page = page.replace(' ', '_')
             url = 'http://en.wikipedia.org/wiki/' + page
-            links.append(('Wikipedia Article', url))
+            links.append(('Wikipedia', url))
         return
 
     def gen_cci(self):
         " Generate urls like http://creativecommons.org/international/cn/"
         for code, links in self.code_dict.iteritems():
             url = 'http://creativecommons.org/international/%s/'%(code.lower())
-            links.append(('CCI Page', url))
+            links.append(('CC International', url))
         return
 
     def gen_herdict(self):
@@ -248,11 +248,26 @@ class LinksGrabber(object):
         json.dump(self.code_dict, open(filename, 'w'), indent=4)
         return
 
+    def checkview(self, f):
+        for code in self.query.all_juris():
+            if not code:
+                continue
+            code = str(code)
+            name = self.query.juris_code2name(code)
+            links = self.code_dict[code]
+            print >>f, '==%s=='%(name)
+            print >>f
+            for site, url in links:
+                print >>f, '* %s: %s'%(site, url)
+            print >>f
+        return
+
 def main():
     g = LinksGrabber()
     g()
     g.check()
     g.dump('related_links.txt')
+    g.checkview(open('checkview.txt', 'w'))
 
 
 if __name__=='__main__':
