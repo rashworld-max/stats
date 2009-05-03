@@ -214,6 +214,12 @@ class CCQuery(object):
         """
         return self._juris_code2x('fips', code)
 
+    def juris_fips2code(self, fips):
+        fips = fips.upper()
+        c = self.conn.execute('select code from juris where fips=?', (fips,) )
+        result = c.fetchone()[0]
+        return result
+
     def region_code2name(self, code):
         """
         Get region name from code.
@@ -233,12 +239,16 @@ class CCQuery(object):
         result = [t[0] for t in c]
         return result
 
-    def all_juris(self):
+    def all_juris(self, ported_only = True):
         """
         All juris avaiable with ported license.
         """
-        c = self.conn.cursor()
-        c.execute('select distinct code from juris where is_ported<>0')
+        if ported_only:
+            where_clause = 'where is_ported<>0'
+        else:
+            where_clause = ''
+        c = self.conn.cursor()        
+        c.execute('select distinct code from juris '+where_clause)
         result = [t[0] for t in c]
         return result
 

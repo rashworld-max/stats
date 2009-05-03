@@ -156,7 +156,7 @@ Canada,CA,CA,NA,1
 "Congo, Republic of the",CG,CF,AF,0
 Central African Republic,CF,CT,AF,0
 "Congo, Democratic Republic of the",CD,CG,AF,0
-Czech Republic,CZ,EZ,EU,0
+Czech Republic,CZ,EZ,EU,1
 Cyprus,CY,CY,AS,0
 Christmas Island,CX,KT,AS,0
 Costa Rica,CR,CS,SA,0
@@ -221,7 +221,7 @@ Turks and Caicos Islands,TC,TK,SA,0
 Libya,LY,LY,AF,0
 Holy See (Vatican City),VA,VT,EU,0
 Saint Vincent and the Grenadines,VC,VC,SA,0
-United Arab Emirates,AE,AE,AS,0
+United Arab Emirates,AE,TC,AS,0
 Andorra,AD,AN,EU,0
 Antigua and Barbuda,AG,AC,SA,0
 British Virgin Islands,VG,VI,SA,0

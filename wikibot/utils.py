@@ -2,7 +2,8 @@ import sys
 import time
 
 def log(s):
-    print >>sys.stderr, s
+    print >>sys.stderr, s,
+    sys.stderr.flush()
     return
 
 def tries(ntries, fn, *arglist, **argdict):
