@@ -1,0 +1,4418 @@
+{
+    "BD": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bd/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Bangladesh"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/south-asia/bangladesh/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BD"
+        ]
+    ], 
+    "BE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/be/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Belgium"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/belgium/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BE"
+        ]
+    ], 
+    "BF": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bf/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Burkina_Faso"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/burkina-faso/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BF"
+        ]
+    ], 
+    "BG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bg/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Bulgaria"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/bulgaria/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BG"
+        ]
+    ], 
+    "BA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ba/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Bosnia_and_Herzegovina"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/bosnia-herzegovina/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BA"
+        ]
+    ], 
+    "BB": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bb/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Barbados"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/barbados/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BB"
+        ]
+    ], 
+    "WF": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/wf/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Wallis_and_Futuna"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/oceania/wallis-futuna/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/WF"
+        ]
+    ], 
+    "BL": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bl/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Saint_Barth\u00e9lemy"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BL"
+        ]
+    ], 
+    "BM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Bermuda"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/bermuda/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BM"
+        ]
+    ], 
+    "BN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bn/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Brunei"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/brunei/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BN"
+        ]
+    ], 
+    "BO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bo/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Bolivia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/bolivia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BO"
+        ]
+    ], 
+    "BH": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bh/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Bahrain"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/bahrain/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/bahrain"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BH"
+        ]
+    ], 
+    "BI": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bi/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Burundi"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/burundi/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BI"
+        ]
+    ], 
+    "BJ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bj/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Benin"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/benin/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BJ"
+        ]
+    ], 
+    "BT": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bt/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Bhutan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/south-asia/bhutan/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BT"
+        ]
+    ], 
+    "JM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/jm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Jamaica"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/jamaica/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/JM"
+        ]
+    ], 
+    "BV": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bv/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Bouvet_Island"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BV"
+        ]
+    ], 
+    "BW": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bw/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Botswana"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/botswana/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BW"
+        ]
+    ], 
+    "WS": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ws/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Samoa"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/WS"
+        ]
+    ], 
+    "BR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/br/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Brazil"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/brazil/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BR"
+        ]
+    ], 
+    "BS": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bs/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/The_Bahamas"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/bahamas/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BS"
+        ]
+    ], 
+    "JE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/je/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Jersey"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/JE"
+        ]
+    ], 
+    "BY": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/by/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Belarus"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/belarus/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/belarus"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BY"
+        ]
+    ], 
+    "BZ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/bz/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Belize"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/belize/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/BZ"
+        ]
+    ], 
+    "RU": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ru/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Russia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/russia/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/regions/cis"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/RU"
+        ]
+    ], 
+    "RW": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/rw/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Rwanda"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/rwanda/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/RW"
+        ]
+    ], 
+    "RS": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/rs/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Serbia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/serbia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/RS"
+        ]
+    ], 
+    "TL": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tl/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/East_Timor"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TL"
+        ]
+    ], 
+    "RE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/re/"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/reunion/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/RE"
+        ]
+    ], 
+    "TM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Turkmenistan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/central-asia-caucasus/turkmenistan/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TM"
+        ]
+    ], 
+    "TJ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tj/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Tajikistan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/central-asia-caucasus/tajikistan/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/tajikistan"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TJ"
+        ]
+    ], 
+    "RO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ro/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Romania"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/romania/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/RO"
+        ]
+    ], 
+    "TK": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tk/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Tokelau"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TK"
+        ]
+    ], 
+    "GW": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gw/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Guinea-Bissau"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GW"
+        ]
+    ], 
+    "GU": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gu/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Guam"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GU"
+        ]
+    ], 
+    "GT": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gt/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Guatemala"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/guatemala/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GT"
+        ]
+    ], 
+    "GS": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gs/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/South_Georgia_and_the_South_Sandwich_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GS"
+        ]
+    ], 
+    "GR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Greece"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/greece/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GR"
+        ]
+    ], 
+    "GQ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gq/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Equatorial_Guinea"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GQ"
+        ]
+    ], 
+    "GP": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gp/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Guadeloupe"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/guadeloupe/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GP"
+        ]
+    ], 
+    "JP": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/jp/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Japan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/japan/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/JP"
+        ]
+    ], 
+    "GY": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gy/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Guyana"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/guyana/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GY"
+        ]
+    ], 
+    "GG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gg/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Guernsey"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GG"
+        ]
+    ], 
+    "GF": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gf/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/French_Guiana"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/french-guiana/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GF"
+        ]
+    ], 
+    "GE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ge/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Georgia_(country)"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/central-asia-caucasus/georgia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GE"
+        ]
+    ], 
+    "GD": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gd/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Grenada"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/grenada/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GD"
+        ]
+    ], 
+    "GB": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gb/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/United_Kingdom"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/united-kingdom/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GB"
+        ]
+    ], 
+    "GA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ga/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Gabon"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/gabon/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GA"
+        ]
+    ], 
+    "SV": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sv/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/El_Salvador"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/el-salvador/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SV"
+        ]
+    ], 
+    "GN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gn/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Guinea"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/equatorial-guinea/"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/guinea/"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/guinea-bissau/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GN"
+        ]
+    ], 
+    "GM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/The_Gambia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/gambia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GM"
+        ]
+    ], 
+    "GL": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gl/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Greenland"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GL"
+        ]
+    ], 
+    "GI": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gi/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Gibraltar"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GI"
+        ]
+    ], 
+    "GH": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/gh/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Ghana"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/ghana/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/GH"
+        ]
+    ], 
+    "OM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/om/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Oman"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/oman/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/oman"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/OM"
+        ]
+    ], 
+    "TN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tn/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Tunisia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/tunisia/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/tunisia"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TN"
+        ]
+    ], 
+    "SCOTLAND": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/scotland/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Scotland"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SCOTLAND"
+        ]
+    ], 
+    "JO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/jo/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Jordan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/jordan/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/jordan"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/JO"
+        ]
+    ], 
+    "HR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/hr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Croatia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/croatia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/HR"
+        ]
+    ], 
+    "HT": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ht/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Haiti"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/haiti/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/HT"
+        ]
+    ], 
+    "HU": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/hu/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Hungary"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/hungary/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/HU"
+        ]
+    ], 
+    "HK": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/hk/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Hong_Kong"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/hong-kong-china/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/HK"
+        ]
+    ], 
+    "HN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/hn/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Honduras"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/honduras/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/HN"
+        ]
+    ], 
+    "HM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/hm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Heard_Island_and_McDonald_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/HM"
+        ]
+    ], 
+    "VE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ve/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Venezuela"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/venezuela/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/venezuela"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/VE"
+        ]
+    ], 
+    "PR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Puerto_Rico"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/puerto-rico-us/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PR"
+        ]
+    ], 
+    "PS": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ps/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Palestinian_territories"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PS"
+        ]
+    ], 
+    "PW": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pw/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Palau"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PW"
+        ]
+    ], 
+    "PT": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pt/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Portugal"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/portugal/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PT"
+        ]
+    ], 
+    "SJ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sj/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Svalbard_and_Jan_Mayen"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SJ"
+        ]
+    ], 
+    "PY": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/py/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Paraguay"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/paraguay/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PY"
+        ]
+    ], 
+    "IQ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/iq/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Iraq"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/iraq/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/iraq"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/IQ"
+        ]
+    ], 
+    "PA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pa/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Panama"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/panama/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PA"
+        ]
+    ], 
+    "PF": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pf/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/French_Polynesia"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PF"
+        ]
+    ], 
+    "PG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pg/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Papua_New_Guinea"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PG"
+        ]
+    ], 
+    "PE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pe/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Peru"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/peru/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PE"
+        ]
+    ], 
+    "PK": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pk/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Pakistan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/south-asia/pakistan/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/pakistan"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PK"
+        ]
+    ], 
+    "PH": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ph/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Philippines"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/philippines/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PH"
+        ]
+    ], 
+    "PN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pn/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Pitcairn_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PN"
+        ]
+    ], 
+    "PL": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pl/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Poland"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/poland/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PL"
+        ]
+    ], 
+    "PM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/pm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Saint_Pierre_and_Miquelon"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/PM"
+        ]
+    ], 
+    "ZM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/zm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Zambia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/zambia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/ZM"
+        ]
+    ], 
+    "EH": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/eh/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Western_Sahara"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/western-sahara/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/EH"
+        ]
+    ], 
+    "EE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ee/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Estonia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/estonia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/EE"
+        ]
+    ], 
+    "EG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/eg/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Egypt"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/egypt/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/egypt"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/EG"
+        ]
+    ], 
+    "ZA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/za/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/South_Africa"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/south-africa/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/ZA"
+        ]
+    ], 
+    "EC": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ec/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Ecuador"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/ecuador/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/EC"
+        ]
+    ], 
+    "IT": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/it/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Italy"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/italy/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/IT"
+        ]
+    ], 
+    "UK": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/uk/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/United_Kingdom"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/UK"
+        ]
+    ], 
+    "VN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/vn/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Vietnam"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/vietnam/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/vietnam"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/VN"
+        ]
+    ], 
+    "SB": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sb/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Solomon_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SB"
+        ]
+    ], 
+    "ET": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/et/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Ethiopia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/ethiopia/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/ethiopia"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/ET"
+        ]
+    ], 
+    "SO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/so/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Somalia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/somalia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SO"
+        ]
+    ], 
+    "ZW": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/zw/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Zimbabwe"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/zimbabwe/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/zimbabwe"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/ZW"
+        ]
+    ], 
+    "SA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sa/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Saudi_Arabia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/saudi-arabia/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/saudi-arabia"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SA"
+        ]
+    ], 
+    "ES": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/es/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Spain"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/spain/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/ES"
+        ]
+    ], 
+    "ER": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/er/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Eritrea"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/eritrea/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/ER"
+        ]
+    ], 
+    "ME": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/me/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Montenegro"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/montenegro/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/ME"
+        ]
+    ], 
+    "MD": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/md/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Moldova"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/moldova/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/moldova"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MD"
+        ]
+    ], 
+    "MG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mg/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Madagascar"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/madagascar/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MG"
+        ]
+    ], 
+    "MF": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mf/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Saint_Martin_(France)"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MF"
+        ]
+    ], 
+    "MA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ma/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Morocco"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/morocco/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/morocco"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MA"
+        ]
+    ], 
+    "MC": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mc/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Monaco"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/monaco/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MC"
+        ]
+    ], 
+    "UZ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/uz/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Uzbekistan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/central-asia-caucasus/uzbekistan/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/uzbekistan"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/UZ"
+        ]
+    ], 
+    "MM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Burma"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/myanmar-burma/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/myanmar"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MM"
+        ]
+    ], 
+    "ML": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ml/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Mali"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/mali/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/ML"
+        ]
+    ], 
+    "MO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mo/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Macau"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/macau-china/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MO"
+        ]
+    ], 
+    "MN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mn/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Mongolia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/central-asia-caucasus/mongolia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MN"
+        ]
+    ], 
+    "MH": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mh/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Marshall_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MH"
+        ]
+    ], 
+    "MK": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mk/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Republic_of_Macedonia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/macedonia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MK"
+        ]
+    ], 
+    "MU": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mu/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Mauritius"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/mauritius/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MU"
+        ]
+    ], 
+    "MT": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mt/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Malta"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/malta/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MT"
+        ]
+    ], 
+    "MW": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mw/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Malawi"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/malawi/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MW"
+        ]
+    ], 
+    "MV": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mv/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Maldives"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/south-asia/maldives/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MV"
+        ]
+    ], 
+    "MQ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mq/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Martinique"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/martinique/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MQ"
+        ]
+    ], 
+    "MP": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mp/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Northern_Mariana_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MP"
+        ]
+    ], 
+    "MS": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ms/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Montserrat"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/montserrat/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MS"
+        ]
+    ], 
+    "MR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Mauritania"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/mauritania/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MR"
+        ]
+    ], 
+    "IM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/im/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Isle_of_Man"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/IM"
+        ]
+    ], 
+    "UG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ug/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Uganda"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/uganda/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/UG"
+        ]
+    ], 
+    "TZ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tz/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Tanzania"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/tanzania/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TZ"
+        ]
+    ], 
+    "MY": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/my/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Malaysia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/malaysia/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/malaysia"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MY"
+        ]
+    ], 
+    "MX": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mx/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Mexico"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/mexico/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MX"
+        ]
+    ], 
+    "IL": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/il/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Israel"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/israel/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/israel"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/IL"
+        ]
+    ], 
+    "FR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/fr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/France"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/france/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/FR"
+        ]
+    ], 
+    "IO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/io/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/British_Indian_Ocean_Territory"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/IO"
+        ]
+    ], 
+    "SH": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sh/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Saint_Helena"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/saint-helena/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SH"
+        ]
+    ], 
+    "FI": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/fi/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Finland"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/finland/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/FI"
+        ]
+    ], 
+    "FJ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/fj/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Fiji"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/oceania/fiji/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/FJ"
+        ]
+    ], 
+    "FK": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/fk/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Falkland_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/FK"
+        ]
+    ], 
+    "FM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/fm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Federated_States_of_Micronesia"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/FM"
+        ]
+    ], 
+    "FO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/fo/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Faroe_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/FO"
+        ]
+    ], 
+    "NI": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ni/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Nicaragua"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/nicaragua/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NI"
+        ]
+    ], 
+    "NL": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/nl/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Netherlands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NL"
+        ]
+    ], 
+    "NO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/no/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Norway"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/norway/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NO"
+        ]
+    ], 
+    "NA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/na/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Namibia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/namibia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NA"
+        ]
+    ], 
+    "VU": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/vu/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Vanuatu"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/VU"
+        ]
+    ], 
+    "NC": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/nc/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/New_Caledonia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/oceania/new-caledonia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NC"
+        ]
+    ], 
+    "NE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ne/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Niger"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/niger/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NE"
+        ]
+    ], 
+    "NF": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/nf/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Norfolk_Island"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NF"
+        ]
+    ], 
+    "NG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ng/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Nigeria"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/nigeria/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NG"
+        ]
+    ], 
+    "NZ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/nz/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/New_Zealand"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/oceania/new-zealand/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NZ"
+        ]
+    ], 
+    "NP": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/np/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Nepal"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/south-asia/nepal/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/nepal"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NP"
+        ]
+    ], 
+    "NR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/nr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Nauru"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NR"
+        ]
+    ], 
+    "NU": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/nu/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Niue"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/NU"
+        ]
+    ], 
+    "CK": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ck/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Cook_Islands"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/oceania/cook-islands/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CK"
+        ]
+    ], 
+    "CI": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ci/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CI"
+        ]
+    ], 
+    "CH": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ch/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Switzerland"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/switzerland/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CH"
+        ]
+    ], 
+    "CO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/co/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Colombia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/colombia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CO"
+        ]
+    ], 
+    "CN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cn/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/People's_Republic_of_China"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/china/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/china"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CN"
+        ]
+    ], 
+    "CM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Cameroon"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/cameroon/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CM"
+        ]
+    ], 
+    "CL": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cl/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Chile"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/chile/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CL"
+        ]
+    ], 
+    "CC": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cc/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CC"
+        ]
+    ], 
+    "CA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ca/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Canada"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/canada/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CA"
+        ]
+    ], 
+    "CG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cg/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Republic_of_the_Congo"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/republic-of-congo/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CG"
+        ]
+    ], 
+    "CF": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cf/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Central_African_Republic"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/central-african-republic/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CF"
+        ]
+    ], 
+    "CD": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cd/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Democratic_Republic_of_the_Congo"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CD"
+        ]
+    ], 
+    "CZ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cz/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Czech_Republic"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/czech-republic/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CZ"
+        ]
+    ], 
+    "CY": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cy/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Cyprus"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/cyprus/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CY"
+        ]
+    ], 
+    "CX": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cx/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Christmas_Island"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CX"
+        ]
+    ], 
+    "CR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Costa_Rica"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/costa-rica/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CR"
+        ]
+    ], 
+    "CV": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cv/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Cape_Verde"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/cape-verde/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CV"
+        ]
+    ], 
+    "CU": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/cu/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Cuba"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/cuba/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/cuba"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/CU"
+        ]
+    ], 
+    "SZ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sz/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Swaziland"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/swaziland/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SZ"
+        ]
+    ], 
+    "SY": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sy/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Syria"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/syria/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/syria"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SY"
+        ]
+    ], 
+    "KG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/kg/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Kyrgyzstan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/central-asia-caucasus/kyrgyzstan/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/kyrgyzstan"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KG"
+        ]
+    ], 
+    "KE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ke/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Kenya"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/kenya/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KE"
+        ]
+    ], 
+    "SR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Suriname"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/suriname/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SR"
+        ]
+    ], 
+    "KI": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ki/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Kiribati"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KI"
+        ]
+    ], 
+    "KH": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/kh/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Cambodia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/cambodia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KH"
+        ]
+    ], 
+    "KN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/kn/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Saint_Kitts_and_Nevis"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KN"
+        ]
+    ], 
+    "KM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/km/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Comoros"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/comoros/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KM"
+        ]
+    ], 
+    "ST": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/st/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/S\u00e3o_Tom\u00e9_and_Pr\u00edncipe"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/sao-tome-and-principe/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/ST"
+        ]
+    ], 
+    "SK": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sk/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Slovakia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/slovakia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SK"
+        ]
+    ], 
+    "KR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/kr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/South_Korea"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/south-korea/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/south-korea"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KR"
+        ]
+    ], 
+    "SI": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/si/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Slovenia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/slovenia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SI"
+        ]
+    ], 
+    "KP": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/kp/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/North_Korea"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/north-korea/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/north-korea"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KP"
+        ]
+    ], 
+    "KW": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/kw/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Kuwait"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/kuwait/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KW"
+        ]
+    ], 
+    "SN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sn/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Senegal"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/senegal/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SN"
+        ]
+    ], 
+    "SM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/San_Marino"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/san-marino/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SM"
+        ]
+    ], 
+    "SL": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sl/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Sierra_Leone"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/sierra-leone/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SL"
+        ]
+    ], 
+    "SC": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sc/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Seychelles"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/seychelles/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SC"
+        ]
+    ], 
+    "KZ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/kz/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Kazakhstan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/central-asia-caucasus/kazakhstan/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/kazakhstan"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KZ"
+        ]
+    ], 
+    "KY": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ky/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Cayman_Islands"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/cayman-islands/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/KY"
+        ]
+    ], 
+    "SG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sg/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Singapore"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/singapore/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/singapore"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SG"
+        ]
+    ], 
+    "SE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/se/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Sweden"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/sweden/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SE"
+        ]
+    ], 
+    "SD": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/sd/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Sudan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/sudan/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/sudan"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/SD"
+        ]
+    ], 
+    "DO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/do/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Dominican_Republic"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/dominican-republic/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/DO"
+        ]
+    ], 
+    "DM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/dm/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Dominica"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/dominica/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/DM"
+        ]
+    ], 
+    "DJ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/dj/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Djibouti"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/djibouti/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/DJ"
+        ]
+    ], 
+    "DK": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/dk/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Denmark"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/denmark/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/DK"
+        ]
+    ], 
+    "VG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/vg/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/British_Virgin_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/VG"
+        ]
+    ], 
+    "DE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/de/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Germany"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/germany/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/DE"
+        ]
+    ], 
+    "YE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ye/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Yemen"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/yemen/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/yemen"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/YE"
+        ]
+    ], 
+    "DZ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/dz/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Algeria"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/algeria/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/algeria"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/DZ"
+        ]
+    ], 
+    "US": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/us/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/United_States"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/usa/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/US"
+        ]
+    ], 
+    "UY": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/uy/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Uruguay"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/uruguay/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/UY"
+        ]
+    ], 
+    "YT": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/yt/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Mayotte"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/mayotte/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/YT"
+        ]
+    ], 
+    "UM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/um/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/United_States_Minor_Outlying_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/UM"
+        ]
+    ], 
+    "LB": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/lb/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Lebanon"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/lebanon/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LB"
+        ]
+    ], 
+    "LC": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/lc/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Saint_Lucia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/saint-lucia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LC"
+        ]
+    ], 
+    "LA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/la/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Laos"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/laos/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LA"
+        ]
+    ], 
+    "TV": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tv/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Tuvalu"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TV"
+        ]
+    ], 
+    "TW": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tw/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Taiwan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/taiwan-roc/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TW"
+        ]
+    ], 
+    "TT": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tt/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Trinidad_and_Tobago"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/trinidad-tobago/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TT"
+        ]
+    ], 
+    "TR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Turkey"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/turkey/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TR"
+        ]
+    ], 
+    "LK": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/lk/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Sri_Lanka"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/south-asia/sri-lanka/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LK"
+        ]
+    ], 
+    "LI": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/li/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Liechtenstein"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LI"
+        ]
+    ], 
+    "LV": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/lv/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Latvia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/latvia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LV"
+        ]
+    ], 
+    "TO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/to/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Tonga"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/oceania/tonga/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TO"
+        ]
+    ], 
+    "LT": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/lt/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Lithuania"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/lithuania/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LT"
+        ]
+    ], 
+    "LU": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/lu/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Luxembourg"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/luxembourg/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LU"
+        ]
+    ], 
+    "LR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/lr/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Liberia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/liberia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LR"
+        ]
+    ], 
+    "LS": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ls/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Lesotho"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/lesotho/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LS"
+        ]
+    ], 
+    "TH": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/th/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Thailand"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/thailand/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/thailand"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TH"
+        ]
+    ], 
+    "TF": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tf/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/French_Southern_and_Antarctic_Lands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TF"
+        ]
+    ], 
+    "TG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tg/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Togo"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/togo/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TG"
+        ]
+    ], 
+    "TD": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/td/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Chad"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/chad/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TD"
+        ]
+    ], 
+    "TC": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/tc/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Turks_and_Caicos_Islands"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/TC"
+        ]
+    ], 
+    "LY": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ly/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Libya"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/libya/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/libya"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/LY"
+        ]
+    ], 
+    "VA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/va/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Vatican_City"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/vatican-city/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/VA"
+        ]
+    ], 
+    "VC": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/vc/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Saint_Vincent_and_the_Grenadines"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/st-vincent-the-grenadines/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/VC"
+        ]
+    ], 
+    "AE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ae/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/United_Arab_Emirates"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/united-arab-emirates/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/uae"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AE"
+        ]
+    ], 
+    "AD": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ad/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Andorra"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AD"
+        ]
+    ], 
+    "AG": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ag/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Antigua_and_Barbuda"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/antigua-and-barbuda/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AG"
+        ]
+    ], 
+    "AF": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/af/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Afghanistan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/central-asia-caucasus/afghanistan/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/afghanistan"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AF"
+        ]
+    ], 
+    "AI": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ai/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Anguilla"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/anguilla/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AI"
+        ]
+    ], 
+    "VI": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/vi/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/United_States_Virgin_Islands"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/british-virgin-islands/"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/us-virgin-islands/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/VI"
+        ]
+    ], 
+    "IS": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/is/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Iceland"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/iceland/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/IS"
+        ]
+    ], 
+    "IR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ir/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Iran"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/iran/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/iran"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/IR"
+        ]
+    ], 
+    "AM": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/am/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Armenia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/central-asia-caucasus/armenia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AM"
+        ]
+    ], 
+    "AL": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/al/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Albania"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/albania/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AL"
+        ]
+    ], 
+    "AO": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ao/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Angola"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/angola/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AO"
+        ]
+    ], 
+    "AN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/an/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Netherlands_Antilles"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/netherlands/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AN"
+        ]
+    ], 
+    "AQ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/aq/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Antarctica"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AQ"
+        ]
+    ], 
+    "AS": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/as/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/American_Samoa"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AS"
+        ]
+    ], 
+    "AR": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ar/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Argentina"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/argentina/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AR"
+        ]
+    ], 
+    "AU": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/au/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Australia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/oceania/australia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AU"
+        ]
+    ], 
+    "AT": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/at/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Austria"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/austria/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AT"
+        ]
+    ], 
+    "AW": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/aw/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Aruba"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/americas/aruba/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AW"
+        ]
+    ], 
+    "IN": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/in/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/India"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/south-asia/india/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/india"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/IN"
+        ]
+    ], 
+    "AX": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ax/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AX"
+        ]
+    ], 
+    "AZ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/az/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Azerbaijan"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/central-asia-caucasus/azerbaijan/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/azerbaijan"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/AZ"
+        ]
+    ], 
+    "IE": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ie/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Republic_of_Ireland"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/western-europe/ireland/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/IE"
+        ]
+    ], 
+    "ID": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/id/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Indonesia"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/east-asia/indonesia/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/ID"
+        ]
+    ], 
+    "UA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/ua/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Ukraine"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/eastern-central-europe/ukraine/"
+        ], 
+        [
+            "OpenNet Profile", 
+            "http://opennet.net/research/profiles/ukraine"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/UA"
+        ]
+    ], 
+    "QA": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/qa/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Qatar"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/middle-east-north-africa/qatar/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/QA"
+        ]
+    ], 
+    "MZ": [
+        [
+            "CC International", 
+            "http://creativecommons.org/international/mz/"
+        ], 
+        [
+            "Wikipedia", 
+            "http://en.wikipedia.org/wiki/Mozambique"
+        ], 
+        [
+            "Global Voices", 
+            "http://globalvoicesonline.org/-/world/sub-saharan-africa/mozambique/"
+        ], 
+        [
+            "Herdict Web", 
+            "http://www.herdict.org/web/explore/country/MZ"
+        ]
+    ]
+}

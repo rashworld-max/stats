@@ -4,6 +4,7 @@ The view to generate pages than can be put onto wiki.
 import itertools
 import datetime
 import codecs
+import json
 import jinja2
 
 import linkback_reader
@@ -16,6 +17,8 @@ TEMPLATE_SIDEBARLIST = 'sidebarlist.wiki'
 XML_WORLDMAP_FREEDOM = 'worldmap_freedom.xml'
 XML_WORLDMAP_TOTAL = 'worldmap_total.xml'
 TEMPLATE_FLAG = 'flag.wiki'
+
+JSON_RELATED_LINKS = 'related_links.txt'
 
 TEMPLATE_USER_WORLD = 'user_world.wiki'
 TEMPLATE_USER_REGION = 'user_region.wiki'
@@ -57,7 +60,8 @@ class PageRender(object):
                     _thousandsep(number[:-3]) + ',' + number[-3:]
 
         def _botpage(title):
-            return '{{%s%s}}'%(BOTPAGE_PREFIX, title)
+            return """{{<!-- NOTE: This is used to embed automatically generated content, please do not change or remove! -->
+%s%s}}"""%(BOTPAGE_PREFIX, title)
 
         self.env.filters['thousandsep'] = _thousandsep
         self.env.filters['botpage'] = _botpage
@@ -93,7 +97,7 @@ class View(object):
     def from_db(cls, db_file):
         query = ccquery.CCQuery(db_file)
         view = cls(query)
-        return view        
+        return view
     
     @classmethod
     def from_data(cls, data):
@@ -145,7 +149,6 @@ class View(object):
         all = itertools.chain(
                 self.stats_world(),
                 self.stats_juris(),
-                self.flags(),
                 self.stats_region(),
                 self.list_juris(),
                 self.list_regions(),
@@ -185,6 +188,8 @@ class View(object):
             name = query.region_code2name(code)
             page = self._user(name, TEMPLATE_USER_REGION,
                                 stats = BOTPAGE_STATS,
+                                juris_name = name,
+                                juris_code = code,
                                 list = BOTPAGE_LIST_JURIS
                                 )
             yield page
@@ -192,12 +197,17 @@ class View(object):
 
     def user_juris(self):
         query = self.query
+        links_dict = json.load(open(JSON_RELATED_LINKS))
+
         for code in query.all_juris() + [u'GB']:
             name = query.juris_code2name(code)
-            page = self._user(name, TEMPLATE_USER_JURIS,
-                                stats = BOTPAGE_STATS,
-                                flag = BOTPAGE_FLAG)
-
+            if code:
+                links = links_dict[code]
+            else:
+                links = []
+            page = self.render(name, TEMPLATE_USER_JURIS,
+                                stats = name + '/' + BOTPAGE_STATS,
+                                links = links)
             yield page
         return
 
@@ -237,6 +247,9 @@ class View(object):
         return
 
     def flags(self):
+        """
+        Deprecated since we no longer need flag page.
+        """
         query = self.query
         for code in query.all_juris() + [u'GB']:
             juris_name = query.juris_code2name(code)

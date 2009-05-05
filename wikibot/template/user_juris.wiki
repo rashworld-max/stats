@@ -1,4 +1,13 @@
-﻿{{ flag | botpage }}
+﻿{{ '{{' }}Infobox Jurisdiction
+|flag = Flag_{{ juris_code }}.svg
+|linkshead = {{ juris_name }}
+|links = 
+{% for site, url in links %}
+[{{ url }} {{ site }}
+
+{% endfor %}
+<!-- You can put more additional resources related to this jurisdiction at here.-->
+{{ '}}' }}
 
 {{ stats | botpage }}
 
