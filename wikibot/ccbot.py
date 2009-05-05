@@ -106,10 +106,6 @@ def update_wiki(args = (), query=None):
     if query is None:
         query = ccquery.CCQuery(DB_FILE)
 
-    if not args:
-        # we exclude all the flag pages by default
-        args = ('-x', 'flag')
-
     # setup filter
     if args:
         if args[0]=='-x':
