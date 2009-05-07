@@ -17,16 +17,20 @@ TEMPLATE_SIDEBARLIST = 'sidebarlist.wiki'
 XML_WORLDMAP_FREEDOM = 'worldmap_freedom.xml'
 XML_WORLDMAP_TOTAL = 'worldmap_total.xml'
 TEMPLATE_FLAG = 'flag.wiki'
-
-JSON_RELATED_LINKS = 'related_links.txt'
+TEMPLATE_RANKED_BY_VOLUME = 'ranktable_volume.wiki'
+TEMPLATE_RANKED_BY_FREEDOM = 'ranktable_freedom.wiki'
 
 TEMPLATE_USER_WORLD = 'user_world.wiki'
 TEMPLATE_USER_REGION = 'user_region.wiki'
 TEMPLATE_USER_LIST = 'user_list.wiki'
 TEMPLATE_USER_JURIS = 'user_juris.wiki'
+TEMPLATE_USER_RANKING = 'user_ranking.wiki'
+
+JSON_RELATED_LINKS = 'related_links.txt'
 
 TITLE_LIST_JURIS = 'List of Jurisdictions'
 TITLE_LIST_REGIONS = 'List of Regions'
+TITLE_RANKING = 'Jurisdiction Comparison'
 
 BOTPAGE_PREFIX = 'Robot/'
 BOTPAGE_STATS = 'Statistics'
@@ -36,6 +40,8 @@ BOTPAGE_MAP_TOTAL = 'Total Number Map'
 BOTPAGE_LIST_JURIS = 'List of Jurisdictions'
 BOTPAGE_LIST_REGIONS = 'List of Regions'
 BOTPAGE_SIDEBAR = 'Sidebar'
+BOTPAGE_RANKED_BY_VOLUME = 'Jurisdiction Comparison/by volume'
+BOTPAGE_RANKED_BY_FREEDOM = 'Jurisdiction Comparison/by freedom'
 
 class Page(object):
     def __init__(self, title, text):
@@ -152,6 +158,7 @@ class View(object):
                 self.stats_region(),
                 self.list_juris(),
                 self.list_regions(),
+                self.rankdtables(),
                 )
         return all
 
@@ -167,6 +174,7 @@ class View(object):
         """
         all = itertools.chain(
                 self.user_world(),
+                self.user_ranking(),
                 self.user_region(),
                 self.user_juris(),
                 self.user_lists(),
@@ -214,6 +222,12 @@ class View(object):
     def user_lists(self):
         yield self.render(TITLE_LIST_JURIS, TEMPLATE_USER_LIST, list=BOTPAGE_LIST_JURIS)
         yield self.render(TITLE_LIST_REGIONS, TEMPLATE_USER_LIST, list=BOTPAGE_LIST_REGIONS)
+        return
+
+    def user_ranking(self):
+        yield self.render(TITLE_RANKING, TEMPLATE_USER_RANKING,
+                            by_volume = BOTPAGE_RANKED_BY_VOLUME,
+                            by_freedom = BOTPAGE_RANKED_BY_FREEDOM)
         return
 
     def stats_world(self):
@@ -356,6 +370,36 @@ class View(object):
         yield page
 
         return
+
+    def rankdtables(self):
+        """
+        Tables of jurisdictions with ranking.
+        """
+        query = self.query
+        all_stats = []
+        for code in query.all_juris():
+            if not code:
+                # pass Unported
+                continue
+            data = query.license_by_juris(code)
+            stat = ccquery.Stats(data)
+            name = query.juris_code2name(code)
+            all_stats.append((name, stat))
+
+        sorted_by_volume = sorted(all_stats, key=lambda x: x[1].total, reverse=True)
+        page = self.render(self._botns(BOTPAGE_RANKED_BY_VOLUME),
+                            TEMPLATE_RANKED_BY_VOLUME,
+                            stats = sorted_by_volume)
+        yield page
+
+        sorted_by_freedom = sorted(all_stats, key=lambda x: x[1].freedom_score, reverse=True)
+        page = self.render(self._botns(BOTPAGE_RANKED_BY_FREEDOM),
+                            TEMPLATE_RANKED_BY_FREEDOM,
+                            stats = sorted_by_freedom)
+        yield page
+
+        return
+
 
 
 TEST_DB = 'test.sqlite'
