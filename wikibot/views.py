@@ -18,8 +18,7 @@ TEMPLATE_SIDEBARLIST = 'sidebarlist.wiki'
 XML_WORLDMAP_FREEDOM = 'worldmap_freedom.xml'
 XML_WORLDMAP_TOTAL = 'worldmap_total.xml'
 TEMPLATE_FLAG = 'flag.wiki'
-TEMPLATE_RANKED_BY_VOLUME = 'ranktable_volume.wiki'
-TEMPLATE_RANKED_BY_FREEDOM = 'ranktable_freedom.wiki'
+TEMPLATE_RANKING = 'ranktable.wiki'
 
 TEMPLATE_USER_WORLD = 'user_world.wiki'
 TEMPLATE_USER_REGION = 'user_region.wiki'
@@ -41,8 +40,7 @@ BOTPAGE_MAP_TOTAL = 'Total Number Map'
 BOTPAGE_LIST_JURIS = 'List of Jurisdictions'
 BOTPAGE_LIST_REGIONS = 'List of Regions'
 BOTPAGE_SIDEBAR = 'Sidebar'
-BOTPAGE_RANKED_BY_VOLUME = 'Jurisdiction Comparison/by volume'
-BOTPAGE_RANKED_BY_FREEDOM = 'Jurisdiction Comparison/by freedom'
+BOTPAGE_RANKING = 'Jurisdiction Comparison'
 
 class Page(object):
     def __init__(self, title, text):
@@ -229,8 +227,7 @@ class View(object):
 
     def user_ranking(self):
         yield self.render(TITLE_RANKING, TEMPLATE_USER_RANKING,
-                            by_volume = BOTPAGE_RANKED_BY_VOLUME,
-                            by_freedom = BOTPAGE_RANKED_BY_FREEDOM)
+                            ranking = BOTPAGE_RANKING)
         return
 
     def stats_world(self):
@@ -411,15 +408,13 @@ class View(object):
         Tables of jurisdictions with ranking.
         """
         sorted_by_volume, sorted_by_freedom = self._sorted_stats()
+        date = datetime.date.today().strftime("%Y-%m-%d")
 
-        page = self.render(self._botns(BOTPAGE_RANKED_BY_VOLUME),
-                            TEMPLATE_RANKED_BY_VOLUME,
-                            stats = sorted_by_volume)
-        yield page
-
-        page = self.render(self._botns(BOTPAGE_RANKED_BY_FREEDOM),
-                            TEMPLATE_RANKED_BY_FREEDOM,
-                            stats = sorted_by_freedom)
+        page = self.render(self._botns(BOTPAGE_RANKING),
+                            TEMPLATE_RANKING,
+                            by_volume = sorted_by_volume,
+                            by_freedom = sorted_by_freedom,
+                            date = date)
         yield page
 
         return

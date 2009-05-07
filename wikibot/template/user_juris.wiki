@@ -3,7 +3,7 @@
 |linkshead = {{ juris_name }}
 |links = 
 {% for site, url in links %}
-[{{ url }} {{ site }}
+[{{ url }} {{ site }}]
 
 {% endfor %}
 <!-- You can put more additional resources related to this jurisdiction at here.-->

@@ -55,6 +55,5 @@
 |}
 ''See also [[Jurisdiction Comparison]]'' 
 
-
 '''Source:''' Yahoo!  {{ '{{pad|3em}}' }}  '''Date:''' {{ date }} {{ '{{pad|3em}}' }}  [[Help]]
 

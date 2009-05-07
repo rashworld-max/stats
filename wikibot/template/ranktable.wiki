@@ -1,0 +1,31 @@
+﻿{|
+| STYLE="vertical-align: top"|
+{| class="wikitable" style="text-align:center" border="1"
+|+  Adoption - Ranking of Jurisdiction Volumes
+! Rank
+! Jurisdiction
+! Volume
+{% for juris in by_volume %}
+|-
+| {{ loop.index }} || {{ juris[0] }} || {{ juris[1].total | thousandsep }}
+{% endfor %}
+|}
+| {{ '{{pad | 2em}}' }}
+| STYLE="vertical-align: top"|
+{| class="wikitable" style="text-align:center" border="1"
+|+ Freedom - Ranking of Jurisdiction Freedom Scores
+! Rank
+! Jurisdiction
+! Freedom
+{% for juris in by_freedom %}
+|-
+| {{ loop.index }} || {{ juris[0] }} || {{ juris[1].freedom_score | round(2) }}
+{% endfor %}
+|}
+|}
+
+<div style="width:520px">
+'''''Note:''' These are estimates compiled from search engine results and therefore indicative only. See the [[help]] page for more information.''
+</div>
+
+'''Source:''' Yahoo!  {{ '{{pad|3em}}' }}  '''Date:''' {{ date }} {{ '{{pad|3em}}' }}  [[Help]]

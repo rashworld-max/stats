@@ -1,7 +1,1 @@
-﻿{|
-| STYLE="vertical-align: top"|
-{{ by_volume | botpage }}
-| {{ '{{pad | 2em}}' }}
-| STYLE="vertical-align: top"|
-{{ by_freedom | botpage}}
-|}
+﻿{{ ranking | botpage }}

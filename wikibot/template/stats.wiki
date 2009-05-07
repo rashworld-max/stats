@@ -37,6 +37,5 @@
 | {{freedom_score | round(2)}}
 |}
 
-
 '''Source:''' Yahoo!  {{ '{{pad|3em}}' }}  '''Date:''' {{ date }} {{ '{{pad|3em}}' }}  [[Help]]
 
