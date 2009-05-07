@@ -1,0 +1,60 @@
+﻿{# 
+== List of parameters ==
+ licenses: A list of license code which is available (ie. has count>0)
+ count(x): Count of license x
+ percent(x): Float number, percent of license x in [0,1]
+ total: Total number of licenses.
+ freedom_score: Freedom score.
+ date: current date.
+ thousandsep: A thousand seperator filter for numbers.
+#}
+{| class="wikitable" style="text-align:center" border="1"
+|+ CC License Adoption - Search Results
+! License
+! {{licenses | join(' !! ')}}
+! Total
+|-
+! Count
+{% for item in licenses %}
+| {{count(item) | thousandsep }}
+{% endfor %}
+| {{total | thousandsep}}
+|-
+! Percent
+{% for item in licenses %}
+| {{(percent(item)*100) | round(2)}}
+{% endfor %}
+| 100
+|}
+
+<div style="width:520px">
+'''''Note:''' These are estimates compiled from search engine results and therefore indicative only. See the [[help]] page for more information.''
+</div>
+{|
+|-
+| 
+{| class="wikitable" style="text-align:center" border="1"
+! Freedom score 
+|-
+| {{freedom_score | round(2)}}
+|}
+|
+| 
+| 
+{| border="1" style="text-align: center;" class="wikitable"
+|-
+! Ranking 
+! Volume 
+! Freedom
+|-
+| Rank 
+| {{ rank_by_volume }} out of {{ total_ranked }}
+| {{ rank_by_freedom }} out of {{ total_ranked }}
+|}
+
+|}
+''See also [[Jurisdiction Comparison]]'' 
+
+
+'''Source:''' Yahoo!  {{ '{{pad|3em}}' }}  '''Date:''' {{ date }} {{ '{{pad|3em}}' }}  [[Help]]
+

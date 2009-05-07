@@ -12,6 +12,7 @@ import ccquery
 
 TEMPLATE_DIR = 'template/'
 STATS_TEMPLATE = 'stats.wiki'
+TEMPLATE_STATS_JURIS = 'stats_juris.wiki'
 LINKLIST_TEMPLATE = 'simplelinklist.wiki'
 TEMPLATE_SIDEBARLIST = 'sidebarlist.wiki'
 XML_WORLDMAP_FREEDOM = 'worldmap_freedom.xml'
@@ -215,6 +216,8 @@ class View(object):
                 links = []
             page = self.render(name, TEMPLATE_USER_JURIS,
                                 stats = name + '/' + BOTPAGE_STATS,
+                                juris_code = code,
+                                juris_name = name,
                                 links = links)
             yield page
         return
@@ -248,14 +251,30 @@ class View(object):
 
     def stats_juris(self):
         query = self.query
-        for code in query.all_juris():
+        all_data = {}
+        sorted_by_volume, sorted_by_freedom = self._sorted_stats()
+        sorted_by_volume = [x[0] for x in sorted_by_volume]
+        sorted_by_freedom = [x[0] for x in sorted_by_freedom]
+        total_ranked = len(sorted_by_volume)
+        all_juris = query.all_juris()
+        for code in all_juris:
             juris_name = query.juris_code2name(code)
             data = query.license_by_juris(code)
-            try:
+            if code:
+                # not unported
+                rank_by_volume = sorted_by_volume.index(juris_name) + 1
+                rank_by_freedom = sorted_by_freedom.index(juris_name) + 1
+                try:
+                    yield self._stats(juris_name, data, TEMPLATE_STATS_JURIS,
+                                rank_by_volume = rank_by_volume,
+                                rank_by_freedom = rank_by_freedom,
+                                total_ranked = total_ranked)
+                except ValueError:
+                    # Linkback data is empty
+                    pass
+            else:
                 yield self._stats(juris_name, data)
-            except ValueError:
-                # Linkback data is empty
-                pass
+
         # Fix for UK
         yield self._stats(query.juris_code2name('GB'), self._gb_data())
         return
@@ -371,10 +390,7 @@ class View(object):
 
         return
 
-    def rankdtables(self):
-        """
-        Tables of jurisdictions with ranking.
-        """
+    def _sorted_stats(self):
         query = self.query
         all_stats = []
         for code in query.all_juris():
@@ -387,12 +403,20 @@ class View(object):
             all_stats.append((name, stat))
 
         sorted_by_volume = sorted(all_stats, key=lambda x: x[1].total, reverse=True)
+        sorted_by_freedom = sorted(all_stats, key=lambda x: x[1].freedom_score, reverse=True)
+        return sorted_by_volume, sorted_by_freedom
+
+    def rankdtables(self):
+        """
+        Tables of jurisdictions with ranking.
+        """
+        sorted_by_volume, sorted_by_freedom = self._sorted_stats()
+
         page = self.render(self._botns(BOTPAGE_RANKED_BY_VOLUME),
                             TEMPLATE_RANKED_BY_VOLUME,
                             stats = sorted_by_volume)
         yield page
 
-        sorted_by_freedom = sorted(all_stats, key=lambda x: x[1].freedom_score, reverse=True)
         page = self.render(self._botns(BOTPAGE_RANKED_BY_FREEDOM),
                             TEMPLATE_RANKED_BY_FREEDOM,
                             stats = sorted_by_freedom)
@@ -431,9 +455,11 @@ def test():
 
     pagegen = itertools.chain(view.all_pages(), view.all_userpages())
     for page in pagegen:
-        print '='*50
-        print
-        print page
+        title = page.title
+        text = page.text.replace('==', '===')
+        print 
+        print '==', title, '=='
+        print text
         print
 
     return
