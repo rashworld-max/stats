@@ -229,23 +229,25 @@ def usage():
 
     The followling command is available:
 
-        db: fetch the most recently data and update the DB. An optional jurisdiction
-            filter filename can be provided. The filter is a list of jurisdictions
-            one per line. Only the jurisdictions listed in this file will be updated.
-            If this file is not given, the entire database will be updated.
+        db [<filter_filename>]: fetch the most recently data and update the DB. An optional
+            jurisdiction filter filename can be provided. The filter is a list of
+            jurisdictions one per line. Only the jurisdictions listed in this file will
+            be updated. If this file is not given, the entire database will be updated.
 
-        wiki: update the wiki pages from DB data. Only the pages which is used for
-            robot produced contents will be updated. User produced contents will be
-            untouched.
+        wiki [-x] [<keywords>...]: update the wiki pages from DB data. Only the pages which
+            is used for robot produced contents will be updated. User produced contents will
+            be untouched. If <keywords> is present, then only pages that contain at least one
+            of the given keywords in title will be updated. If -x option is given, pages that
+            contain given keywords in title will be excluded from update.
 
         upload: upload files to wiki.
 
         wikiuserpages: initialize all the user content pages. Warning: This will clean
             all the existing user contents.
         
-        import <table> [filename]: import DB table from CSV file.
+        import <table> [<filename>]: import DB table from CSV file.
 
-        export <table> [filename]: export DB table from CSV file.
+        export <table> [<filename>]: export DB table from CSV file.
         
         test: test the connection to wiki site.
     """
