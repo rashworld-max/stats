@@ -23,6 +23,8 @@ import lc_util
 
 from sqlalchemy.ext.sqlsoup import SqlSoup
 
+from rdflib import ConjunctiveGraph, Namespace
+
 ## THINKME: Google and Yahoo both have different ways to encode CC license 
 ## types.  Later on, it's probably worth standardizing this somehow, or else 
 ## their trash gets shoved into our DB.
@@ -66,22 +68,35 @@ class LinkCounter:
         self.uris = self.parse(xmlpath)
         # We need to get a list of URIs to search for
         assert(self.uris) # These should not be empty.
-        self.uris.extend(
-            ['http://creativecommons.org','http://www.creativecommons.org',
-             'http://creativecommons.org/licenses/publicdomain',
-             'http://creativecommons.org/licenses/publicdomain/1.0/',
-             'http://creativecommons.org/licenses/zero/1.0/',
-             'http://creativecommons.org/publicdomain/zero/1.0/',
-             'http://creativecommons.org/licenses/by-nc-nd/2.0/deed-music',
-             'http://creativecommons.org/licenses/by-nd-nc/2.0/']) # These were in old but not in the XML
+        # The following shouldn't be necessary now that are fetching licenses
+        # from license.rdf instead of license_xsl.
+        #self.uris.extend(
+        #    ['http://creativecommons.org','http://www.creativecommons.org',
+        #     'http://creativecommons.org/licenses/publicdomain',
+        #     'http://creativecommons.org/licenses/publicdomain/1.0/',
+        #     'http://creativecommons.org/licenses/zero/1.0/',
+        #     'http://creativecommons.org/publicdomain/zero/1.0/',
+        #     'http://creativecommons.org/licenses/by-nc-nd/2.0/deed-music',
+        #     'http://creativecommons.org/licenses/by-nd-nc/2.0/']) # These were in old but not in the XML
         self.uris = list(set(self.uris))  # eliminate duplicates
 
     def parse(self, xmlpath):
         ret = []
-        tree2=etree.parse(xmlpath)
-        root2=tree2.getroot()
-        for element in root2.getiterator('version'):
-            ret.append(element.get('uri'))
+        
+        # This is the old license_xsl stuff
+        #tree2=etree.parse(xmlpath)
+        #root2=tree2.getroot()
+        #for element in root2.getiterator('version'):
+        #    ret.append(element.get('uri'))
+
+        # This si the new license.rdf stuff, shoudl be up-to-date
+        NS_RDF = Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+        NS_CC = Namespace("http://creativecommons.org/ns#")
+        g = ConjunctiveGraph()
+        g.parse('http://creativecommons.org/licenses/index.rdf')
+        for license in g.subjects(NS_RDF.type, NS_CC.License):
+            ret.append(str(license))
+
         return ret # I'm not sorting.  So there.
 
     def record(self, cc_license_uri, search_engine, count, 
@@ -266,10 +281,10 @@ def main():
     import dbconfig
     lcargs = dict(dburl=dbconfig.dburl, xmlpath='old/api/licenses.xml')
     for functions in (
-        ('count_google', 'specific_google_counter',),
-        ('count_yahoo', 'specific_yahoo_counter',),
-        ('count_msn',),
-        ('count_alltheweb',)):
+        ('count_yahoo', 'specific_yahoo_counter',),):
+        #('count_google', 'specific_google_counter',),
+        #('count_msn',),
+        #('count_alltheweb',)):
         working_set = LcRunner(functions, lcargs)
         working_set.start()
 
