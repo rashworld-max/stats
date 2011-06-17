@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 ## CONFIG:
-OUTPUT_BASE_PATH = '/home/paulproteus/public_html/stats/ml-minimum-estimate/'
+OUTPUT_BASE_PATH = '/home/cronuser/public_html/stats/ml-minimum-estimate/'
 
 ## CODE
 import csv

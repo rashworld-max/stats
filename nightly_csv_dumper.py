@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!bin/python
 
 import glob
 import sys
@@ -125,7 +125,7 @@ def which_to_process(dates, table, do_this_many = 10):
 def old_main():
     db = SqlSoup(dbconfig.dburl)
     table = sys.argv[1]
-    assert table in ('simple', 'complex')
+    assert table in ('simple', 'complex', 'site_specific')
     dump_table(db, table)
 
 def dump_table(db, table):

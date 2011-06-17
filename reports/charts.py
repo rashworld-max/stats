@@ -1,5 +1,5 @@
 ## CONFIGURATION
-_BASEDIR='/home/paulproteus/public_html/tmp/charts/'
+_BASEDIR='/home/cronuser/public_html/tmp/charts/'
 DB = 'mysql://stats:ioP1gae8@localhost/stats'
 
 ## CODE 
@@ -16,7 +16,8 @@ from matplotlib.dates import MONDAY, SATURDAY
 import datetime
 from sqlalchemy.ext.sqlsoup import SqlSoup
 import sqlalchemy
-assert sqlalchemy.__version__.startswith('0.3')
+#assert sqlalchemy.__version__.startswith('0.3')
+assert sqlalchemy.__version__.startswith('0.5')
 import os
 import matplotlib
 import HTMLgen

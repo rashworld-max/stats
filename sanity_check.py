@@ -1,4 +1,6 @@
 #!/usr/bin/python
+
+import os
 import sys
 
 
@@ -25,5 +27,3 @@ def sanity_check():
 if __name__ == '__main__':
     sanity_check()
     sys.exit(0) # true
-    
-

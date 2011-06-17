@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 ## CONFIG:
-FLICKR_DATA_BASE_PATH = '/home/paulproteus/stats/flickr/data/'
-OUTPUT_BASE_PATH = '/home/paulproteus/public_html/stats/flickr-based-estimate/'
+FLICKR_DATA_BASE_PATH = '/home/cronuser/stats/flickr/data/'
+OUTPUT_BASE_PATH = '/home/cronuser/public_html/stats/flickr-based-estimate/'
 
 ## CODE
 

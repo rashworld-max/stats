@@ -9,7 +9,7 @@ import socks
 import socket
 
 def is_tor_enabled():
-	if not hasattr(socks, 'torified'):
+	if not hasattr(socket, 'torified'):
 		return 0
 	return socket.torified
 

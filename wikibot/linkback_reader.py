@@ -10,7 +10,7 @@ import StringIO
 
 from utils import tries
 DAILY_CSV_NAME = 'linkbacks-daily-Yahoo.csv'
-CSV_DUMPS_URL = "http://a6.creativecommons.org/~paulproteus/csv-dumps/"
+CSV_DUMPS_URL = "http://a6.creativecommons.org/~cronuser/csv-dumps/"
 if CSV_DUMPS_URL[-1] <> '/':
     CSV_DUMPS_URL += '/'
 
@@ -22,7 +22,7 @@ _TODAY = datetime.date.today()
 def read_csv(csvfile):
     """
     Read CSV from remote URL or local file.
-    >>> r = read_csv('http://a6.creativecommons.org/~paulproteus/csv-dumps/2009-03-23/00:05:18/linkbacks-daily-ALL.csv')
+    >>> r = read_csv('http://a6.creativecommons.org/~cronuser/csv-dumps/2009-03-23/00:05:18/linkbacks-daily-ALL.csv')
     >>> r # doctest: +ELLIPSIS
     <_csv.reader object at ...>
     """

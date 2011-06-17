@@ -77,7 +77,7 @@ def ccLogDataGrouper(filepath):
 def main():
     if len(sys.argv) != 2:
         print >> sys.stderr, 'You need to pass me exactly one CC CSV file as an argument.'
-        print >> sys.stderr, 'You can find one here: http://labs.creativecommons.org/~paulproteus/csv-dumps/2006-06-23/00:00:00/linkbacks-daily-Yahoo.csv'
+        print >> sys.stderr, 'You can find one here: http://labs.creativecommons.org/~cronuser/csv-dumps/2006-06-23/00:00:00/linkbacks-daily-Yahoo.csv'
         sys.exit(1)
 
     ccLogDataGrouper(sys.argv[1])

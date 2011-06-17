@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-BASE_PATH=/home/paulproteus/csv-dumps
+BASE_PATH=/home/cronuser/csv-dumps
 for db in simple complex
 do
     file="$BASE_PATH/$db.csv"

@@ -1,5 +1,5 @@
 import simpleyahoo
-import simplegoogle
+import altgoogle
 import unittest
 from snippets import *
 
@@ -17,14 +17,14 @@ def google_experiment(query, countries = 'all', languages = 'all', cc_spec = [])
 
     # FIXME: I'd like to actually do this with results, not results counts.  Maybe another day.
     if countries == 'all':
-        countries = [None] + simplegoogle.countries.keys()
+        countries = [None] + altgoogle.countries.keys()
     if languages == 'all':
-        languages = [None] + simplegoogle.languages.keys()
+        languages = [None] + altgoogle.languages.keys()
     ret = []
     for country in countries:
         for language in languages:
             reslut = {'query': query, 'license': cc_spec,
-                          'count': simplegoogle.count(query, cc_spec=cc_spec,
+                          'count': altgoogle.count(query, cc_spec=cc_spec,
                                                       country=country, language=language),
                           'country':country}
             ret.append(reslut)

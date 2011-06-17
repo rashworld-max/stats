@@ -11,7 +11,7 @@ import dbconfig
 # for now, copy-pasta from the reports
 # later this will be reorganized, but this is pretty one-off import code
 
-FLICKR_DATA_BASE_PATH = '/home/paulproteus/stats/flickr/data/'
+FLICKR_DATA_BASE_PATH = '/home/cronuser/stats/flickr/data/'
 
 flickr2license = {
     '/creativecommons/by-nd-2.0/':

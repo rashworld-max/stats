@@ -2,7 +2,7 @@ from SOAPpy import WSDL
 
 # you'll need to configure these two values;
 # see http://www.google.com/apis/
-WSDLFILE = '/home/paulproteus/stats/GoogleSearch.wsdl'
+WSDLFILE = '/home/cronuser/stats/GoogleSearch.wsdl'
 APIKEY = 'oaiAhUtQFHIBLkPQ25A5u+EOItzW0PaK'
 
 _server = WSDL.Proxy(WSDLFILE)
