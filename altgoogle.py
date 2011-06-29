@@ -1,25 +1,19 @@
 #!/usr/bin/python
 
 '''
-A module for easy querying to Google... written because
-simplegoogle.py was broken! (This module still imports
-some constants from simplegoogle, however.)
-
-Differences from simplegoogle:
-- Once this gets a valid result, it stops throttling the google server (don't really understand why simplegoogle chose to keep requesting the same info over and over...)
-- Pass in the language parameter as a seperate argument to doGoogleSearch, not as part of restrict
-- No timeouts
-- More obvious that an exception occurs
-- It actually works! :)
-
-Questions:
-- Currently, altgoogle requests all queries with no language parameter passed to google, which means all hits are recorded with all languages able be potentially returned... is this correct, or should altgoogle infer the language to search in from the jurisdiction in the query (which contains the license uri)?
+A module for querying Google's JSON/Atom Custom Search API.
+http://code.google.com/apis/customsearch/v1/getting_started.html
+Written because the old SOAP API is retired, and even the
+Web Search API is deprecated.  This appears to be the latest
+API, and is even still in "labs" status as I write this.
 '''
 
-import google
-from simplegoogle import licenses, languages, countries, google_api_num
+import json
+import urllib2
+from simplegoogle import licenses, languages, countries, google_api_num, google_cx_num
 
-google.setLicense(google_api_num)
+base_request = 'https://www.googleapis.com/customsearch/v1?' + \
+                   'cx=' +  google_cx_num + '&key=' + google_api_num
 
 def search(query, cc_spec=[], country=None, language=None):
     ''' Performs a Google search for a given query and 
@@ -40,20 +34,20 @@ def search(query, cc_spec=[], country=None, language=None):
         lang_flag = True
     if country:
         restrict.append(countries[country])
-    restrict = '.'.join(restrict)
+    restrict = '|'.join(restrict)
 
     # query google, and hope all goes according to plan
     try:
-        #print query, qlang, restrict # DEBUG
-        if lang_flag:
-            result = google.doGoogleSearch(q=query, 
-                language=qlang, restrict=restrict)
-        else:
-            result = google.doGoogleSearch(q=query,
-                restrict=restrict)
+        request = base_request + '&q=' + query
+        if restrict:
+            request = request + '&as_rights=%28' + restrict + '%29'
+        raw_result = urllib2.urlopen(request).read()
+        result = json.loads(raw_result)
     except Exception, e:
         print 'An exception occured in altgoogle.search', e
+        print 'Request was: ' + request
         result = 'EXCEPTION IN ALTGOOGLE.SEARCH'
+    #return request
     return result
     
 def count(query, cc_spec=[], country=None, language=None):
@@ -65,4 +59,4 @@ def count(query, cc_spec=[], country=None, language=None):
     except Exception, e:
         print 'An exception occured in altgoogle.count', e
         return 'EXCEPTION IN ALTGOOGLE.COUNT'
-    return result.meta.estimatedTotalResultsCount
+    return result['queries']['request'][0]['totalResults']
