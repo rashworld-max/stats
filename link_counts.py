@@ -197,8 +197,13 @@ class LinkCounter:
             ["cc_sharealike"], ["cc_noncommercial"], ["cc_nonderived"], 
             ["cc_publicdomain", "cc_attribute","cc_sharealike",
             "cc_noncommercial","cc_nonderived"]]
+
+        """ Google returns nothing on searches like "work OR -work" so filter
+        those our here."""
+        dumb_googles = [dumb for dumb in dumb_queries if not 'OR' in dumb]
+
         for license in licenses:
-            for dumb_query in self.dumb_queries:
+            for dumb_google in self.dumb_googles:
                 try:
                     count = altgoogle.count(dumb_query, cc_spec=[license])
                     self.record_complex(license_specifier=license,
