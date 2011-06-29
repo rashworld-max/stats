@@ -2,24 +2,19 @@ import BeautifulSoup
 import re
 import urllib2
 import time
+import json
 
-## They have some SOAP thing that is only documented in an MSI.  What a freaking pain.
 def msn_count(query):
-    APP_ID='E389A2EC44FFB3F5748A9AEF7CCFED7AD82690DA'
-    from SOAPpy import WSDL
-    from SOAPpy import SOAPProxy
-    
-    source = {'Source':'Web', 'Offset':0, 'Count':10, 'ResultFields':'All'}
-    sourceRequest = {'SourceRequest':source}
-    params = {'AppID':APP_ID, 'Query':query, 'CultureInfo':'en-US', 'SafeSearch':'Off', 'Requests':sourceRequest, 'Flags':'None'}
-    
-    n = 'http://schemas.microsoft.com/MSNSearch/2005/09/fex/Search'
-    wsdlFile = 'http://soap.search.msn.com/webservices.asmx?wsdl'
-    
-    server = WSDL.Proxy(wsdlFile)
+    # This is CC's shiny, new Bing API 2.0 AppID
+    APP_ID='7DCFCDFFF9BE925B6E553A7AD6E3F2606A774C5C'
 
-    results = server.Search(Request=params)
-    return int(results.Responses.SourceResponse.Total)
+    api_base_uri = 'http://api.search.live.net/json.aspx'
+    query_params = '?appid=' + APP_ID + '&sources=web&web.count=1&query=' + query
+
+    raw_result = urllib2.urlopen(api_base_uri + query_params).read()
+    result = json.loads(raw_result)
+
+    return result['SearchResponse']['Web']['Total']
 
 def str2int(s):
     s = s.replace(',', '')
