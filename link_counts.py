@@ -142,7 +142,7 @@ class LinkCounter:
         for uri in self.uris:
             try:
                 count = lc_util.try_thrice(lc_util.msn_count, 
-                    "link:%s" % uri)
+                    "inbody:%s" % uri)
                 # We record the specific uri, count pair in the DB
                 self.record(cc_license_uri=uri, search_engine='MSN', 
                     count=count)
