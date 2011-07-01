@@ -2,6 +2,7 @@
 
 import os
 import sys
+import lc_util
 
 
 def sanity_check():
@@ -10,7 +11,16 @@ def sanity_check():
     socks_monkey.enable_tor()
     
     import urllib2
-    tor_ip = urllib2.urlopen('http://checkip.dyndns.org/').read()
+
+    # Sometimes checking the IP through fails TOR with an httplib error of
+    # BadStatusLine, which causes the whole stats runner to fail for that day.
+    # Make a small effort to reboot and retry using Asheesh's existing
+    # try_thrice() function.
+    try:
+        tor_result = lc_util.try_thrice(urllib2.urlopen, 'http://checkip.dyndns.org')
+        tor_ip = tor_result.read()
+    except Exception, e:
+        print "Failed to get get TOR IP address: " + e
 
     socks_monkey.disable_tor()
     my_ip = urllib2.urlopen('http://checkip.dyndns.org/').read()
