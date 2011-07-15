@@ -9,7 +9,7 @@ def msn_count(query):
     APP_ID='7DCFCDFFF9BE925B6E553A7AD6E3F2606A774C5C'
 
     api_base_uri = 'http://api.search.live.net/json.aspx'
-    query_params = '?appid=' + APP_ID + '&sources=web&web.count=1&query=' + query
+    query_params = '?appid=' + APP_ID + '&sources=web&web.count=1&query=' + urllib2.quote(query)
 
     raw_result = urllib2.urlopen(api_base_uri + query_params).read()
     result = json.loads(raw_result)
