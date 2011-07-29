@@ -1,6 +1,10 @@
 from yahoo.search.factory import create_search
 from yahoo.search import SearchError, ParameterError
 
+from BeautifulSoup import BeautifulSoup
+import re
+import urllib2
+
 # Discussion of rate limits:
 # http://developer.yahoo.com/search/siteexplorer/V1/inlinkData.html says we are limited to 5,000 queries per day.
 # However, http://developer.yahoo.com/search/rate.html explains that it's not really 5,000 per day but one per 17.28 seconds
@@ -45,3 +49,14 @@ def legitimate_yahoo_count(query, apimethod = 'Web', cc_spec=[], jurisdiction=No
 #    last_query_time = time.time()
     socks_monkey.disable_tor() # it's always safe to disable Tor
     return res.totalResultsAvailable
+
+def scrape_siteexplorer_inlinks(license_uri):
+    '''Scrape the Yahoo! SiteExplorer page for Inlinks count'''
+    base_url = 'http://siteexplorer.search.yahoo.com/search?p='
+    url = base_url + license_uri[7:-1]
+    page = urllib2.urlopen(url).read()
+    soup = BeautifulSoup(page)
+    regex = re.compile('Inlinks \((.*)\)')
+    inlink_part = soup.fetchText(regex).pop()
+    inlink_count = regex.match(inlink_part).group(1)
+    return inlink_count.replace(',','')
