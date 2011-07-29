@@ -4,6 +4,9 @@ import datetime
 import os
 import threading
 import sys
+#from BeautifulSoup import BeautifulSoup
+#import re
+#import urllib
 
 try:
     set
@@ -174,7 +177,7 @@ class LinkCounter:
         for uri in self.uris:
             try:
                 count = lc_util.try_thrice( \
-                    simpleyahoo.legitimate_yahoo_count, uri, 'InlinkData')
+                    simpleyahoo.scrape_siteexplorer_inlinks, uri)
                 # Country is not a valid parameter for inlinkdata :-(
 		# And languages get ignored! :-(
                 self.record(cc_license_uri=uri,
@@ -287,7 +290,8 @@ def main():
     lcargs = dict(dburl=dbconfig.dburl, xmlpath='old/api/licenses.xml')
     for functions in (
         ('count_msn',),
-        ('count_yahoo', 'specific_yahoo_counter',),):
+        ('count_yahoo',),):
+        #('count_yahoo', 'specific_yahoo_counter',),):
         #('count_google', 'specific_google_counter',),
         #('count_msn',),
         #('count_alltheweb',)):
