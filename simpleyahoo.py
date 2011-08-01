@@ -59,4 +59,4 @@ def scrape_siteexplorer_inlinks(license_uri):
     regex = re.compile('Inlinks \((.*)\)')
     inlink_part = soup.fetchText(regex).pop()
     inlink_count = regex.match(inlink_part).group(1)
-    return inlink_count.replace(',','')
+    return int(inlink_count.replace(',',''))
