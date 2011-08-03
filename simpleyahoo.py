@@ -57,6 +57,9 @@ def scrape_siteexplorer_inlinks(license_uri):
     page = urllib2.urlopen(url).read()
     soup = BeautifulSoup(page)
     regex = re.compile('Inlinks \((.*)\)')
-    inlink_part = soup.fetchText(regex).pop()
-    inlink_count = regex.match(inlink_part).group(1)
-    return int(inlink_count.replace(',',''))
+    inlink_part = soup.fetchText(regex)
+    if inlink_part:
+        inlink_count = regex.match(inlink_part[0]).group(1)
+        return int(inlink_count.replace(',',''))
+    else:
+        raise Exception, 'No Inlinks part found in scraped document.'
