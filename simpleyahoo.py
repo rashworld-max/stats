@@ -53,8 +53,7 @@ def legitimate_yahoo_count(query, apimethod = 'Web', cc_spec=[], jurisdiction=No
 def scrape_siteexplorer_inlinks(license_uri):
     '''Scrape the Yahoo! SiteExplorer page for Inlinks count'''
     base_url = 'http://siteexplorer.search.yahoo.com/search?p='
-    url = base_url + license_uri[7:-1]
-    url = urllib2.quote(url)
+    url = base_url + urllib2.quote(license_uri[7:-1])
     page = urllib2.urlopen(url).read()
     soup = BeautifulSoup(page)
     regex = re.compile('Inlinks \((.*)\)')
