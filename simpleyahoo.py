@@ -62,4 +62,6 @@ def scrape_siteexplorer_inlinks(license_uri):
         inlink_count = regex.match(inlink_part[0]).group(1)
         return int(inlink_count.replace(',',''))
     else:
-        raise Exception, 'No Inlinks part found in scraped document.'
+        # if we can't find an Inlinks part and we have no exception,
+        # then just assume that there were no inlinks and return 0.
+        return 0
