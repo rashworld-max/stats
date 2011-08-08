@@ -289,8 +289,7 @@ def main():
     import dbconfig
     lcargs = dict(dburl=dbconfig.dburl, xmlpath='old/api/licenses.xml')
     for functions in (
-        ('count_msn',),
-        ('count_yahoo',),):
+        ('count_msn', 'count_yahoo',),):
         #('count_yahoo', 'specific_yahoo_counter',),):
         #('count_google', 'specific_google_counter',),
         #('count_msn',),
