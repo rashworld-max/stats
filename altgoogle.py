@@ -11,6 +11,8 @@ API, and is even still in "labs" status as I write this.
 import json
 import urllib2
 from simplegoogle import licenses, languages, countries, google_api_num, google_cx_num
+from BeautifulSoup import BeautifulSoup
+import re
 
 base_request = 'https://www.googleapis.com/customsearch/v1?' + \
                    'cx=' +  google_cx_num + '&key=' + google_api_num
@@ -60,3 +62,24 @@ def count(query, cc_spec=[], country=None, language=None):
         print 'An exception occured in altgoogle.count', e
         return 'EXCEPTION IN ALTGOOGLE.COUNT'
     return result['queries']['request'][0]['totalResults']
+
+def scrape_google(query):
+    '''Scrape Google for link: counts'''
+    base_url = 'http://www.google.com/search?q='
+    request = urllib2.Request(base_url + urllib2.quote(query))
+    opener = urllib2.build_opener()
+    # Setting User-Agent to Links may prompt Google to return text/html
+    user_agent = 'Links (2.3pre2; Linux 3.0.0-1-686-pae i686; text)'
+    request.add_header('User-Agent', user_agent)
+    page = opener.open(request).read()
+    soup = BeautifulSoup(page)
+    regex = re.compile('About (.*?) results')
+    links = soup.fetchText(regex)
+    if links:
+        link_count = regex.match(links[0]).group(1)
+        return int(link_count.replace(',',''))
+    else:
+        # if we can't find any links part and we have no exception,
+        # then just assume that there were no links and return 0.
+        return 0
+
