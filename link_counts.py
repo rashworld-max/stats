@@ -131,7 +131,8 @@ class LinkCounter:
     def count_google(self):
         for uri in self.uris:
             try: # count the number of hits and record them
-                count = altgoogle.count('link:%s' % uri)
+                count = lc_util.try_thrice(altgoogle.scrape_google,
+                    'link:%s' % uri)
                 self.record(cc_license_uri=uri, search_engine='Google', 
                     count=count)
             except Exception, e:
@@ -289,7 +290,7 @@ def main():
     import dbconfig
     lcargs = dict(dburl=dbconfig.dburl, xmlpath='old/api/licenses.xml')
     for functions in (
-        ('count_msn', 'count_yahoo',),):
+        ('count_msn', 'count_yahoo', 'count_google',),):
         #('count_yahoo', 'specific_yahoo_counter',),):
         #('count_google', 'specific_google_counter',),
         #('count_msn',),
