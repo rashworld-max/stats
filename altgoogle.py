@@ -13,6 +13,7 @@ import urllib2
 from simplegoogle import licenses, languages, countries, google_api_num, google_cx_num
 from BeautifulSoup import BeautifulSoup
 import re
+import socks_monkey
 
 base_request = 'https://www.googleapis.com/customsearch/v1?' + \
                    'cx=' +  google_cx_num + '&key=' + google_api_num
@@ -71,7 +72,9 @@ def scrape_google(query):
     # Setting User-Agent to Links may prompt Google to return text/html
     user_agent = 'Links (2.3pre2; Linux 3.0.0-1-686-pae i686; text)'
     request.add_header('User-Agent', user_agent)
+    socks_monkey.enable_tor()
     page = opener.open(request).read()
+    socks_monkey.disable_tor()
     soup = BeautifulSoup(page)
     regex = re.compile('About (.*?) results')
     links = soup.fetchText(regex)
