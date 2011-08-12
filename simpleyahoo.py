@@ -54,7 +54,9 @@ def scrape_siteexplorer_inlinks(license_uri):
     '''Scrape the Yahoo! SiteExplorer page for Inlinks count'''
     base_url = 'http://siteexplorer.search.yahoo.com/search?p='
     url = base_url + urllib2.quote(license_uri[7:-1])
+    socks_monkey.enable_tor()
     page = urllib2.urlopen(url).read()
+    socks_monkey.disable_tor()
     soup = BeautifulSoup(page)
     regex = re.compile('Inlinks \((.*)\)')
     inlink_part = soup.fetchText(regex)
