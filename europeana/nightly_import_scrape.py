@@ -14,7 +14,7 @@ def scrape_europeana_pdm(query):
     '''Scrape Europeana for PDM 1.0 count'''
     page = urllib2.urlopen(query).read()
     soup = BeautifulSoup(page)
-    regex = re.compile('Results\s+1\s+-\s+12\s+of\s+([0-9,]+)')
+    regex = re.compile('\s+Results\s+1\s+-\s+12\s+of\s+([0-9,]+)\s+')
     count_part = soup.firstText(regex)
     if count_part:
         pdm_count = regex.match(count_part).group(1)
