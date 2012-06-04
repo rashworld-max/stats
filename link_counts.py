@@ -131,8 +131,9 @@ class LinkCounter:
     def count_google(self):
         for uri in self.uris:
             try: # count the number of hits and record them
-                count = lc_util.try_thrice(altgoogle.scrape_google,
-                    'link:%s' % uri)
+                #count = lc_util.try_thrice(altgoogle.scrape_google,
+                #    'link:%s' % uri)
+                count = altgoogle.scrape_google('link:%s' % uri)
                 self.record(cc_license_uri=uri, search_engine='Google', 
                     count=count)
             except Exception, e:
