@@ -16,6 +16,11 @@ import xml.sax
 table2nicename = {'simple': 'linkbacks',
                   'complex': 'api_queries'}
 
+# A list of the search engines for which to dump data.  NOTE: the way the
+# engine is specified below must be *exactly*  the same way as specified in the
+# search_engine field of the database.
+search_engines = ('MSN','Google',None)
+
 # import license_xsl's convert
 sys.path.append('./licensexsl_tools/licensexsl_tools/')
 import convert
@@ -144,11 +149,6 @@ def dump_table(db, table):
 def dump_one_date(db, table, table_cursor, date):
     path = date2path(date)
 
-    # separate by search engines
-    search_engines_query = sqlalchemy.select([table_cursor._table.c.search_engine], distinct = True)
-    search_engines = [thing[0] for thing in search_engines_query.execute()]
-    search_engines.append(None)
-
     for engine in search_engines:
         dump_one_date_engine(db, table, table_cursor, date, path, engine)
 
@@ -157,11 +157,6 @@ def update_all_engines_historical(db, table, date):
 
     table_cursor = getattr(db, table)
     # lame copy-pasta from dump_one_date
-
-    # separate by search engines
-    search_engines_query = sqlalchemy.select([table_cursor._table.c.search_engine], distinct = True)
-    search_engines = [thing[0] for thing in search_engines_query.execute()]
-    search_engines.append(None)
 
     for engine in search_engines:
         update_one_engine_historical(date, table, path, engine)
