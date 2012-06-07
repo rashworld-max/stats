@@ -9,7 +9,7 @@ import sys
 sys.path.append('..')
 import dbconfig
 
-license_codes = ('by','by-nc','by-nc-nd','by-nc-sa','by-nd','by-sa')
+license_codes = ['by','by-nc','by-nc-nd','by-nc-sa','by-nd','by-sa']
 
 def scrape_vimeo(query):
     # Extract a UTC datetime object
