@@ -19,7 +19,7 @@ table2nicename = {'simple': 'linkbacks',
 # A list of the search engines for which to dump data.  NOTE: the way the
 # engine is specified below must be *exactly*  the same way as specified in the
 # search_engine field of the database.
-search_engines = ('MSN','Google',None)
+search_engines = ['MSN','Google',None]
 
 # import license_xsl's convert
 sys.path.append('./licensexsl_tools/licensexsl_tools/')
