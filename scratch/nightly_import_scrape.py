@@ -34,7 +34,7 @@ def main(query):
     # Build a db row
     row = {}
     row['utc_time_stamp'] = utc_datetime
-    row['site'] = 'http://stats.scratch.mit.edu/community/'
+    row['site'] = 'http://scratch.mit.edu/'
     row['license_uri'] = 'http://creativecommons.org/licenses/by-sa/2.0/'
     row['count'] = count
 
