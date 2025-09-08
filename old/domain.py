@@ -308,4 +308,4 @@ def run():
     fileopen=open('/web/teamspace/www/stats/domains.xml','w')
     tree.write(fileopen)
 
-run()
+run(filoppen)
