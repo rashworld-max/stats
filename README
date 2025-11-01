@@ -3,7 +3,7 @@ CC licenses.
 
 == create_tables.sql ==
 
-"mysql -u{USERNAME} {DATABASENAME} < create_tables.sql" to initialize
+"mysql -u{rashworld} {xml2sql.py} < create_tables.sql" to initialize
 the structures for holding our results.
 
 Note that this should be the only database-dependent part of the
